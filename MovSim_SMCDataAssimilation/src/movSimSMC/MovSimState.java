@@ -2,11 +2,31 @@ package movSimSMC;
 
 import java.math.BigDecimal;
 
+import javax.xml.bind.JAXBException;
+
+import org.xml.sax.SAXException;
+
+import movsimSMC.MovsimPF;
 import smc.AbstractState;
 
-public class MovSimState extends AbstractState
-{
 
+public class MovSimState extends AbstractState 
+{
+	private MovsimPF movsimPF; 
+	private double simStep = 10;			// seconds
+	
+
+
+	MovSimState() throws JAXBException, SAXException {
+		String baseDir = System.getProperty("user.dir");
+		String[] args = { "-f", baseDir + "/sim/buildingBlocks/startStop.xprj" };
+  		movsimPF = new MovsimPF(args);
+	}
+	
+	MovSimState(MovsimPF movsimPF){
+		this.movsimPF = movsimPF;
+	}
+	
 	@Override
 	public void setDescription(String des)
 	{
@@ -18,7 +38,20 @@ public class MovSimState extends AbstractState
 	public AbstractState transitionFunction() throws StateFunctionNotSupportedException
 	{
 		// TODO Auto-generated method stub
-		return null;
+		MovsimPF nextState = null;
+		try {
+			nextState = movsimPF.duplicate();
+		} catch (JAXBException | SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    if (nextState == null) {
+	    	return null;
+	    	
+		}
+		
+	    nextState.runFor(simStep);
+    	return new MovSimState(nextState);
 	}
 
 	@Override
@@ -91,4 +124,19 @@ public class MovSimState extends AbstractState
 		return 0;
 	}
 
+	
+	/**
+	 * @return the simStep
+	 */
+	public double getSimStep() {
+		return simStep;
+	}
+
+
+	/**
+	 * @param simStep the simStep to set
+	 */
+	public void setSimStep(double simStep) {
+		this.simStep = simStep;
+	}
 }
