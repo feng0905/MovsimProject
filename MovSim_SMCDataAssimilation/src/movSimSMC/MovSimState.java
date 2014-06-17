@@ -24,15 +24,26 @@ public class MovSimState extends AbstractState
 //		System.out.println("The distance between the wrappers is " + distance);
 		
 		
+//		MovSimState sim = new MovSimState();
+//		//list.add(sim);
+//		sim = (MovSimState) sim.transitionFunction();
+//		sim.movsimPF.placeObstacle(1,1);
+//		
+//		
+//		MovSimState sim2 = new MovSimState();
+//		//list.add(sim);
+//		sim2 = (MovSimState) sim.transitionFunction();
+//		sim2.movsimPF.placeObstacle(1,2);
+		
 		/*
 		 * Accident display Test 
 		 */
 		ArrayList<MovSimState> list = new ArrayList<MovSimState>();
-		for (int i = 1; i < 4; i++) {
+		for (int i = 1; i < 10; i++) {
 			MovSimState sim = new MovSimState();
-			list.add(sim);
-			sim.transitionFunction();
-			sim.movsimPF.placeObstacle(1,i);
+			//list.add(sim);
+			sim = (MovSimState) sim.transitionFunction();
+			sim.movsimPF.placeObstacle(i%4+1,1);
 		}
 
 	}
@@ -144,7 +155,7 @@ public class MovSimState extends AbstractState
 	{
 		// TODO Auto-generated method stub
 		MovSimState samplePF = (MovSimState) sample;
-		return this.movsimPF.CalDistance(samplePF.movsimPF);
+		return (long) this.movsimPF.CalDistance(samplePF.movsimPF);
 	}
 
 	
