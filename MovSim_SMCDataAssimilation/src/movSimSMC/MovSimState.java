@@ -8,6 +8,7 @@ import javax.xml.bind.JAXBException;
 import org.xml.sax.SAXException;
 
 import movsimSMC.MovsimWrap;
+import movsimSMC.Paint.ObstacleCanvas;
 import smc.AbstractState;
 
 
@@ -17,35 +18,20 @@ public class MovSimState extends AbstractState
 	private double simStep = 10;			// seconds
 	
 	public static void main(String[] args) throws JAXBException, SAXException, StateFunctionNotSupportedException{
-//		MovSimState movsim = new MovSimState();
-//		MovSimState clone = new MovSimState(movsim.movsimPF); 
-//		movsim.transitionFunction();	
-//		long distance = movsim.distance(clone);
-//		System.out.println("The distance between the wrappers is " + distance);
-		
-		
-//		MovSimState sim = new MovSimState();
-//		//list.add(sim);
-//		sim = (MovSimState) sim.transitionFunction();
-//		sim.movsimPF.placeObstacle(1,1);
-//		
-//		
-//		MovSimState sim2 = new MovSimState();
-//		//list.add(sim);
-//		sim2 = (MovSimState) sim.transitionFunction();
-//		sim2.movsimPF.placeObstacle(1,2);
 		
 		/*
 		 * Accident display Test 
 		 */
-		ArrayList<MovSimState> list = new ArrayList<MovSimState>();
+		ArrayList<MovsimWrap> list = new ArrayList<MovsimWrap>();
 		for (int i = 1; i < 10; i++) {
 			MovSimState sim = new MovSimState();
 			//list.add(sim);
 			sim = (MovSimState) sim.transitionFunction();
-			sim.movsimPF.placeObstacle(i%4+1,1);
+			sim.movsimPF.placeObstacle(i%4+1,(i)%3+1);
+			list.add(sim.movsimPF);
 		}
 
+		ObstacleCanvas canvas = new ObstacleCanvas(list);
 	}
 	
 	
