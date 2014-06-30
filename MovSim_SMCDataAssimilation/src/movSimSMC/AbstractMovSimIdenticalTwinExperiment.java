@@ -17,9 +17,9 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 {
 	
 	int stepLength = 3600; // 1 hour
-
+	
 	@Override
-	protected AbstractParticleSystem createParticleSystem(Vector<Particle> arg0)
+	protected AbstractState createSimulatedSystem()
 	{
 		// TODO Auto-generated method stub
 		return null;
@@ -106,9 +106,5 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 			}
 		}
 	}
-	
-	
-	
-	
 
 }

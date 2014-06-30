@@ -5,9 +5,9 @@
 	<classpathentry kind="lib" path="SMCFramework20140606.jar"/>
 	<classpathentry kind="lib" path="SmcMovsim.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="D:/study/GSU/project/bitbucket/MovSimSMCWorkspace/MovSim_SMCDataAssimilation/MovsimCore-1.6.0-SNAPSHOT-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="D:/study/GSU/project/bitbucket/MovSimSMCWorkspace/MovSim_SMCDataAssimilation/MovsimCommon-1.6.0-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="D:/study/GSU/project/bitbucket/MovSimSMCWorkspace/MovSim_SMCDataAssimilation/MovsimConsumption-1.6.0-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="D:/study/GSU/project/bitbucket/MovSimSMCWorkspace/MovSim_SMCDataAssimilation/MovsimXsd-1.6.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="MovsimCommon-1.6.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="MovsimConsumption-1.6.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="MovsimCore-1.6.0-SNAPSHOT-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="MovsimXsd-1.6.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
