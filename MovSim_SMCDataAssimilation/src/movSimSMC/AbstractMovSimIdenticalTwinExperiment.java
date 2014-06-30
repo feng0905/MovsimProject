@@ -10,6 +10,8 @@ import java.util.Vector;
 
 import javax.xml.bind.JAXBException;
 
+import movsimSMC.MovsimWrap;
+
 import org.xml.sax.SAXException;
 
 import smc.AbstractParticleSystem;
@@ -23,17 +25,15 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 	int stepLength = 3600; // 1 hour
 	
 	@Override
+	// create and return the simulated system
 	protected AbstractState createSimulatedSystem()
 	{
-		// TODO Auto-generated method stub
 		MovSimState sim = null;
 		try {
 			sim = new MovSimState();
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		sim.setSimStep(10);
@@ -44,9 +44,9 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 	}
 
 	@Override
+	// create and return the real system
 	protected AbstractState createRealSystem()
 	{
-		// TODO Auto-generated method stub
 		MovSimState sim = null;
 		try {
 			sim = new MovSimState();
@@ -54,10 +54,8 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 			sim.createObstacle(30, 2, 2);
 			
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return sim;
@@ -81,8 +79,24 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 	@Override
 	protected void reportOnStep(int step) throws Exception
 	{	
+		// the real, sim, and filtered system
+		MovsimWrap realSys = ((MovSimState)this.realSystem).getMovSimWrap(); // the real MovsimWrap object
+		MovsimWrap simSys = ((MovSimState)this.simulatedSystem).getMovSimWrap(); // the simulated MovsimWrap object
+		MovsimWrap filteredSys = ((MovSimState) particleSystem.getHighestWeightParticle().state).getMovSimWrap();
+		
+		Vector<Particle> particleSet = this.particleSystem.getParticleSet(); // the particles 
+		MovsimWrap[] movSimParticleSystems = new MovsimWrap[particleSet.size()]; // the systems on particles
+		for (int i = 0; i < movSimParticleSystems.length; i++)
+			movSimParticleSystems[i] = ((MovSimState) particleSet.elementAt(i).state).getMovSimWrap();
+
+		
 		// record results
-		// record the numberical results
+		MovSimSMCResult result = new MovSimSMCResult();// create a MovSimSMCResult
+		// put result into "result"
+		// Peisheng ...
+		// ...
+		// add the result in
+		expResults.add(result);
 		
 		// print particle weights
 		int currentTime = stepLength * step;
@@ -95,6 +109,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 			if (reportFigure)
 			{
 				// display the results (draw the accident map)
+				// assume this call is after a re-samling, i.e. the weights on all particles are equal
 				// Peisheng will implement it
 			}
 			
@@ -126,7 +141,9 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 					writer = new PrintWriter(resultFile);
 					
 					// write error using  writer
-					// Peisheng will implement it
+					writer.println( "time\tSim Error\tFiltered Error");
+					for( MovSimSMCResult r : this.expResults)
+						writer.println(r.currentTime + "\t" + r.simError + "\t" + r.filteredError);
 					
 					writer.close();
 					System.out.println("Saved numeric results.");

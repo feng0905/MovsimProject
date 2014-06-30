@@ -17,6 +17,10 @@ public class MovSimState extends AbstractState
 	private MovsimWrap movsimPF; 
 	private double simStep = 10;			// seconds
 	
+	public MovsimWrap getMovSimWrap(){
+		return movsimPF;
+	} 
+	
 	public static void main(String[] args) throws JAXBException, SAXException, StateFunctionNotSupportedException{
 		
 		/*
