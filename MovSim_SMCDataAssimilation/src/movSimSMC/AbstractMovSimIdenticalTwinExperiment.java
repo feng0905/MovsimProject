@@ -5,12 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
 import javax.xml.bind.JAXBException;
 
 import movsimSMC.MovsimWrap;
+import movsimSMC.Paint.ObstacleCanvas;
 
 import org.xml.sax.SAXException;
 
@@ -93,6 +95,18 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		// record results
 		MovSimSMCResult result = new MovSimSMCResult();// create a MovSimSMCResult
 		// put result into "result"
+		result.currentTime = step * stepLength;
+		result.simError = realSys.CalDensityDistance(simSys,0);
+		result.filteredError = realSys.CalDensityDistance(filteredSys, 0);
+		result.segmentAvgSpeeds.add(realSys.getAvgSpeeds());
+		result.segmentAvgSpeeds.add(simSys.getAvgSpeeds());
+		result.segmentAvgSpeeds.add(filteredSys.getAvgSpeeds());
+		result.segmentDensities.add(realSys.getSegmentDensities());
+		result.segmentDensities.add(simSys.getSegmentDensities());
+		result.segmentDensities.add(filteredSys.getSegmentDensities());
+		
+		//result.segmentD
+		
 		// Peisheng ...
 		// ...
 		// add the result in
@@ -111,6 +125,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				// display the results (draw the accident map)
 				// assume this call is after a re-samling, i.e. the weights on all particles are equal
 				// Peisheng will implement it
+				ObstacleCanvas canvas = new ObstacleCanvas(new ArrayList<>(Arrays.asList(movSimParticleSystems)));
 			}
 			
 			if(reportError)
