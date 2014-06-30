@@ -12,9 +12,13 @@ import movsimSMC.Paint.ObstacleCanvas;
 import smc.AbstractState;
 
 
+
 public class MovSimState extends AbstractState 
 {
 	private MovsimWrap movsimPF; 
+	/*
+	 * need a method: List<Sensor> MovsimWrap.getSensorReading(); 
+	 */
 	private double simStep = 10;			// seconds
 	
 	public MovsimWrap getMovSimWrap(){
@@ -62,12 +66,10 @@ public class MovSimState extends AbstractState
 	@Override
 	public AbstractState transitionFunction() throws StateFunctionNotSupportedException
 	{
-		// TODO Auto-generated method stub
 		MovsimWrap nextState = null;
 		try {
 			nextState = movsimPF.duplicate();
 		} catch (JAXBException | SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    if (nextState == null) {
@@ -81,6 +83,7 @@ public class MovSimState extends AbstractState
 	}
 
 	@Override
+	// need to implement
 	public AbstractState transitionModel(AbstractTransitionRandomComponent random) throws StateFunctionNotSupportedException
 	{
 		// TODO Auto-generated method stub
@@ -95,6 +98,7 @@ public class MovSimState extends AbstractState
 	}
 
 	@Override
+	// need to implement
 	public AbstractMeasurement measurementFunction() throws StateFunctionNotSupportedException
 	{
 		// TODO Auto-generated method stub
