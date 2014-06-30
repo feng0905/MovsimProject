@@ -45,6 +45,9 @@ public class MovSimState extends AbstractState
 		this.movsimPF = movsimPF;
 	}
 	
+	public void createObstacle(double startTime, int roadId, int laneId) {
+		movsimPF.createObstacle(startTime, roadId, laneId);
+	}
 	@Override
 	public void setDescription(String des)
 	{

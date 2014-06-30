@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.xml.bind.JAXBException;
+
+import org.xml.sax.SAXException;
+
 import smc.AbstractParticleSystem;
 import smc.AbstractState;
 import smc.Particle;
@@ -22,14 +26,41 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 	protected AbstractState createSimulatedSystem()
 	{
 		// TODO Auto-generated method stub
-		return null;
+		MovSimState sim = null;
+		try {
+			sim = new MovSimState();
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		sim.setSimStep(10);
+		
+		
+		
+		return sim;
 	}
 
 	@Override
 	protected AbstractState createRealSystem()
 	{
 		// TODO Auto-generated method stub
-		return null;
+		MovSimState sim = null;
+		try {
+			sim = new MovSimState();
+			sim.setSimStep(10);
+			sim.createObstacle(30, 2, 2);
+			
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return sim;
 	}
 
 	// record/display results
@@ -51,7 +82,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 	protected void reportOnStep(int step) throws Exception
 	{	
 		// record results
-		// Peisheng will implement it
+		// record the numberical results
 		
 		// print particle weights
 		int currentTime = stepLength * step;
@@ -60,6 +91,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		
 		if (currentTime > reportTime)
 		{
+			// if reportFigure : Draw accident map 
 			if (reportFigure)
 			{
 				// display the results (draw the accident map)
@@ -93,7 +125,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				{
 					writer = new PrintWriter(resultFile);
 					
-					// write error using hte writer
+					// write error using  writer
 					// Peisheng will implement it
 					
 					writer.close();
