@@ -37,6 +37,7 @@ public class MovSimState extends AbstractState
 			sim = (MovSimState) sim.transitionFunction();
 			sim.movsimPF.placeObstacle(i%4+1,(i)%3+1);
 			list.add(sim.movsimPF);
+		
 		}
 
 		ObstacleCanvas canvas = new ObstacleCanvas(list);
