@@ -75,7 +75,6 @@ public class MovSimState extends AbstractState
 		}
 	    if (nextState == null) {
 	    	return null;
-	    	
 		}
 		
 	    nextState.runFor(simStep);
@@ -84,18 +83,10 @@ public class MovSimState extends AbstractState
 	}
 
 	@Override
-	// need to implement
 	public AbstractState transitionModel(AbstractTransitionRandomComponent random) throws StateFunctionNotSupportedException
 	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BigDecimal transitionPdf(AbstractState nextState) throws StateFunctionNotSupportedException
-	{
-		// TODO Auto-generated method stub
-		return null;
+		// currently ignore the random component
+		return this.transitionFunction();
 	}
 
 	@Override
@@ -117,8 +108,15 @@ public class MovSimState extends AbstractState
 	public BigDecimal measurementPdf(AbstractMeasurement measurement) throws StateFunctionNotSupportedException
 	{
 		// TODO Auto-generated method stub
+		
 		return null;
 	}
+	
+	static class MovSimSensorReadings extends AbstractMeasurement{
+		
+	}
+	
+	//static class
 
 	@Override
 	public BigDecimal proposalPdf(AbstractMeasurement measurement) throws StateFunctionNotSupportedException
@@ -156,6 +154,14 @@ public class MovSimState extends AbstractState
 		return (long) this.movsimPF.CalDistance(samplePF.movsimPF);
 	}
 
+	// not-supported functions
+	@Override
+	public BigDecimal transitionPdf(AbstractState nextState) throws StateFunctionNotSupportedException
+	{
+		throw new StateFunctionNotSupportedException();
+	}
+	// end of not-supported functions
+	
 	
 	/**
 	 * @return the simStep

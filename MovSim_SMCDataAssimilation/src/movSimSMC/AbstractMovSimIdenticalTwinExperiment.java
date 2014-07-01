@@ -16,7 +16,6 @@ import movsimSMC.Paint.ObstacleCanvas;
 
 import org.xml.sax.SAXException;
 
-import smc.AbstractParticleSystem;
 import smc.AbstractState;
 import smc.Particle;
 import identicalTwinExperiments.AbstractIdenticalTwinExperiment;
