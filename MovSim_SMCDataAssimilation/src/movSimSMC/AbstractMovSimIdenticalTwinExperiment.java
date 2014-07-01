@@ -125,7 +125,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				// display the results (draw the accident map)
 				// assume this call is after a re-samling, i.e. the weights on all particles are equal
 				// Peisheng will implement it
-				ObstacleCanvas canvas = new ObstacleCanvas(new ArrayList<>(Arrays.asList(movSimParticleSystems)));
+				new ObstacleCanvas(new ArrayList<>(Arrays.asList(movSimParticleSystems)));
 			}
 			
 			if(reportError)
