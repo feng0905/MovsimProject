@@ -86,6 +86,7 @@ public class MovSimState extends AbstractState
 	public AbstractState transitionModel(AbstractTransitionRandomComponent random) throws StateFunctionNotSupportedException
 	{
 		// currently ignore the random component
+		
 		return this.transitionFunction();
 	}
 
@@ -101,6 +102,7 @@ public class MovSimState extends AbstractState
 	public AbstractMeasurement measurementModel(AbstractMeasurementRandomComponent random) throws StateFunctionNotSupportedException
 	{
 		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -143,7 +145,9 @@ public class MovSimState extends AbstractState
 	public AbstractTransitionRandomComponent drawNextRandomComponentSample()
 	{
 		// TODO Auto-generated method stub
-		return null;
+		MovSimRandomComponent randomComponent = new MovSimRandomComponent((Math.random() * (0.1-0)));
+		
+		return randomComponent;
 	}
 
 	@Override
