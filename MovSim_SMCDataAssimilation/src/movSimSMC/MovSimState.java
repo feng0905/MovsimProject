@@ -99,7 +99,6 @@ public class MovSimState extends AbstractState
 		// currently ignore the random component
 		MovSimRandomComponent randomMovSim = (MovSimRandomComponent) random;
 		movsimPF.addRandomComponent(randomMovSim.getRandom());
-		
 		return this.transitionFunction();
 	}
 
@@ -157,7 +156,7 @@ public class MovSimState extends AbstractState
 	@Override
 	public AbstractState propose(AbstractMeasurement measurement) throws StateFunctionNotSupportedException, Exception
 	{
-		return this.transitionFunction();
+		return this.transitionModel(drawNextRandomComponentSample());
 	}
 
 	@Override
