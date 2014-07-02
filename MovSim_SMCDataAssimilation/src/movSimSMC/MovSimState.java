@@ -1,7 +1,6 @@
 package movSimSMC;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
@@ -11,7 +10,6 @@ import org.movsim.simulator.roadnetwork.MovSimSensor;
 import org.xml.sax.SAXException;
 
 import movsimSMC.MovsimWrap;
-import movsimSMC.Paint.ObstacleCanvas;
 import smc.AbstractState;
 
 
@@ -117,7 +115,7 @@ public class MovSimState extends AbstractState
 	{
 		List<MovSimSensor> sensorReadings = ((MovSimMeasurement)measurement).sensors;
 		List<MovSimSensor> simulatedSensorReadings = this.movsimPF.getSensorReading();
-		double sigma = 30;  
+		double sigma = 20;  
 
 		/*
 		 * double variance = sigma*sigma;
