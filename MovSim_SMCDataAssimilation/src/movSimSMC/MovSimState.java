@@ -2,9 +2,12 @@ package movSimSMC;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
+import org.apache.commons.math3.distribution.NormalDistribution;
+import org.movsim.simulator.roadnetwork.MovSimSensor;
 import org.xml.sax.SAXException;
 
 import movsimSMC.MovsimWrap;
@@ -16,35 +19,43 @@ import smc.AbstractState;
 public class MovSimState extends AbstractState 
 {
 	private MovsimWrap movsimPF; 
-	/*
-	 * need a method: List<Sensor> MovsimWrap.getSensorReading(); 
-	 */
-	private double simStep = 10;			// seconds
+	private double stepLength = 10;			// seconds
+	
+	// clone a state
+	public MovSimState clone(){
+		
+		MovSimState c = null;
+		try
+		{
+			c = (MovSimState)super.clone();
+			c.movsimPF = this.movsimPF.duplicate();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (JAXBException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (SAXException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return c;
+	}
 	
 	public MovsimWrap getMovSimWrap(){
 		return movsimPF;
 	} 
 	
-	public static void main(String[] args) throws JAXBException, SAXException, StateFunctionNotSupportedException{
+	public MovSimState( double stepLength ) throws JAXBException, SAXException {
 		
-		/*
-		 * Accident display Test 
-		 */
-		ArrayList<MovsimWrap> list = new ArrayList<MovsimWrap>();
-		for (int i = 1; i < 10; i++) {
-			MovSimState sim = new MovSimState();
-			//list.add(sim);
-			sim = (MovSimState) sim.transitionFunction();
-			sim.movsimPF.placeObstacle(i%4+1,(i)%3+1);
-			list.add(sim.movsimPF);
-		
-		}
-
-		ObstacleCanvas canvas = new ObstacleCanvas(list);
-	}
-	
-	
-	MovSimState() throws JAXBException, SAXException {
+		this.stepLength = stepLength;
 		String baseDir = System.getProperty("user.dir");
 		String[] args = { "-f", baseDir + "\\sim\\buildingBlocks\\startStop.xprj" };
   		movsimPF = new MovsimWrap(args);
@@ -77,8 +88,8 @@ public class MovSimState extends AbstractState
 	    	return null;
 		}
 		
-	    nextState.runFor(simStep);
-	    System.out.println("transition finished");
+	    nextState.runFor(stepLength);
+	    //System.out.println("transition finished");
     	return new MovSimState(nextState);
 	}
 
@@ -89,35 +100,50 @@ public class MovSimState extends AbstractState
 		return this.transitionFunction();
 	}
 
+	static class MovSimMeasurement extends AbstractMeasurement{
+		List<MovSimSensor> sensors;
+		public MovSimMeasurement( List<MovSimSensor> sensors ) { this.sensors = sensors; };
+	}
 	@Override
-	// need to implement
 	public AbstractMeasurement measurementFunction() throws StateFunctionNotSupportedException
 	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public AbstractMeasurement measurementModel(AbstractMeasurementRandomComponent random) throws StateFunctionNotSupportedException
-	{
-		// TODO Auto-generated method stub
-		return null;
+		return new MovSimMeasurement(this.movsimPF.getSensorReading());
 	}
 
 	@Override
 	public BigDecimal measurementPdf(AbstractMeasurement measurement) throws StateFunctionNotSupportedException
 	{
-		// TODO Auto-generated method stub
-		
-		return null;
+		List<MovSimSensor> sensorReadings = ((MovSimMeasurement)measurement).sensors;
+		List<MovSimSensor> simulatedSensorReadings = this.movsimPF.getSensorReading();
+		double sigma = 30;  
+
+		/*
+		 * double variance = sigma*sigma;
+		 * 
+		 * double[][] cov = new double[sensorProfiles.length][sensorProfiles.length]; for(int i=0; i<sensorProfiles.length; i++) for(int j=0; j<sensorProfiles.length; j++) { if(i==j) cov[i][j] =
+		 * variance; else cov[i][j] =0; }
+		 * 
+		 * MultivariateNormalDistribution mn = new MultivariateNormalDistribution(simTrueReadings, cov); BigDecimal weight = BigDecimal.valueOf(mn.density(sensorReadings));
+		 */
+
+		NormalDistribution norm = new NormalDistribution(0, sigma);
+		BigDecimal weight = BigDecimal.ONE;
+		for (int i = 0; i < sensorReadings.size(); i++)
+		{
+			double normResult = norm.density(sensorReadings.get(i).Distance(simulatedSensorReadings.get(i)));
+			double minNorm = 1E-300; // if not doing so, a small value will become 0, and mess up the weight
+			if (normResult < minNorm) normResult = minNorm;
+
+			weight = weight.multiply(BigDecimal.valueOf(normResult));
+		}
+
+		return weight;
 	}
 	
 	static class MovSimSensorReadings extends AbstractMeasurement{
 		
 	}
 	
-	//static class
-
 	@Override
 	public BigDecimal proposalPdf(AbstractMeasurement measurement) throws StateFunctionNotSupportedException
 	{
@@ -126,37 +152,39 @@ public class MovSimState extends AbstractState
 	}
 
 	@Override
-	public AbstractState generateNoisedState() throws StateFunctionNotSupportedException
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public AbstractState propose(AbstractMeasurement measurement) throws StateFunctionNotSupportedException, Exception
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.transitionFunction();
 	}
 
 	@Override
 	public AbstractTransitionRandomComponent drawNextRandomComponentSample()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public long distance(AbstractState sample)
 	{
-		// TODO Auto-generated method stub
 		MovSimState samplePF = (MovSimState) sample;
-		return (long) this.movsimPF.CalDistance(samplePF.movsimPF);
+		return (long) (this.movsimPF.CalDistance(samplePF.movsimPF)*100000);
 	}
 
 	// not-supported functions
 	@Override
 	public BigDecimal transitionPdf(AbstractState nextState) throws StateFunctionNotSupportedException
+	{
+		throw new StateFunctionNotSupportedException();
+	}
+	
+	@Override
+	public AbstractMeasurement measurementModel(AbstractMeasurementRandomComponent random) throws StateFunctionNotSupportedException
+	{
+		throw new StateFunctionNotSupportedException();
+	}
+	
+	@Override
+	public AbstractState generateNoisedState() throws StateFunctionNotSupportedException
 	{
 		throw new StateFunctionNotSupportedException();
 	}
@@ -167,7 +195,7 @@ public class MovSimState extends AbstractState
 	 * @return the simStep
 	 */
 	public double getSimStep() {
-		return simStep;
+		return stepLength;
 	}
 
 
@@ -175,6 +203,6 @@ public class MovSimState extends AbstractState
 	 * @param simStep the simStep to set
 	 */
 	public void setSimStep(double simStep) {
-		this.simStep = simStep;
+		this.stepLength = simStep;
 	}
 }

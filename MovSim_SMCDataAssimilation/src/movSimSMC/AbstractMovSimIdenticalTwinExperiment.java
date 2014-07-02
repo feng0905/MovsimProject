@@ -23,7 +23,9 @@ import identicalTwinExperiments.AbstractIdenticalTwinExperiment;
 public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIdenticalTwinExperiment
 {
 	
-	int stepLength = 3600; // 1 hour
+	int stepLength = 10; // unit: seconds
+	
+	public AbstractMovSimIdenticalTwinExperiment(int stepLength) { this.stepLength = stepLength; }
 	
 	@Override
 	// create and return the simulated system
@@ -31,7 +33,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 	{
 		MovSimState sim = null;
 		try {
-			sim = new MovSimState();
+			sim = new MovSimState(stepLength);
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		} catch (SAXException e) {
@@ -50,7 +52,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 	{
 		MovSimState sim = null;
 		try {
-			sim = new MovSimState();
+			sim = new MovSimState(stepLength);
 			sim.setSimStep(10);
 			sim.createObstacle(30, 2, 2);
 			
@@ -72,8 +74,8 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		public double simError; // the distance between real system and simulated system
 		public double filteredError; // the distance from real system and the best particle
 		
-		List<List<Double>> segmentDensities; // the density on each segment, 0-real, 1-sim, 2-best particle
-		List<List<Double>> segmentAvgSpeeds; // the speed on each segment, 0-real, 1-sim, 2-best particle
+		List<List<Double>> segmentDensities = new ArrayList<>(); // the density on each segment, 0-real, 1-sim, 2-best particle
+		List<List<Double>> segmentAvgSpeeds = new ArrayList<>(); // the speed on each segment, 0-real, 1-sim, 2-best particle
 	}
 	List<MovSimSMCResult> expResults = new ArrayList<>(); // the container containing results
 	
