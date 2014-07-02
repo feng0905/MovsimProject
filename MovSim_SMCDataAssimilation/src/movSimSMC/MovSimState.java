@@ -44,7 +44,7 @@ public class MovSimState extends AbstractState
 	}
 	
 	
-	MovSimState() throws JAXBException, SAXException {
+	public MovSimState() throws JAXBException, SAXException {
 		String baseDir = System.getProperty("user.dir");
 		String[] args = { "-f", baseDir + "\\sim\\buildingBlocks\\startStop.xprj" };
   		movsimPF = new MovsimWrap(args);
@@ -86,6 +86,8 @@ public class MovSimState extends AbstractState
 	public AbstractState transitionModel(AbstractTransitionRandomComponent random) throws StateFunctionNotSupportedException
 	{
 		// currently ignore the random component
+		MovSimRandomComponent randomMovSim = (MovSimRandomComponent) random;
+		movsimPF.addRandomComponent(randomMovSim.getRandom());
 		
 		return this.transitionFunction();
 	}
