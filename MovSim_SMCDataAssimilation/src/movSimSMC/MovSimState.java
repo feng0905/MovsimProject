@@ -96,8 +96,18 @@ public class MovSimState extends AbstractState
 	{
 		// currently ignore the random component
 		MovSimRandomComponent randomMovSim = (MovSimRandomComponent) random;
-		movsimPF.addRandomComponent(randomMovSim.getRandom());
-		return this.transitionFunction();
+		MovsimWrap nextState = null;
+		try {
+			nextState = movsimPF.duplicate();
+		} catch (JAXBException | SAXException e) {
+			e.printStackTrace();
+		}
+	    if (nextState == null) {
+	    	return null;
+		}
+	    nextState.addRandomComponent(randomMovSim.getRandom());
+	    
+		return new MovSimState(nextState);
 	}
 
 	static class MovSimMeasurement extends AbstractMeasurement{
@@ -130,7 +140,7 @@ public class MovSimState extends AbstractState
 		BigDecimal weight = BigDecimal.ONE;
 		for (int i = 0; i < sensorReadings.size(); i++)
 		{
-			double normResult = norm.density(sensorReadings.get(i).Distance(simulatedSensorReadings.get(i)));
+			double normResult = norm.density(sensorReadings.get(i).distance(simulatedSensorReadings.get(i)));
 			double minNorm = 1E-300; // if not doing so, a small value will become 0, and mess up the weight
 			if (normResult < minNorm) normResult = minNorm;
 
