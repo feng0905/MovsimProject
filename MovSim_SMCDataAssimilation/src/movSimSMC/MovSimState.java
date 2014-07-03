@@ -102,16 +102,15 @@ public class MovSimState extends AbstractState
 		} catch (JAXBException | SAXException e) {
 			e.printStackTrace();
 		}
-	    if (nextState == null) {
-	    	return null;
-		}
 	    nextState.addRandomComponent(randomMovSim.getRandom());
 	    
 	    if (Math.random() < 0.05) {
 			//place a random obstacle
 	    	
 		}
-		return new MovSimState(nextState);
+	    
+	    AbstractState s = new MovSimState(nextState);
+		return s.transitionFunction();
 	}
 
 	static class MovSimMeasurement extends AbstractMeasurement{
@@ -169,6 +168,7 @@ public class MovSimState extends AbstractState
 	public AbstractState propose(AbstractMeasurement measurement) throws StateFunctionNotSupportedException, Exception
 	{
 		return this.transitionModel(drawNextRandomComponentSample());
+		//return this.transitionFunction();
 	}
 
 	@Override

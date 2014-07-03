@@ -10,9 +10,11 @@ public class ExpTest
 {
 	public static void main(String[] args)
 	{
-		int particleN = 300;
+		int particleN = 20;
 		int kernelN = 10;
-		int stepLength = 120;
+		int stepLength = 25;
+		int stepN = 15;
+		
 		KernelFunction kernel =  new KernelEstimationProposalWeight.GaussianKernel();
 		
 		double bandwidth=2000;
@@ -21,7 +23,7 @@ public class ExpTest
 		SenSimMovSimIdenticalTwinExperiment exp = new SenSimMovSimIdenticalTwinExperiment(stepLength, kernelN, kernel, bandWidth);
 		try
 		{
-			exp.runDataAssimilationExperiement(5, particleN);
+			exp.runDataAssimilationExperiement(stepN, particleN);
 		}
 		catch (Exception e)
 		{
