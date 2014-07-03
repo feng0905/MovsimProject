@@ -94,7 +94,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		MovSimSMCResult result = new MovSimSMCResult();// create a MovSimSMCResult
 		// put result into "result"
 		result.currentTime = step * stepLength;
-		result.simError = realSys.CalDensityDistance(simSys,0);
+		result.simError = realSys.CalDensityDistance(simSys, 0);
 		result.filteredError = realSys.CalDensityDistance(filteredSys, 0);
 		result.segmentAvgSpeeds.add(realSys.getAvgSpeeds());
 		result.segmentAvgSpeeds.add(simSys.getAvgSpeeds());
@@ -102,17 +102,11 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		result.segmentDensities.add(realSys.getSegmentDensities());
 		result.segmentDensities.add(simSys.getSegmentDensities());
 		result.segmentDensities.add(filteredSys.getSegmentDensities());
-		
-		//result.segmentD
-		
-		// Peisheng ...
-		// ...
-		// add the result in
 		expResults.add(result);
 		
 		// print particle weights
 		int currentTime = stepLength * step;
-		System.out.print("SMC =============================== Step" + step + " done! Current time = " + currentTime + " Error: " + "TBD");
+		System.out.print("SMC =============================== Step" + step + " done! Current time = " + currentTime + " Sim-Error: " + result.simError + "Real-Error: " + result.filteredError);
 		System.out.println(" Memory usage: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000.0 + "MB");
 		
 		if (currentTime > reportTime)
@@ -159,9 +153,9 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 					writer = new PrintWriter(resultFile);
 					
 					// write error using  writer
-					writer.println( "time\tSim Error\tFiltered Error");
+					writer.println( "time\t\tSim Error\t\tFiltered Error");
 					for( MovSimSMCResult r : this.expResults)
-						writer.println(r.currentTime + "\t" + r.simError + "\t" + r.filteredError);
+						writer.println(r.currentTime + "\t\t" + r.simError + "\t\t" + r.filteredError);
 					
 					writer.close();
 					System.out.println("Saved numeric results.");

@@ -19,6 +19,7 @@ public class MovSimState extends AbstractState
 {
 	private MovsimWrap movsimPF; 
 	private double stepLength = 10;			// seconds
+	private double accidentP = 0.7;  // t
 	
 	// clone a state
 	public MovSimState clone(){
@@ -105,7 +106,7 @@ public class MovSimState extends AbstractState
 		}
 	    nextState.addRandomComponent(randomMovSim.getRandom());
 	    
-	    if (Math.random() < 0.05) {
+	    if (Math.random() <= this.accidentP) {
 			//place a random obstacle
 	        nextState.placeRandomObstacle();
 		}
@@ -129,7 +130,7 @@ public class MovSimState extends AbstractState
 	{
 		List<MovSimSensor> sensorReadings = ((MovSimMeasurement)measurement).sensors;
 		List<MovSimSensor> simulatedSensorReadings = this.movsimPF.getSensorReading();
-		double sigma = 20;  
+		double sigma = 10;  
 
 		/*
 		 * double variance = sigma*sigma;
@@ -144,6 +145,7 @@ public class MovSimState extends AbstractState
 		BigDecimal weight = BigDecimal.ONE;
 		for (int i = 0; i < sensorReadings.size(); i++)
 		{
+			//System.out.println("sensor-" + i + "!!!!!!! " + sensorReadings.get(i).getAvgSpeed() + " -- " + simulatedSensorReadings.get(i).getAvgSpeed());
 			double normResult = norm.density(sensorReadings.get(i).distance(simulatedSensorReadings.get(i)));
 			double minNorm = 1E-300; // if not doing so, a small value will become 0, and mess up the weight
 			if (normResult < minNorm) normResult = minNorm;
@@ -183,7 +185,9 @@ public class MovSimState extends AbstractState
 	public long distance(AbstractState sample)
 	{
 		MovSimState samplePF = (MovSimState) sample;
-		return (long) (this.movsimPF.CalDistance(samplePF.movsimPF)*100000000);
+		double dis = this.movsimPF.CalDistance(samplePF.movsimPF);
+		//System.out.println("State Distance: " + dis + " " + ((long) (dis*100000000)));
+		return (long) (dis*100000000);
 	}
 
 	// not-supported functions
