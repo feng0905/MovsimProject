@@ -2,6 +2,7 @@ package movSimSMC;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Random;
 
 import javax.xml.bind.JAXBException;
 
@@ -106,7 +107,7 @@ public class MovSimState extends AbstractState
 	    
 	    if (Math.random() < 0.05) {
 			//place a random obstacle
-	    	
+	        nextState.placeRandomObstacle();
 		}
 	    
 	    AbstractState s = new MovSimState(nextState);
