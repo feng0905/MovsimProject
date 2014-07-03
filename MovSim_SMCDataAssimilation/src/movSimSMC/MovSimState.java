@@ -107,6 +107,10 @@ public class MovSimState extends AbstractState
 		}
 	    nextState.addRandomComponent(randomMovSim.getRandom());
 	    
+	    if (Math.random() < 0.05) {
+			//place a random obstacle
+	    	
+		}
 		return new MovSimState(nextState);
 	}
 
