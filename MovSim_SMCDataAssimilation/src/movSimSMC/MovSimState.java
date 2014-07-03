@@ -145,12 +145,11 @@ public class MovSimState extends AbstractState
 		BigDecimal weight = BigDecimal.ONE;
 		for (int i = 0; i < sensorReadings.size(); i++)
 		{
-			
 			double normResult = norm.density(sensorReadings.get(i).distance(simulatedSensorReadings.get(i)));
 			double minNorm = 1E-300; // if not doing so, a small value will become 0, and mess up the weight
 			if (normResult < minNorm) normResult = minNorm;
 			
-			System.out.println("sensor-" + i + "!!!!!!! " + sensorReadings.get(i).getAvgSpeed() + " -- " + simulatedSensorReadings.get(i).getAvgSpeed() + " -- " +  sensorReadings.get(i).distance(simulatedSensorReadings.get(i)) + " -> " + normResult);
+			System.out.println("sensor-" + i + "!!!!!!! " + sensorReadings.get(i).getAvgSpeed() + " -- " + simulatedSensorReadings.get(i).getAvgSpeed() + " -- dis" +  sensorReadings.get(i).distance(simulatedSensorReadings.get(i)) + " -> " + normResult);
 
 			weight = weight.multiply(BigDecimal.valueOf(normResult));
 		}
