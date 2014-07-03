@@ -95,6 +95,9 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		// put result into "result"
 		result.currentTime = step * stepLength;
 		result.simError = realSys.CalDensityDistance(simSys, 0);
+		
+		System.out.println("!!!!!!!!!!!!!!! Self Error: " + realSys.CalDensityDistance(realSys, 0));
+		
 		result.filteredError = realSys.CalDensityDistance(filteredSys, 0);
 		result.segmentAvgSpeeds.add(realSys.getAvgSpeeds());
 		result.segmentAvgSpeeds.add(simSys.getAvgSpeeds());
@@ -120,7 +123,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				ObstacleCanvas obstacleCanvas = new ObstacleCanvas(new ArrayList<>(Arrays.asList(movSimParticleSystems)),"Obstacle Canvas, step "+ step+ " time " + step*stepLength);
 				obstacleCanvas.addRealObstacle(realSys);
 				new SmcSimulationCanvas(realSys.simulator,"Real System, step "+step+ " time " + step*stepLength);
-				new SmcSimulationCanvas(simSys.simulator,"Simulated System, step " +step+ " time " + step*stepLength );
+				//new SmcSimulationCanvas(simSys.simulator,"Simulated System, step " +step+ " time " + step*stepLength );
 				new SmcSimulationCanvas(filteredSys.simulator, "Filtered System, step "+step+ " time " + step*stepLength);
 				//new SmcSimulationCanvas(simSys.simulator,"Simulated System");
 			}

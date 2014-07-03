@@ -130,7 +130,7 @@ public class MovSimState extends AbstractState
 	{
 		List<MovSimSensor> sensorReadings = ((MovSimMeasurement)measurement).sensors;
 		List<MovSimSensor> simulatedSensorReadings = this.movsimPF.getSensorReading();
-		double sigma = 5;  
+		double sigma = 10;  
 
 		/*
 		 * double variance = sigma*sigma;
@@ -149,7 +149,7 @@ public class MovSimState extends AbstractState
 			double minNorm = 1E-300; // if not doing so, a small value will become 0, and mess up the weight
 			if (normResult < minNorm) normResult = minNorm;
 			
-			System.out.println("sensor-" + i + "!!!!!!! " + sensorReadings.get(i).getAvgSpeed() + " -- " + simulatedSensorReadings.get(i).getAvgSpeed() + " -- dis" +  sensorReadings.get(i).distance(simulatedSensorReadings.get(i)) + " -> " + normResult);
+			//System.out.println("sensor-" + i + "!!!!!!! " + sensorReadings.get(i).getAvgSpeed() + " -- " + simulatedSensorReadings.get(i).getAvgSpeed() + " -- dis" +  sensorReadings.get(i).distance(simulatedSensorReadings.get(i)) + " -> " + normResult);
 
 			weight = weight.multiply(BigDecimal.valueOf(normResult));
 		}
