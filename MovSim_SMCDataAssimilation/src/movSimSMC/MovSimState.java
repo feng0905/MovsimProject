@@ -84,9 +84,9 @@ public class MovSimState extends AbstractState
 		} catch (JAXBException | SAXException e) {
 			e.printStackTrace();
 		}
-	    if (nextState == null) {
-	    	return null;
-		}
+//	    if (nextState == null) {
+//	    	return null;
+//		}
 		
 	    nextState.runFor(stepLength);
 	    //System.out.println("transition finished");
@@ -105,11 +105,10 @@ public class MovSimState extends AbstractState
 			e.printStackTrace();
 		}
 	    nextState.addRandomComponent(randomMovSim.getRandom());
-	    Random rand = new Random(GlobalConstants.RANDOM_SEED);
 	    
-	    if (rand.nextDouble() <= this.accidentP) {
+	    if (GlobalConstants.G_RAND.nextDouble() <= this.accidentP) {
 			//place a random obstacle
-	        nextState.placeRandomObstacle();
+	        nextState.placeRandomObstacle(GlobalConstants.G_RAND);
 		}
 	    
 	    AbstractState s = new MovSimState(nextState);
@@ -146,7 +145,7 @@ public class MovSimState extends AbstractState
 		BigDecimal weight = BigDecimal.ONE;
 		for (int i = 0; i < sensorReadings.size(); i++)
 		{
-			//System.out.println("sensor-" + i + "!!!!!!! " + sensorReadings.get(i).getAvgSpeed() + " -- " + simulatedSensorReadings.get(i).getAvgSpeed());
+			System.out.println("sensor-" + i + "!!!!!!! " + sensorReadings.get(i).getAvgSpeed() + " -- " + simulatedSensorReadings.get(i).getAvgSpeed());
 			double normResult = norm.density(sensorReadings.get(i).distance(simulatedSensorReadings.get(i)));
 			double minNorm = 1E-300; // if not doing so, a small value will become 0, and mess up the weight
 			if (normResult < minNorm) normResult = minNorm;
@@ -154,8 +153,7 @@ public class MovSimState extends AbstractState
 			weight = weight.multiply(BigDecimal.valueOf(normResult));
 		}
 
-		//return weight;
-		return BigDecimal.ONE;
+		return weight;
 	}
 	
 	static class MovSimSensorReadings extends AbstractMeasurement{
@@ -179,9 +177,9 @@ public class MovSimState extends AbstractState
 	@Override
 	public AbstractTransitionRandomComponent drawNextRandomComponentSample()
 	{
-		Random random = new Random(GlobalConstants.RANDOM_SEED);
+		
 		//MovSimRandomComponent randomComponent = new MovSimRandomComponent(( random.nextDouble()* (0.1-0)));
-		MovSimRandomComponent randomComponent = new MovSimRandomComponent(((0.1-0)));
+		MovSimRandomComponent randomComponent = new MovSimRandomComponent(GlobalConstants.G_RAND.nextDouble()*((0.1-0)));
 		return randomComponent;
 	}
 

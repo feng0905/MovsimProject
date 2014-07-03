@@ -36,7 +36,7 @@
                    
                 </InitialConditions>
                 <TrafficSource logging="false">
-                    <Inflow t="0" q_per_hour="300" v="24" />
+                    <Inflow t="0" q_per_hour="3600" v="24" />
                 </TrafficSource>
 				
 				
