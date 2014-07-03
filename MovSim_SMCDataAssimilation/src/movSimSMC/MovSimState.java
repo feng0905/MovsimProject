@@ -2,7 +2,6 @@ package movSimSMC;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Random;
 
 import javax.xml.bind.JAXBException;
 
@@ -19,7 +18,7 @@ public class MovSimState extends AbstractState
 {
 	private MovsimWrap movsimPF; 
 	private double stepLength = 10;			// seconds
-	private double accidentP = 0.7;  // t
+	private double accidentP = 0.5;  // t
 	
 	// clone a state
 	public MovSimState clone(){

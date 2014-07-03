@@ -106,7 +106,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		
 		// print particle weights
 		int currentTime = stepLength * step;
-		System.out.print("SMC =============================== Step" + step + " done! Current time = " + currentTime + " Sim-Error: " + result.simError + "Real-Error: " + result.filteredError);
+		System.out.print("SMC =============================== Step" + step + " done! Current time = " + currentTime + " Sim-Error: " + result.simError + " Fil-Error: " + result.filteredError);
 		System.out.println(" Memory usage: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000.0 + "MB");
 		
 		if (currentTime > reportTime)
