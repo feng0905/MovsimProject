@@ -13,6 +13,7 @@ import javax.xml.bind.JAXBException;
 
 import movsimSMC.MovsimWrap;
 import movsimSMC.Paint.ObstacleCanvas;
+import movsimSMC.Paint.SmcSimulationCanvas;
 
 import org.xml.sax.SAXException;
 
@@ -126,7 +127,12 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				// display the results (draw the accident map)
 				// assume this call is after a re-samling, i.e. the weights on all particles are equal
 				// Peisheng will implement it
-				new ObstacleCanvas(new ArrayList<>(Arrays.asList(movSimParticleSystems)));
+				ObstacleCanvas obstacleCanvas = new ObstacleCanvas(new ArrayList<>(Arrays.asList(movSimParticleSystems)),"Obstacle Canvas, step "+ step+ " time " + step*stepLength);
+				obstacleCanvas.addRealObstacle(realSys);
+				new SmcSimulationCanvas(realSys.simulator,"Real System, step "+step+ " time " + step*stepLength);
+				new SmcSimulationCanvas(simSys.simulator,"Simulated System, step " +step+ " time " + step*stepLength );
+				new SmcSimulationCanvas(filteredSys.simulator, "Filtered System, step "+step+ " time " + step*stepLength);
+				//new SmcSimulationCanvas(simSys.simulator,"Simulated System");
 			}
 			
 			if(reportError)
