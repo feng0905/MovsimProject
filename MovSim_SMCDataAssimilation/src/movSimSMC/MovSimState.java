@@ -146,6 +146,7 @@ public class MovSimState extends AbstractState
 		for (int i = 0; i < sensorReadings.size(); i++)
 		{
 			System.out.println("sensor-" + i + "!!!!!!! " + sensorReadings.get(i).getAvgSpeed() + " -- " + simulatedSensorReadings.get(i).getAvgSpeed());
+			System.out.println(sensorReadings.get(i).distance(simulatedSensorReadings.get(i)));
 			double normResult = norm.density(sensorReadings.get(i).distance(simulatedSensorReadings.get(i)));
 			double minNorm = 1E-300; // if not doing so, a small value will become 0, and mess up the weight
 			if (normResult < minNorm) normResult = minNorm;
