@@ -23,7 +23,7 @@ public static void main(String[] args) throws JAXBException, SAXException, State
 			MovSimState sim = new MovSimState(10);
 			//list.add(sim);
 			sim = (MovSimState) sim.transitionFunction();
-			sim.getMovSimWrap().placeObstacle(i%4+1,(i)%3+1);
+			sim.getMovSimWrap().placeRandomObstacle();
 			list.add(sim.getMovSimWrap());
 		}
 

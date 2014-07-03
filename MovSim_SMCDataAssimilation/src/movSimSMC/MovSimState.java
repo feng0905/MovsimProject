@@ -2,6 +2,7 @@ package movSimSMC;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Random;
 
 import javax.xml.bind.JAXBException;
 
@@ -104,8 +105,9 @@ public class MovSimState extends AbstractState
 			e.printStackTrace();
 		}
 	    nextState.addRandomComponent(randomMovSim.getRandom());
+	    Random rand = new Random(GlobalConstants.RANDOM_SEED);
 	    
-	    if (Math.random() <= this.accidentP) {
+	    if (rand.nextDouble() <= this.accidentP) {
 			//place a random obstacle
 	        nextState.placeRandomObstacle();
 		}
@@ -176,7 +178,9 @@ public class MovSimState extends AbstractState
 	@Override
 	public AbstractTransitionRandomComponent drawNextRandomComponentSample()
 	{
-		MovSimRandomComponent randomComponent = new MovSimRandomComponent((Math.random() * (0.1-0)));
+		Random random = new Random(GlobalConstants.RANDOM_SEED);
+		//MovSimRandomComponent randomComponent = new MovSimRandomComponent(( random.nextDouble()* (0.1-0)));
+		MovSimRandomComponent randomComponent = new MovSimRandomComponent(((0.1-0)));
 		return randomComponent;
 	}
 
