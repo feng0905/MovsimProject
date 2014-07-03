@@ -178,7 +178,7 @@ public class MovSimState extends AbstractState
 	public long distance(AbstractState sample)
 	{
 		MovSimState samplePF = (MovSimState) sample;
-		return (long) (this.movsimPF.CalDistance(samplePF.movsimPF)*100000);
+		return (long) (this.movsimPF.CalDistance(samplePF.movsimPF)*100000000);
 	}
 
 	// not-supported functions

@@ -10,7 +10,7 @@ public class ExpTest
 {
 	public static void main(String[] args)
 	{
-		int particleN = 10;
+		int particleN = 300;
 		int kernelN = 10;
 		int stepLength = 120;
 		KernelFunction kernel =  new KernelEstimationProposalWeight.GaussianKernel();

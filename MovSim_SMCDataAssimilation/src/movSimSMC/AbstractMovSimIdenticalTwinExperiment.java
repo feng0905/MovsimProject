@@ -39,9 +39,6 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		} catch (SAXException e) {
 			e.printStackTrace();
 		}
-		sim.setSimStep(10);
-		
-		
 		
 		return sim;
 	}
@@ -53,7 +50,6 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		MovSimState sim = null;
 		try {
 			sim = new MovSimState(stepLength);
-			sim.setSimStep(10);
 			sim.createObstacle(30, 2, 2);
 			
 		} catch (JAXBException e) {
