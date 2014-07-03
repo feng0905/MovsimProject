@@ -152,7 +152,8 @@ public class MovSimState extends AbstractState
 			weight = weight.multiply(BigDecimal.valueOf(normResult));
 		}
 
-		return weight;
+		//return weight;
+		return BigDecimal.ONE;
 	}
 	
 	static class MovSimSensorReadings extends AbstractMeasurement{
