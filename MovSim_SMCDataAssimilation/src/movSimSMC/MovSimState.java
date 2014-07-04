@@ -19,7 +19,6 @@ public class MovSimState extends AbstractState
 {
 	private MovsimWrap movsimPF; 
 	private double stepLength = 10;			// seconds
-	private double accidentP = 0.5;  // t
 	
 	// clone a state
 	public MovSimState clone(){
@@ -104,9 +103,12 @@ public class MovSimState extends AbstractState
 		} catch (JAXBException | SAXException e) {
 			e.printStackTrace();
 		}
-	    nextState.addRandomComponent(randomMovSim.getRandom());
+		
+		// the randomness of each car
+	    if(GlobalConstants.TRANSITION_MOVE_RANDOMNESS)
+	    	nextState.addRandomComponent(randomMovSim.getRandom());
 	    
-	    if (GlobalConstants.G_RAND.nextDouble() <= this.accidentP) {
+	    if (GlobalConstants.G_RAND.nextDouble() <= GlobalConstants.TRANSITION_ACCIDENT_RATE) {
 			//place a random obstacle
 	        nextState.placeRandomObstacle(GlobalConstants.G_RAND);
 		}
