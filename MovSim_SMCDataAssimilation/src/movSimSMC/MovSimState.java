@@ -130,7 +130,7 @@ public class MovSimState extends AbstractState
 	{
 		List<MovSimSensor> sensorReadings = ((MovSimMeasurement)measurement).sensors;
 		List<MovSimSensor> simulatedSensorReadings = this.movsimPF.getSensorReading();
-		double sigma = 50;  
+		double sigma = sensorReadings.get(0).getMaxValue() / 4.0; 
 
 		/*
 		 * double variance = sigma*sigma;
