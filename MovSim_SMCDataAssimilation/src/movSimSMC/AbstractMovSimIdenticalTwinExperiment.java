@@ -30,7 +30,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 	
 	@Override
 	// create and return the simulated system
-	protected AbstractState createSimulatedSystem()
+	public AbstractState createSimulatedSystem()
 	{
 		MovSimState sim = null;
 		try {
@@ -45,15 +45,17 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 	}
 
 	@Override
+	
 	// create and return the real system
-	protected AbstractState createRealSystem()
+	public AbstractState createRealSystem()
 	{
 		MovSimState sim = null;
 		try {
 			sim = new MovSimState(stepLength);
 			int road = 3;
 			int lane = 2;
-			sim.createObstacle(600, road, lane);
+			int accidentTime = 500;
+			sim.createObstacle(accidentTime, road, lane);
 			
 		} catch (JAXBException e) {
 			e.printStackTrace();
