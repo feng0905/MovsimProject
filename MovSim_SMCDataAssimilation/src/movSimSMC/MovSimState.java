@@ -83,10 +83,9 @@ public class MovSimState extends AbstractState
 			nextState = movsimPF.duplicate();
 		} catch (JAXBException | SAXException e) {
 			e.printStackTrace();
+			System.out.print("Duplicate Movsim in transition failed");
 		}
-//	    if (nextState == null) {
-//	    	return null;
-//		}
+
 		
 	    nextState.runFor(stepLength);
 	    //System.out.println("transition finished");
