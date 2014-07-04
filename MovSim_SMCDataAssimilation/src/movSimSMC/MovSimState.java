@@ -8,6 +8,7 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.movsim.simulator.roadnetwork.MovSimSensor;
+import org.movsim.simulator.roadnetwork.MovSimSensor.ValueType;
 import org.xml.sax.SAXException;
 
 import movsimSMC.MovsimWrap;
@@ -58,7 +59,7 @@ public class MovSimState extends AbstractState
 		this.stepLength = stepLength;
 		String baseDir = System.getProperty("user.dir");
 		String[] args = { "-f", baseDir + "\\sim\\buildingBlocks\\startStop.xprj" };
-  		movsimPF = new MovsimWrap(args);
+  		movsimPF = new MovsimWrap(args,ValueType.TOTALSPEED);
 	}
 	
 	MovSimState(MovsimWrap movsimPF){
