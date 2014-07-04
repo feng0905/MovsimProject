@@ -7,7 +7,7 @@ public class BootstrapExpTest
 
 	public static void main(String[] args)
 	{
-		int particleN = 50;
+		int particleN = 200;
 		int stepLength = 120;
 		int stepN = 20;
 		
