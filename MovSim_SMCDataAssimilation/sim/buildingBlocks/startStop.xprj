@@ -24,8 +24,8 @@
     <Scenario network_filename="startStop.xodr">
         <Simulation timestep="0.2" duration="3600" seed="42">
             <TrafficComposition>
-                <VehicleType label="IDM1" fraction="0.5" />
-                <VehicleType label="ACC1" fraction="0.5" />
+                <VehicleType label="IDM1" fraction="0.01" />
+                <VehicleType label="ACC1" fraction="0.99" />
 				<VehicleType label="Obstacle" fraction="0" />
             </TrafficComposition>			
             <Road id="1">
