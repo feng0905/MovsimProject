@@ -64,7 +64,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 
 	// record/display results
 	int reportTime = 0; // the time, after it results will be recorded
-	boolean reportFigure = false; // the flag indicating if display a figure
+	boolean reportFigure = true; // the flag indicating if display a figure
 	boolean reportError = true; // the flag indicating if record errors
 	
 	static class MovSimSMCResult{
