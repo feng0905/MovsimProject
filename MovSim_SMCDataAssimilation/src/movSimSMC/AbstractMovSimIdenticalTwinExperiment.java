@@ -120,9 +120,9 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				// Peisheng will implement it
 				ObstacleCanvas obstacleCanvas = new ObstacleCanvas(new ArrayList<>(Arrays.asList(movSimParticleSystems)),"Obstacle Canvas, step "+ step+ " time " + step*stepLength);
 				obstacleCanvas.addRealObstacle(realSys);
-				new SmcSimulationCanvas(realSys,"Real System, step "+step+ " time " + step*stepLength);
-				new SmcSimulationCanvas(simSys,"Simulated System, step " +step+ " time " + step*stepLength );
-				new SmcSimulationCanvas(filteredSys, "Filtered System, step "+step+ " time " + step*stepLength);
+				new SmcSimulationCanvas(realSys,"Real System, step "+step+ " time " + step*stepLength + " simulatd time" + realSys.getSimulationTime());
+				new SmcSimulationCanvas(simSys,"Simulated System, step " +step+ " time " + step*stepLength + " simulatd time" + simSys.getSimulationTime());
+				new SmcSimulationCanvas(filteredSys, "Filtered System, step "+step+ " time " + step*stepLength + " simulatd time" + filteredSys.getSimulationTime());
 				//new SmcSimulationCanvas(simSys.simulator,"Simulated System");
 			}
 			
