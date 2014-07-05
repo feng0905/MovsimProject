@@ -210,7 +210,11 @@ public class MovSimState extends AbstractState
 	@Override
 	public AbstractState propose(AbstractMeasurement measurement) throws StateFunctionNotSupportedException, Exception
 	{
-		return this.transitionModel(drawNextRandomComponentSample());
+		MovSimState nextMovSimState = (MovSimState) this.transitionModel(drawNextRandomComponentSample());
+		MovSimMeasurement movSimMeasurement =  (MovSimMeasurement) measurement;
+		nextMovSimState.movsimPF.setStates(movSimMeasurement.sensors, 5, GlobalConstants.G_RAND);
+		
+		return nextMovSimState;
 		//return this.transitionFunction();
 	}
 
