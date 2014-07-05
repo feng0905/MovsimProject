@@ -8,6 +8,7 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.movsim.simulator.roadnetwork.MovSimSensor;
+import org.movsim.simulator.roadnetwork.MovSimSensor2;
 import org.xml.sax.SAXException;
 
 import movsimSMC.MovsimWrap;
@@ -130,7 +131,7 @@ public class MovSimState extends AbstractState
 		List<MovSimSensor> sensorReadings = ((MovSimMeasurement)measurement).sensors;
 		List<MovSimSensor> simulatedSensorReadings = this.movsimPF.getSensorReading();
 		//double sigma = sensorReadings.get(0).getMaxValue() / 4.0; 
-		double sigma = 130;
+		double sigma = 0.4;
 		/*
 		 * double variance = sigma*sigma;
 		 * 
@@ -144,7 +145,7 @@ public class MovSimState extends AbstractState
 		BigDecimal weight = BigDecimal.ONE;
 		for (int i = 0; i < sensorReadings.size(); i++)
 		{
-			double normResult = norm.density(sensorReadings.get(i).distance(simulatedSensorReadings.get(i)));
+			double normResult = norm.density(singleSensorNormlizedDistance(sensorReadings.get(i), simulatedSensorReadings.get(i)));
 			double minNorm = 1E-300; // if not doing so, a small value will become 0, and mess up the weight
 			if (normResult < minNorm) normResult = minNorm;
 			
@@ -155,6 +156,21 @@ public class MovSimState extends AbstractState
 
 		return weight;
 		//return BigDecimal.ONE;
+	}
+	
+	private double singleSensorNormlizedDistance( MovSimSensor ss1, MovSimSensor ss2 )
+	{
+		MovSimSensor2 s1 = (MovSimSensor2)ss1;
+		MovSimSensor2 s2 = (MovSimSensor2)ss2;
+		// normalize speed
+		double norSpeedDiff = Math.abs(s1.getAvgSpeed() - s2.getAvgSpeed()) / (s1.getMaxSpeed() - s1.getMinSpeed()); 
+		// normalize acceleration
+		double norAccDiff = Math.abs(s1.getAvgAcc() - s2.getAvgAcc()) / (s1.getMaxAcc() - s1.getMinAcc());
+		// normalize vehicle number
+		double norCarNumberDiff = Math.abs(s1.getVehNumber() - s2.getVehNumber()) / (s1.getMaxVehNumber() - s1.getMinVehNumber());
+		
+		return (norSpeedDiff + norAccDiff + norCarNumberDiff) / 3;
+		
 	}
 	
 	static class MovSimSensorReadings extends AbstractMeasurement{
