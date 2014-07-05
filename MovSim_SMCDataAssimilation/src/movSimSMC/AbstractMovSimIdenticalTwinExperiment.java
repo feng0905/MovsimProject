@@ -54,7 +54,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 			sim = new MovSimState(stepLength);
 			int road = 3;
 			int lane = 2;
-			int accidentTime = 500;
+			int accidentTime = 250;
 			sim.createObstacle(accidentTime, road, lane);
 			
 		} catch (JAXBException e) {
