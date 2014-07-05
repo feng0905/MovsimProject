@@ -95,26 +95,23 @@ public class MovSimState extends AbstractState
 	@Override
 	public AbstractState transitionModel(AbstractTransitionRandomComponent random) throws StateFunctionNotSupportedException
 	{
-		// currently ignore the random component
+		// the random
 		MovSimRandomComponent randomMovSim = (MovSimRandomComponent) random;
-		MovsimWrap nextState = null;
-		try {
-			nextState = movsimPF.duplicate();
-		} catch (JAXBException | SAXException e) {
-			e.printStackTrace();
-		}
+		// clone the current state
+		MovSimState clonedState = this.clone();
 		
-		// the randomness of each car
+		// set random
 	    if(GlobalConstants.TRANSITION_MOVE_RANDOMNESS)
-	    	nextState.addRandomComponent(randomMovSim.getRandom());
+	    	clonedState.movsimPF.addRandomComponent(randomMovSim.getRandom());
 	    
 	    if (GlobalConstants.G_RAND.nextDouble() <= GlobalConstants.TRANSITION_ACCIDENT_RATE) {
 			//place a random obstacle
-	        nextState.placeRandomObstacle(GlobalConstants.G_RAND);
+	    	clonedState.movsimPF.placeRandomObstacle(GlobalConstants.G_RAND);
 		}
 	    
-	    AbstractState s = new MovSimState(nextState);
-		return s.transitionFunction();
+		return clonedState.transitionFunction();
+		
+		//return this.transitionFunction();
 	}
 
 	static class MovSimMeasurement extends AbstractMeasurement{
@@ -157,6 +154,7 @@ public class MovSimState extends AbstractState
 		}
 
 		return weight;
+		//return BigDecimal.ONE;
 	}
 	
 	static class MovSimSensorReadings extends AbstractMeasurement{
