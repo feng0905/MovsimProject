@@ -64,7 +64,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 
 	// record/display results
 	int reportTime = 0; // the time, after it results will be recorded
-	boolean reportFigure = true; // the flag indicating if display a figure
+	boolean reportFigure = false; // the flag indicating if display a figure
 	boolean reportError = true; // the flag indicating if record errors
 	
 	static class MovSimSMCResult{
@@ -72,14 +72,15 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		public double simError; // the distance between real system and simulated system
 		public double filteredError; // the distance from real system and the best particle
 		
-		List<List<Double>> segmentDensities = new ArrayList<>(); // the density on each segment, 0-real, 1-sim, 2-best particle
-		List<List<Double>> segmentAvgSpeeds = new ArrayList<>(); // the speed on each segment, 0-real, 1-sim, 2-best particle
+		List<List<Double>> segmentDensities = new ArrayList<List<Double>>(); // the density on each segment, 0-real, 1-sim, 2-best particle
+		List<List<Double>> segmentAvgSpeeds = new ArrayList<List<Double>>(); // the speed on each segment, 0-real, 1-sim, 2-best particle
 	}
-	List<MovSimSMCResult> expResults = new ArrayList<>(); // the container containing results
+	List<MovSimSMCResult> expResults = new ArrayList<MovSimSMCResult>(); // the container containing results
 	
 	@Override
 	protected void reportOnStep(int step) throws Exception
 	{	
+		//System.out.println("Reporting results for step-" + step);
 		// the real, sim, and filtered system
 		MovsimWrap realSys = ((MovSimState)this.realSystem).getMovSimWrap(); // the real MovsimWrap object
 		MovsimWrap simSys = ((MovSimState)this.simulatedSystem).getMovSimWrap(); // the simulated MovsimWrap object
@@ -107,7 +108,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		
 		// print particle weights
 		int currentTime = stepLength * step;
-		System.out.print("SMC =============================== Step" + step + " done! Current time = " + currentTime + " Sim-Error: " + result.simError + " Fil-Error: " + result.filteredError);
+		System.out.print("SMC =============================== Step" + step + " done! Current time = " + currentTime + " Sim-Error: " + String.format("%3.4f", result.simError) + " Fil-Error: " + String.format("%3.4f", result.filteredError) );
 		System.out.println(" Memory usage: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000.0 + "MB");
 		
 		if (currentTime > reportTime)
@@ -118,12 +119,11 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				// display the results (draw the accident map)
 				// assume this call is after a re-samling, i.e. the weights on all particles are equal
 				// Peisheng will implement it
-				ObstacleCanvas obstacleCanvas = new ObstacleCanvas(new ArrayList<>(Arrays.asList(movSimParticleSystems)),"Obstacle Canvas, step "+ step+ " time " + step*stepLength);
+				ObstacleCanvas obstacleCanvas = new ObstacleCanvas(new ArrayList<MovsimWrap>(Arrays.asList(movSimParticleSystems)),"Obstacle Canvas, step "+ step+ " time " + step*stepLength);
 				obstacleCanvas.addRealObstacle(realSys);
 				new SmcSimulationCanvas(realSys,"Real System, step "+step+ " time " + step*stepLength);
 				new SmcSimulationCanvas(simSys,"Simulated System, step " +step+ " time " + step*stepLength );
 				new SmcSimulationCanvas(filteredSys, "Filtered System, step "+step+ " time " + step*stepLength);
-				//new SmcSimulationCanvas(simSys.simulator,"Simulated System");
 			}
 			
 			if(reportError)
@@ -154,9 +154,9 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 					writer = new PrintWriter(resultFile);
 					
 					// write error using  writer
-					writer.println( "time\t\tSim Error\t\tFiltered Error");
+					writer.println( "time\tSim Error\tFiltered Error");
 					for( MovSimSMCResult r : this.expResults)
-						writer.println(r.currentTime + "\t\t" + r.simError + "\t\t" + r.filteredError);
+						writer.println(r.currentTime + "\t" + String.format("%2.4f", r.simError) + "\t" + String.format("%2.4f", r.filteredError));
 					
 					writer.close();
 					System.out.println("Saved numeric results.");
@@ -167,6 +167,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				}
 			}
 		}
+		//System.out.println("Reported results for step-" + step);
 	}
 
 }

@@ -19,7 +19,7 @@ public static void main(String[] args) throws JAXBException, SAXException, State
 		/*
 		 * Accident display Test 
 		 */
-		ArrayList<MovsimWrap> list = new ArrayList<MovsimWrap>();
+		/*ArrayList<MovsimWrap> list = new ArrayList<MovsimWrap>();
 		for (int i = 1; i < 40; i++) {
 			MovSimState sim = new MovSimState(10);
 			//list.add(sim);
@@ -28,7 +28,9 @@ public static void main(String[] args) throws JAXBException, SAXException, State
 			list.add(sim.getMovSimWrap());
 		}
 
-		new ObstacleCanvas(list);
+		new ObstacleCanvas(list);*/
+	
+		System.out.println(String.format("%5.4f", 0.05));
 	}
 
 }
