@@ -30,7 +30,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 	
 	@Override
 	// create and return the simulated system
-	public AbstractState createSimulatedSystem()
+	protected AbstractState createSimulatedSystem()
 	{
 		MovSimState sim = null;
 		try {
@@ -52,10 +52,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		MovSimState sim = null;
 		try {
 			sim = new MovSimState(stepLength);
-			int road = 3;
-			int lane = 2;
-			int accidentTime = 250;
-			sim.createObstacle(accidentTime, road, lane);
+			sim.createObstacle(250, 3, 2);
 			
 		} catch (JAXBException e) {
 			e.printStackTrace();
@@ -99,9 +96,6 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		// put result into "result"
 		result.currentTime = step * stepLength;
 		result.simError = realSys.CalDensityDistance(simSys, 0);
-		
-		System.out.println("!!!!!!!!!!!!!!! Self Error: " + realSys.CalDensityDistance(realSys, 0));
-		
 		result.filteredError = realSys.CalDensityDistance(filteredSys, 0);
 		result.segmentAvgSpeeds.add(realSys.getAvgSpeeds());
 		result.segmentAvgSpeeds.add(simSys.getAvgSpeeds());
@@ -126,11 +120,10 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				// Peisheng will implement it
 				ObstacleCanvas obstacleCanvas = new ObstacleCanvas(new ArrayList<>(Arrays.asList(movSimParticleSystems)),"Obstacle Canvas, step "+ step+ " time " + step*stepLength);
 				obstacleCanvas.addRealObstacle(realSys);
-			
 				new SmcSimulationCanvas(realSys,"Real System, step "+step+ " time " + step*stepLength);
-				//new SmcSimulationCanvas(simSys,"Simulated System, step " +step+ " time " + step*stepLength );
+				new SmcSimulationCanvas(simSys,"Simulated System, step " +step+ " time " + step*stepLength );
 				new SmcSimulationCanvas(filteredSys, "Filtered System, step "+step+ " time " + step*stepLength);
-				
+				//new SmcSimulationCanvas(simSys.simulator,"Simulated System");
 			}
 			
 			if(reportError)
