@@ -11,7 +11,7 @@ public class SenSimExpTest
 	public static void main(String[] args)
 	{
 		int particleN = 10;
-		int kernelN = 5;
+		int kernelN = 1;
 		int stepLength = 180;
 		int stepN = 7;
 		
