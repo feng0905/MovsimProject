@@ -15,7 +15,7 @@ public class BootstrapExpTest
 		try
 		{
 			exp.runDataAssimilationExperiement(stepN, particleN);
-		}
+		} 
 		catch (Exception e)
 		{
 			e.printStackTrace();

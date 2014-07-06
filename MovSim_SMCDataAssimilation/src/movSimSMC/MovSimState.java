@@ -235,7 +235,7 @@ public class MovSimState extends AbstractState
 		MovSimState samplePF = (MovSimState) sample;
 		double dis = this.movsimPF.CalDistance(samplePF.movsimPF);
 		//System.out.println("State Distance: " + dis + " " + ((long) (dis*100000000)));
-		return (long) (dis*100000000);
+		return (long) (dis*100);
 	}
 
 	// not-supported functions
