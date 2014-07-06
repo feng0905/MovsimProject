@@ -212,7 +212,9 @@ public class MovSimState extends AbstractState
 	{
 		MovSimState nextMovSimState = (MovSimState) this.transitionModel(drawNextRandomComponentSample());
 		MovSimMeasurement movSimMeasurement =  (MovSimMeasurement) measurement;
-		nextMovSimState.movsimPF.setStates(movSimMeasurement.sensors, 5, GlobalConstants.G_RAND);
+		double proposalAccThreshold = 5;
+		double proposalAccRate = 0.5;
+		nextMovSimState.movsimPF.setStates(movSimMeasurement.sensors, proposalAccThreshold, GlobalConstants.G_RAND);
 		
 		return nextMovSimState;
 		// return this.transitionFunction();
