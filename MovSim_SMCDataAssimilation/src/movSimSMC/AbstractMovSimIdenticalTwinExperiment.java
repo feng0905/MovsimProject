@@ -64,7 +64,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 
 	// record/display results
 	int reportTime = 0; // the time, after it results will be recorded
-	boolean reportFigure = true; // the flag indicating if display a figure
+	boolean reportFigure = false; // the flag indicating if display a figure
 	boolean reportError = true; // the flag indicating if record errors
 	
 	static class MovSimSMCResult{
@@ -114,7 +114,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		if (currentTime > reportTime)
 		{
 			// if reportFigure : Draw accident map 
-			if (reportFigure)
+			if (reportFigure && (step==1 || step==4 || step==7 || step==10 ))
 			{
 				// display the results (draw the accident map)
 				// assume this call is after a re-samling, i.e. the weights on all particles are equal
