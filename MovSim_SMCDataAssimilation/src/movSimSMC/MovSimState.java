@@ -201,13 +201,6 @@ public class MovSimState extends AbstractState
 	}
 	
 	@Override
-	public BigDecimal proposalPdf(AbstractMeasurement measurement) throws StateFunctionNotSupportedException
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public AbstractState propose(AbstractMeasurement measurement) throws StateFunctionNotSupportedException, Exception
 	{
 		MovSimState nextMovSimState = (MovSimState) this.transitionModel(drawNextRandomComponentSample());
@@ -241,6 +234,13 @@ public class MovSimState extends AbstractState
 	}
 
 	// not-supported functions
+	@Override
+	public BigDecimal proposalPdf(AbstractMeasurement measurement) throws StateFunctionNotSupportedException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	@Override
 	public BigDecimal transitionPdf(AbstractState nextState) throws StateFunctionNotSupportedException
 	{
