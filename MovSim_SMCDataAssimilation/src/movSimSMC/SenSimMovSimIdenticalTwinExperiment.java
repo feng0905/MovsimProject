@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import smc.AbstractParticleSystem;
 import smc.Particle;
-import smc.specialParticleSystems.HaidongFilter;
+import smc.specialParticleSystems.SenSimFilter;
 import smc.weightUpdatingStrategies.KernelEstimationProposalWeight.KernelFunction;
 
 public class SenSimMovSimIdenticalTwinExperiment extends AbstractMovSimIdenticalTwinExperiment
@@ -27,6 +27,6 @@ public class SenSimMovSimIdenticalTwinExperiment extends AbstractMovSimIdentical
 	@Override
 	protected AbstractParticleSystem createParticleSystem(Vector<Particle> particleSet)
 	{
-		return new HaidongFilter(particleSet, kernelParticleNumbers, this.kernel, this.bandWidth);
+		return new SenSimFilter(particleSet, kernelParticleNumbers, this.kernel, this.bandWidth);
 	}
 }

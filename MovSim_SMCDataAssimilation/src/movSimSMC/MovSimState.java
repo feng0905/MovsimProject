@@ -205,12 +205,20 @@ public class MovSimState extends AbstractState
 	{
 		MovSimState nextMovSimState = (MovSimState) this.transitionModel(drawNextRandomComponentSample());
 		MovSimMeasurement movSimMeasurement =  (MovSimMeasurement) measurement;
-		double proposalLowAccThreshold = 3;
-		double proposalHighThreshold = 25;
-		double proposalAccRate = 0.5;
+		
+		
+		// about removing accident
+		double proposalHighThreshold = 10;
 		boolean removeAcc = false;
+		
+		// about adding accident
+		double proposalLowAccThreshold = 3;
+		double proposalAccRate = 1;
+		
+		// about speed and acceleration
 		boolean changeSpeed = false;
 		boolean changeAcceleration = false;
+		
 		nextMovSimState.movsimPF.setStates(
 				movSimMeasurement.sensors,
 				proposalLowAccThreshold, 
