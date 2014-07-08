@@ -64,12 +64,13 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 
 	// record/display results
 	int reportTime = 0; // the time, after it results will be recorded
-	boolean reportFigure = false; // the flag indicating if display a figure
+	boolean reportFigure = GlobalConstants.SHOW_FIG; // the flag indicating if display a figure
 	boolean reportError = true; // the flag indicating if record errors
 	
 	static class MovSimSMCResult{
 		public double currentTime;  // the current time
 		public double simError; // the distance between real system and simulated system
+		public double bestParticleError;
 		public double filteredError; // the distance from real system and the best particle
 		
 		List<List<Double>> segmentDensities = new ArrayList<List<Double>>(); // the density on each segment, 0-real, 1-sim, 2-best particle
@@ -84,7 +85,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		// the real, sim, and filtered system
 		MovsimWrap realSys = ((MovSimState)this.realSystem).getMovSimWrap(); // the real MovsimWrap object
 		MovsimWrap simSys = ((MovSimState)this.simulatedSystem).getMovSimWrap(); // the simulated MovsimWrap object
-		MovsimWrap filteredSys = ((MovSimState) particleSystem.getHighestWeightParticle().state).getMovSimWrap();
+		MovsimWrap bestParticleSys = ((MovSimState) particleSystem.getHighestWeightParticle().state).getMovSimWrap();
 		
 		Vector<Particle> particleSet = this.particleSystem.getParticleSet(); // the particles 
 		MovsimWrap[] movSimParticleSystems = new MovsimWrap[particleSet.size()]; // the systems on particles
@@ -97,13 +98,19 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		// put result into "result"
 		result.currentTime = step * stepLength;
 		result.simError = realSys.CalDensityDistance(simSys, 0);
-		result.filteredError = realSys.CalDensityDistance(filteredSys, 0);
+		result.bestParticleError = realSys.CalDensityDistance(bestParticleSys, 0);
+		result.filteredError = 0;
+		for( Particle p : this.particleSystem.getParticleSet()){
+			MovsimWrap pSys = ((MovSimState)p.state).getMovSimWrap();
+			result.filteredError += realSys.CalDensityDistance(pSys, 0) * p.weight.doubleValue();
+		}
+		
 		result.segmentAvgSpeeds.add(realSys.getAvgSpeeds());
 		result.segmentAvgSpeeds.add(simSys.getAvgSpeeds());
-		result.segmentAvgSpeeds.add(filteredSys.getAvgSpeeds());
+		result.segmentAvgSpeeds.add(bestParticleSys.getAvgSpeeds());
 		result.segmentDensities.add(realSys.getSegmentDensities());
 		result.segmentDensities.add(simSys.getSegmentDensities());
-		result.segmentDensities.add(filteredSys.getSegmentDensities());
+		result.segmentDensities.add(bestParticleSys.getSegmentDensities());
 		expResults.add(result);
 		
 		// print particle weights
@@ -123,7 +130,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				obstacleCanvas.addRealObstacle(realSys);
 				new SmcSimulationCanvas(realSys,"Real System, step "+step+ " time " + step*stepLength + " simulatd time" + realSys.getSimulationTime());
 				new SmcSimulationCanvas(simSys,"Simulated System, step " +step+ " time " + step*stepLength + " simulatd time" + simSys.getSimulationTime());
-				new SmcSimulationCanvas(filteredSys, "Filtered System, step "+step+ " time " + step*stepLength + " simulatd time" + filteredSys.getSimulationTime());
+				new SmcSimulationCanvas(bestParticleSys, "Filtered System, step "+step+ " time " + step*stepLength + " simulatd time" + bestParticleSys.getSimulationTime());
 			}
 			
 			if(reportError)
@@ -154,9 +161,13 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 					writer = new PrintWriter(resultFile);
 					
 					// write error using  writer
-					writer.println( "time\tSim Error\tFiltered Error");
+					writer.println(this.particleSystem.getClass());
+					writer.println( " N=" + this.particleSystem.getParticleSet().size() + " Seed=" + GlobalConstants.RANDOM_SEED);
+					writer.println( " TransitionAccRate=" + GlobalConstants.TRANSITION_ACCIDENT_RATE);
+					
+					writer.println( "Time\tSimulated Error\tBest Particle Error\tFiltered Error");
 					for( MovSimSMCResult r : this.expResults)
-						writer.println(r.currentTime + "\t" + String.format("%2.4f", r.simError) + "\t" + String.format("%2.4f", r.filteredError));
+						writer.println(r.currentTime + "\t" + String.format("%2.4f", r.simError) + "\t" + String.format("%2.4f", r.bestParticleError)+ "\t" + String.format("%2.4f", r.filteredError));
 					
 					writer.close();
 					System.out.println("Saved numeric results.");

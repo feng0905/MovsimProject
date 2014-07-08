@@ -1,16 +1,8 @@
 package movSimSMC.test;
 
-import java.util.ArrayList;
-
 import javax.xml.bind.JAXBException;
-
 import org.xml.sax.SAXException;
-
 import smc.AbstractState.StateFunctionNotSupportedException;
-import movSimSMC.GlobalConstants;
-import movSimSMC.MovSimState;
-import movsimSMC.MovsimWrap;
-import movsimSMC.Paint.ObstacleCanvas;
 
 public class TestAccidentMap {
 

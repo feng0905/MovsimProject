@@ -187,8 +187,8 @@ public class MovSimState extends AbstractState
 		//System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
 		
 		// weights on factors
-		double numberWeight = 0.5;
-		double speedWeight = 0.3;
+		double numberWeight = 0.3;
+		double speedWeight = 0.7;
 		double accWeight = 1 - numberWeight-speedWeight;
 		
 		
@@ -207,7 +207,9 @@ public class MovSimState extends AbstractState
 		MovSimMeasurement movSimMeasurement =  (MovSimMeasurement) measurement;
 		double proposalAccThreshold = 3;
 		double proposalAccRate = 0.5;
-		nextMovSimState.movsimPF.setStates(movSimMeasurement.sensors, proposalAccThreshold, GlobalConstants.G_RAND, proposalAccRate, true, true);
+		boolean changeSpeed = false;
+		boolean changeAcceleration = false;
+		nextMovSimState.movsimPF.setStates(movSimMeasurement.sensors, proposalAccThreshold, GlobalConstants.G_RAND, proposalAccRate, changeSpeed, changeAcceleration);
 		
 		return nextMovSimState;
 		// return this.transitionFunction();
