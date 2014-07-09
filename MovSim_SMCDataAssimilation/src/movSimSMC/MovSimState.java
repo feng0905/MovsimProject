@@ -103,6 +103,9 @@ public class MovSimState extends AbstractState
 	    	//System.out.println("---------------the random: " + randomMovSim.getRandom());
 	    }
 	    
+	    if (GlobalConstants.TRANSITION_RANDOM_SHIFT)
+	    	clonedState.movsimPF.shiftTraffic(1);
+	    
 	    if (GlobalConstants.G_RAND.nextDouble() < GlobalConstants.TRANSITION_ACCIDENT_RATE) {
 			//place a random obstacle
 	    	clonedState.movsimPF.placeRandomObstacle(GlobalConstants.G_RAND);
@@ -145,7 +148,7 @@ public class MovSimState extends AbstractState
 		List<MovSimSensor> sensorReadings = ((MovSimMeasurement)measurement).sensors;
 		List<MovSimSensor> simulatedSensorReadings = this.movsimPF.getSensorReading();
 		//double sigma = sensorReadings.get(0).getMaxValue() / 4.0; 
-		double sigma = 0.2;
+		double sigma = 0.1;
 		/*
 		 * double variance = sigma*sigma;
 		 * 
@@ -208,12 +211,12 @@ public class MovSimState extends AbstractState
 		
 		
 		// about removing accident
-		double proposalHighThreshold = 10;
+		double proposalHighThreshold = 15;
 		boolean removeAcc = true;
 		
 		// about adding accident
-		double proposalLowAccThreshold = 5;
-		double proposalAccRate = 0.8;
+		double proposalLowAccThreshold = 8;
+		double proposalAccRate = 0.5;
 		
 		// about speed and acceleration
 		boolean changeSpeed = false;
