@@ -11,6 +11,7 @@ import org.movsim.simulator.roadnetwork.MovSimSensor2;
 import org.xml.sax.SAXException;
 
 import movsimSMC.MovsimWrap;
+import movsimSMC.Paint.SmcSimulationCanvas;
 import smc.AbstractState;
 
 
@@ -104,7 +105,9 @@ public class MovSimState extends AbstractState
 	    }
 	    
 	    if (GlobalConstants.TRANSITION_RANDOM_SHIFT)
-	    	clonedState.movsimPF.shiftTraffic(1);
+	    {
+	    	clonedState.movsimPF.shiftTraffic(GlobalConstants.G_RAND.nextGaussian()*10);
+	    }
 	    
 	    if (GlobalConstants.G_RAND.nextDouble() < GlobalConstants.TRANSITION_ACCIDENT_RATE) {
 			//place a random obstacle
