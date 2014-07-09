@@ -97,7 +97,7 @@ public class MovSimState extends AbstractState
 		MovSimState clonedState = this.clone();
 		
 		// set random
-	    if(GlobalConstants.TRANSITION_MOVE_RANDOMNESS)
+	    if(GlobalConstants.TRANSITION_BEHAVIOR_RANDOM)
 	    {
 	    	//System.out.println("Behavior model randomness added");
 	    	clonedState.movsimPF.addRandomComponent(randomMovSim.getRandom());
@@ -106,7 +106,15 @@ public class MovSimState extends AbstractState
 	    
 	    if (GlobalConstants.TRANSITION_RANDOM_SHIFT)
 	    {
-	    	clonedState.movsimPF.shiftTraffic(GlobalConstants.G_RAND.nextGaussian()*10);
+	    	// move on x direction
+	    	clonedState.movsimPF.shiftTraffic(GlobalConstants.G_RAND.nextGaussian()*GlobalConstants.SHIFT_X_SIGMA);
+	    	
+	    	// move on y direction
+	    	double yRoll = GlobalConstants.G_RAND.nextDouble();
+	    	if(yRoll>GlobalConstants.SHIFT_Y_THRESHOLD)
+	    		;
+	    	else if(yRoll<-GlobalConstants.SHIFT_Y_THRESHOLD)
+	    		;
 	    }
 	    
 	    if (GlobalConstants.G_RAND.nextDouble() < GlobalConstants.TRANSITION_ACCIDENT_RATE) {
