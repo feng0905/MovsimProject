@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.Vector;
 
 import javax.xml.bind.JAXBException;
@@ -52,7 +53,8 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		MovSimState sim = null;
 		try {
 			sim = new MovSimState(stepLength);
-			sim.createObstacle(250, 3, 2);
+			//sim.createObstacle(250, 3, 2);
+			sim.createObstacle(245, 3, 2);
 			
 		} catch (JAXBException e) {
 			e.printStackTrace();
@@ -85,7 +87,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		// the real, sim, and filtered system
 		MovsimWrap realSys = ((MovSimState)this.realSystem).getMovSimWrap(); // the real MovsimWrap object
 		MovsimWrap simSys = ((MovSimState)this.simulatedSystem).getMovSimWrap(); // the simulated MovsimWrap object
-		MovsimWrap bestParticleSys = ((MovSimState) particleSystem.getHighestWeightParticle().state).getMovSimWrap();
+		MovsimWrap bestParticleSys = ((MovSimState) particleSystem.getBestParticleBeforeResampling().state).getMovSimWrap();
 		
 		Vector<Particle> particleSet = this.particleSystem.getParticleSet(); // the particles 
 		MovsimWrap[] movSimParticleSystems = new MovsimWrap[particleSet.size()]; // the systems on particles
@@ -121,7 +123,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		if (currentTime > reportTime)
 		{
 			// if reportFigure : Draw accident map 
-			if (reportFigure && (step==1 || step==4 || step==7 || step==10 ))
+			if (reportFigure && (step==1 || step==2 || step==3 || step==4 || step==7 || step==10 ))
 			{
 				// display the results (draw the accident map)
 				// assume this call is after a re-samling, i.e. the weights on all particles are equal

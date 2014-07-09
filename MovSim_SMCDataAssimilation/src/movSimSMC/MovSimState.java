@@ -103,7 +103,7 @@ public class MovSimState extends AbstractState
 	    	//System.out.println("---------------the random: " + randomMovSim.getRandom());
 	    }
 	    
-	    if (GlobalConstants.G_RAND.nextDouble() <= GlobalConstants.TRANSITION_ACCIDENT_RATE) {
+	    if (GlobalConstants.G_RAND.nextDouble() < GlobalConstants.TRANSITION_ACCIDENT_RATE) {
 			//place a random obstacle
 	    	clonedState.movsimPF.placeRandomObstacle(GlobalConstants.G_RAND);
 		}
@@ -187,8 +187,8 @@ public class MovSimState extends AbstractState
 		//System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
 		
 		// weights on factors
-		double numberWeight = 0.3;
-		double speedWeight = 0.7;
+		double numberWeight = 0.5;
+		double speedWeight = 0.3;
 		double accWeight = 1 - numberWeight-speedWeight;
 		
 		
@@ -209,11 +209,11 @@ public class MovSimState extends AbstractState
 		
 		// about removing accident
 		double proposalHighThreshold = 10;
-		boolean removeAcc = false;
+		boolean removeAcc = true;
 		
 		// about adding accident
-		double proposalLowAccThreshold = 3;
-		double proposalAccRate = 1;
+		double proposalLowAccThreshold = 5;
+		double proposalAccRate = 0.8;
 		
 		// about speed and acceleration
 		boolean changeSpeed = false;
