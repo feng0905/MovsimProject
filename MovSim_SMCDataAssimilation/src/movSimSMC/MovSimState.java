@@ -103,14 +103,17 @@ public class MovSimState extends AbstractState
 	    	//System.out.println("---------------the random: " + randomMovSim.getRandom());
 	    }
 	    
-	    if (GlobalConstants.TRANSITION_RANDOM_SHIFT)
-	    	clonedState.movsimPF.shiftTraffic(1);
+	   
 	    
 	    if (GlobalConstants.G_RAND.nextDouble() < GlobalConstants.TRANSITION_ACCIDENT_RATE) {
 			//place a random obstacle
 	    	clonedState.movsimPF.placeRandomObstacle(GlobalConstants.G_RAND);
 		}
 		
+	    if (GlobalConstants.TRANSITION_RANDOM_SHIFT)
+	    	clonedState.movsimPF.shiftTraffic(20);
+	    
+	    
 	    clonedState.movsimPF.runFor(stepLength);
 	    
 	    
