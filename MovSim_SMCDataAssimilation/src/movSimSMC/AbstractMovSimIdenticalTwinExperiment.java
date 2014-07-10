@@ -123,7 +123,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		if (currentTime > reportTime)
 		{
 			// if reportFigure : Draw accident map 
-			if (reportFigure && (step==1 || step==2 || step==3 || step==4 || step==7 || step==8 || step==9 || step==10 ))
+			if (reportFigure/* && (step==1 || step==2 || step==3 || step==4 || step==7 || step==8 || step==9 || step==10 )*/)
 			{
 				// display the results (draw the accident map)
 				// assume this call is after a re-samling, i.e. the weights on all particles are equal

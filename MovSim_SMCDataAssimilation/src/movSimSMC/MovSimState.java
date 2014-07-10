@@ -112,9 +112,9 @@ public class MovSimState extends AbstractState
 	    	// move on y direction
 	    	double yRoll = GlobalConstants.G_RAND.nextDouble();
 	    	if(yRoll>GlobalConstants.SHIFT_Y_THRESHOLD)
-	    		;
+	    		clonedState.movsimPF.rollupLane();
 	    	else if(yRoll<-GlobalConstants.SHIFT_Y_THRESHOLD)
-	    		;
+	    		clonedState.movsimPF.rolldownLane();
 	    }
 	    
 	    if (GlobalConstants.G_RAND.nextDouble() < GlobalConstants.TRANSITION_ACCIDENT_RATE) {
@@ -259,12 +259,12 @@ public class MovSimState extends AbstractState
 	}
 
 	@Override
-	public long distance(AbstractState sample)
+	public double distance(AbstractState sample)
 	{
 		MovSimState samplePF = (MovSimState) sample;
 		double dis = this.movsimPF.CalDistance(samplePF.movsimPF);
 		//System.out.println("State Distance: " + dis + " " + ((long) (dis*100000000)));
-		return (long) (dis*100);
+		return dis;
 	}
 
 	// not-supported functions
