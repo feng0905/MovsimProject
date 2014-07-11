@@ -11,6 +11,7 @@ import org.movsim.simulator.roadnetwork.MovSimSensor2;
 import org.xml.sax.SAXException;
 
 import movsimSMC.MovsimWrap;
+import movsimSMC.Paint.SmcSimulationCanvas;
 import smc.AbstractState;
 
 
@@ -96,24 +97,31 @@ public class MovSimState extends AbstractState
 		MovSimState clonedState = this.clone();
 		
 		// set random
-	    if(GlobalConstants.TRANSITION_MOVE_RANDOMNESS)
+	    if(GlobalConstants.TRANSITION_BEHAVIOR_RANDOM)
 	    {
 	    	//System.out.println("Behavior model randomness added");
 	    	clonedState.movsimPF.addRandomComponent(randomMovSim.getRandom());
 	    	//System.out.println("---------------the random: " + randomMovSim.getRandom());
 	    }
 	    
-	   
+	    if (GlobalConstants.TRANSITION_RANDOM_SHIFT)
+	    {
+	    	// move on x direction
+	    	clonedState.movsimPF.shiftTraffic(GlobalConstants.G_RAND.nextGaussian()*GlobalConstants.SHIFT_X_SIGMA);
+	    	
+	    	// move on y direction
+	    	double yRoll = GlobalConstants.G_RAND.nextDouble();
+	    	if(yRoll>GlobalConstants.SHIFT_Y_THRESHOLD)
+	    		clonedState.movsimPF.rollupLane();
+	    	else if(yRoll<-GlobalConstants.SHIFT_Y_THRESHOLD)
+	    		clonedState.movsimPF.rolldownLane();
+	    }
 	    
 	    if (GlobalConstants.G_RAND.nextDouble() < GlobalConstants.TRANSITION_ACCIDENT_RATE) {
 			//place a random obstacle
 	    	clonedState.movsimPF.placeRandomObstacle(GlobalConstants.G_RAND);
 		}
 		
-	    if (GlobalConstants.TRANSITION_RANDOM_SHIFT)
-	    	clonedState.movsimPF.shiftTraffic(20);
-	    
-	    
 	    clonedState.movsimPF.runFor(stepLength);
 	    
 	    
@@ -251,12 +259,12 @@ public class MovSimState extends AbstractState
 	}
 
 	@Override
-	public long distance(AbstractState sample)
+	public double distance(AbstractState sample)
 	{
 		MovSimState samplePF = (MovSimState) sample;
 		double dis = this.movsimPF.CalDistance(samplePF.movsimPF);
 		//System.out.println("State Distance: " + dis + " " + ((long) (dis*100000000)));
-		return (long) (dis*100);
+		return dis;
 	}
 
 	// not-supported functions
