@@ -8,7 +8,7 @@ public class BootstrapExpTest
 	public static void main(String[] args)
 	{
 		int particleN = Integer.parseInt(args[0]);
-		int stepLength = 180;
+		int stepLength = 15;
 		int stepN = 10;
 		
 		BootstrapMovSimIdenticalTwinExperiment exp = new BootstrapMovSimIdenticalTwinExperiment(stepLength);

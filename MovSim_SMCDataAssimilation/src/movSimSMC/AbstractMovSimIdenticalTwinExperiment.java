@@ -1,7 +1,9 @@
 package movSimSMC;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
+import javax.swing.text.html.ListView;
 import javax.xml.bind.JAXBException;
 
 import movsimSMC.MovsimWrap;
@@ -54,7 +57,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		try {
 			sim = new MovSimState(stepLength);
 			//sim.createObstacle(250, 3, 2);
-			sim.createObstacle(245, 3, 2);
+			sim.createObstacle(15, 1, 2);
 			
 		} catch (JAXBException e) {
 			e.printStackTrace();
@@ -77,6 +80,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		
 		List<List<Double>> segmentDensities = new ArrayList<List<Double>>(); // the density on each segment, 0-real, 1-sim, 2-best particle
 		List<List<Double>> segmentAvgSpeeds = new ArrayList<List<Double>>(); // the speed on each segment, 0-real, 1-sim, 2-best particle
+		List<String> particleReportList = new ArrayList<String>();
 	}
 	List<MovSimSMCResult> expResults = new ArrayList<MovSimSMCResult>(); // the container containing results
 	
@@ -105,6 +109,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		for( Particle p : this.particleSystem.getParticleSet()){
 			MovsimWrap pSys = ((MovSimState)p.state).getMovSimWrap();
 			result.filteredError += realSys.CalDensityDistance(pSys, 0) * p.weight.doubleValue();
+			result.particleReportList.add(pSys.getStateReport());
 		}
 		
 		result.segmentAvgSpeeds.add(realSys.getAvgSpeeds());
@@ -113,6 +118,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		result.segmentDensities.add(realSys.getSegmentDensities());
 		result.segmentDensities.add(simSys.getSegmentDensities());
 		result.segmentDensities.add(bestParticleSys.getSegmentDensities());
+		// result.particleReportList.add(pReportStrings);
 		expResults.add(result);
 		
 		// print particle weights
@@ -178,6 +184,47 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				{
 					e.printStackTrace();
 				}
+			}
+			
+			// report to file system states (average speed) of each particle 
+			if (true) {
+				
+				String resultFolder = "ParticleReports";
+				File folder = new File(resultFolder);
+				if (!folder.exists()) folder.mkdir();
+				
+				String fileName = resultFolder+"/ParticleSpeedReport_" + step + ".txt"; 
+				
+				try {
+									
+		             // Assume default encoding.
+		             FileWriter fileWriter = new FileWriter(fileName);
+
+		             // Always wrap FileWriter in BufferedWriter.
+		             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+		             bufferedWriter.write("Particle:\n");
+		             // Note that write() does not automatically
+		             // append a newline character.
+		             for (int i = 0; i < result.particleReportList.size(); i++) {	      
+		            	 bufferedWriter.write(result.particleReportList.get(i));
+		            	 bufferedWriter.write("\n");
+		             }
+		             
+		             //write the real system to the end of the result
+		             bufferedWriter.write("Real Particle:\n");
+		             bufferedWriter.write(realSys.getStateReport()+"\n");
+		             
+		             // Always close files.
+		             bufferedWriter.close();
+		         }
+		         catch(IOException ex) {
+		             System.out.println(
+		                 "Error writing to file '"
+		                 + fileName + "'");
+		             // Or we could just do this:
+		             // ex.printStackTrace();
+		         }
 			}
 		}
 		//System.out.println("Reported results for step-" + step);

@@ -57,7 +57,7 @@ public class MovSimState extends AbstractState
 		
 		this.stepLength = stepLength;
 		String baseDir = System.getProperty("user.dir");
-		String[] args = { "-f", baseDir + "/sim/buildingBlocks/startStop.xprj" };
+		String[] args = { "-f", baseDir + "/sim/buildingBlocks/ringroad_2lanes.xprj" };
   		movsimPF = new MovsimWrap(args);
 	}
 	
@@ -308,6 +308,15 @@ public class MovSimState extends AbstractState
 	 */
 	public void setSimStep(double simStep) {
 		this.stepLength = simStep;
+	}
+	
+	
+	/**
+	 * used to report the state information
+	 */
+	public String reportState() {
+	
+		return movsimPF.getStateReport();
 	}
 }
 
