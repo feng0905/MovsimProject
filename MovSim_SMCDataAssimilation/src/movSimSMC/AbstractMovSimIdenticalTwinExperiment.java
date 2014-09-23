@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.Vector;
 import javax.swing.text.html.ListView;
 import javax.xml.bind.JAXBException;
 
+import junit.framework.Test;
 import movsimSMC.MovsimWrap;
 import movsimSMC.Paint.ObstacleCanvas;
 import movsimSMC.Paint.SmcSimulationCanvas;
@@ -28,7 +30,7 @@ import identicalTwinExperiments.AbstractIdenticalTwinExperiment;
 public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIdenticalTwinExperiment
 {
 	
-	int stepLength = 10; // unit: seconds
+	int stepLength = 15; // unit: seconds
 	
 	public AbstractMovSimIdenticalTwinExperiment(int stepLength) { this.stepLength = stepLength; }
 	
@@ -39,6 +41,8 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		MovSimState sim = null;
 		try {
 			sim = new MovSimState(stepLength);
+			sim = sim.clone();
+			// sim.getMovSimWrap().redistributeClone();
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		} catch (SAXException e) {
@@ -56,8 +60,10 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		MovSimState sim = null;
 		try {
 			sim = new MovSimState(stepLength);
-			//sim.createObstacle(250, 3, 2);
-			sim.createObstacle(15, 1, 2);
+			sim.setInititalState(false);
+			// sim.setInititalState(false);
+			//  sim.createObstacle(250, 3, 2);
+		    // sim.createObstacle(15, 2, 2);
 			
 		} catch (JAXBException e) {
 			e.printStackTrace();
@@ -193,8 +199,19 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				File folder = new File(resultFolder);
 				if (!folder.exists()) folder.mkdir();
 				
-				String fileName = resultFolder+"/ParticleSpeedReport_" + step + ".txt"; 
+				String fileName = resultFolder+"/ParticleSpeedReport_" + String.format("%02d", step) + ".txt"; 
 				
+				// before writing down the reports, clean up the folder first				
+				if (folder.listFiles() != null) {
+					for (final File fileEntry : folder.listFiles()) {
+						int index = fileEntry.getName().indexOf('_'); 
+						if (Integer.parseInt(fileEntry.getName().substring(index+1, index+3)) > step) {
+							fileEntry.delete();
+						}						
+				    }
+				}
+				
+				// write down the reports
 				try {
 									
 		             // Assume default encoding.
@@ -203,7 +220,13 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		             // Always wrap FileWriter in BufferedWriter.
 		             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
-		             bufferedWriter.write("Particle:\n");
+		             // Write down the test settings
+		             bufferedWriter.write("Test Settings\n");
+		             bufferedWriter.write(String.format("Random Accident Rate: %.3f\n", GlobalConstants.TRANSITION_ACCIDENT_RATE));
+		             bufferedWriter.write(String.format("%s \n", realSys.getObstacleString()));
+		             
+		             bufferedWriter.write("Particles:\n"+result.particleReportList.size()+"\n");
+		             
 		             // Note that write() does not automatically
 		             // append a newline character.
 		             for (int i = 0; i < result.particleReportList.size(); i++) {	      
@@ -212,8 +235,12 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		             }
 		             
 		             //write the real system to the end of the result
-		             bufferedWriter.write("Real Particle:\n");
+		             bufferedWriter.write("Real System:\n");
 		             bufferedWriter.write(realSys.getStateReport()+"\n");
+		             
+		             //write the simulated system to the end of the result
+		             bufferedWriter.write("Simulated System:\n");
+		             bufferedWriter.write(simSys.getStateReport()+"\n");
 		             
 		             // Always close files.
 		             bufferedWriter.close();
@@ -227,7 +254,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		         }
 			}
 		}
-		//System.out.println("Reported results for step-" + step);
+		
 	}
 
 }

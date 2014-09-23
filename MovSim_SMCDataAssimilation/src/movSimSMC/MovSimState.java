@@ -2,6 +2,7 @@ package movSimSMC;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Random;
 
 import javax.xml.bind.JAXBException;
 
@@ -21,6 +22,7 @@ public class MovSimState extends AbstractState
 	private MovsimWrap movsimPF; 
 	private double stepLength = 10;			// seconds
 	
+
 	// clone a state
 	public MovSimState clone(){
 		
@@ -29,6 +31,17 @@ public class MovSimState extends AbstractState
 		{
 			c = (MovSimState)super.clone();
 			c.movsimPF = this.movsimPF.duplicate();
+			
+			if (IsInitalState) {
+				c = (MovSimState)super.clone();
+				c.movsimPF = c.movsimPF.redistributeClone(GlobalConstants.G_RAND);
+			}
+			else {
+				c = (MovSimState)super.clone();
+				c.movsimPF = this.movsimPF.duplicate();			
+			}
+//			IsInitalState = false;
+			
 		}
 		catch (CloneNotSupportedException e)
 		{
@@ -48,6 +61,7 @@ public class MovSimState extends AbstractState
 		
 		return c;
 	}
+		
 	
 	public MovsimWrap getMovSimWrap(){
 		return movsimPF;
@@ -81,6 +95,7 @@ public class MovSimState extends AbstractState
 		//System.out.println("============================= Calling transition FUNCTION!");
 		MovSimState nextState = this.clone();
 	    nextState.movsimPF.runFor(stepLength);
+	    
     	return nextState;
 		
 		//return this.transitionModel(this.drawNextRandomComponentSample());
@@ -96,13 +111,24 @@ public class MovSimState extends AbstractState
 		// clone the current state
 		MovSimState clonedState = this.clone();
 		
+//		// set random
+//	    if(GlobalConstants.TRANSITION_BEHAVIOR_RANDOM)
+//	    {
+//	    	//System.out.println("Behavior model randomness added");
+//	    	clonedState.movsimPF = clonedState.movsimPF.redistributeClone(GlobalConstants.G_RAND);
+//	    	//System.out.println("---------------the random: " + randomMovSim.getRandom());
+//	    }
+		
+		
 		// set random
 	    if(GlobalConstants.TRANSITION_BEHAVIOR_RANDOM)
 	    {
 	    	//System.out.println("Behavior model randomness added");
-	    	clonedState.movsimPF.addRandomComponent(randomMovSim.getRandom());
+	    	clonedState.movsimPF.addRandomComponent(GlobalConstants.G_RAND.nextDouble());
 	    	//System.out.println("---------------the random: " + randomMovSim.getRandom());
 	    }
+	    
+	    
 	    
 	    if (GlobalConstants.TRANSITION_RANDOM_SHIFT)
 	    {
@@ -201,8 +227,8 @@ public class MovSimState extends AbstractState
 		//System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
 		
 		// weights on factors
-		double numberWeight = 0.5;
-		double speedWeight = 0.3;
+		double numberWeight = 0.8;
+		double speedWeight = 0.2;
 		double accWeight = 1 - numberWeight-speedWeight;
 		
 		
@@ -226,7 +252,7 @@ public class MovSimState extends AbstractState
 		boolean removeAcc = true;
 		
 		// about adding accident
-		double proposalLowAccThreshold = 8;
+		double proposalLowAccThreshold = 10;
 		double proposalAccRate = 0.5;
 		
 		// about speed and acceleration

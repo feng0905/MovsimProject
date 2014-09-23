@@ -7,10 +7,10 @@
 			<successor elementType="road" elementId="2" contactPoint="start" />
         </link>
         <planView>
-            <geometry s="0.0" x="500" y="200" hdg="-0.0" length="785.4">
+            <geometry s="0.0" x="500" y="200" hdg="-0.0" length="392.6988">
                 <!-- hdgDegrees="-0.0"-->
-                <arc curvature="-0.002" />
-                <!-- radius="500.0"-->
+                <arc curvature="-0.004" />
+                <!-- radius="250.0"-->
             </geometry>
         </planView>
         <lanes>
@@ -40,9 +40,9 @@
 			<successor elementType="road" elementId="3" contactPoint="start" />
         </link>
         <planView>
-            <geometry s="0.0" x="1000" y="700" hdg="-1.57" length="785.4">
+            <geometry s="0.0" x="750" y="450" hdg="-1.57" length="392.6988">
                 <!-- hdgDegrees="-0.0"-->
-                <arc curvature="-0.002" />
+                <arc curvature="-0.004" />
                 <!-- radius="500.0"-->
             </geometry>
         </planView>
@@ -73,9 +73,9 @@
 			<successor elementType="road" elementId="4" contactPoint="start" />
         </link>
         <planView>
-            <geometry s="0.0" x="500" y="1200" hdg="-3.14" length="785.4">
+            <geometry s="0.0" x="500" y="700" hdg="-3.14" length="392.6988">
                 <!-- hdgDegrees="-pi"-->
-                <arc curvature="-0.002" />
+                <arc curvature="-0.004" />
                 <!-- radius="500.0"-->
             </geometry>
         </planView>
@@ -106,10 +106,9 @@
 			<successor elementType="road" elementId="1" contactPoint="start" />
         </link>
         <planView>
-            <geometry s="0.0" x="0" y="700" hdg="1.57" length="785.4">
+            <geometry s="0.0" x="250" y="450" hdg="1.57" length="392.6988">
                 <!-- hdgDegrees="-0.0"-->
-                <arc curvature="-0.002" />
-                <!-- radius="500.0"-->
+                <arc curvature="-0.004" />
             </geometry>
         </planView>
         <lanes>

@@ -9,7 +9,7 @@
                 <ModelParameterIDM v0="35" T="1" s0="3" s1="0" delta="4" a="0.7" b="3.0" />
             </AccelerationModelType>
             <LaneChangeModelType european_rules="false" crit_speed_eur="20">
-                <ModelParameterMOBIL safe_deceleration="6.0" minimum_gap="2.0" threshold_acceleration="0.15" right_bias_acceleration="0.3" politeness="0.01" />
+                <ModelParameterMOBIL safe_deceleration="6.0" minimum_gap="2.0" threshold_acceleration="0.15" right_bias_acceleration="0.3" politeness="0.1" />
             </LaneChangeModelType>
         </VehiclePrototypeConfiguration>
         <!-- slow vehicle type (truck) -->
@@ -18,7 +18,7 @@
                 <ModelParameterIDM v0="5" T="1.2" s0="3" s1="0" delta="4" a="0.5" b="3.0" />
             </AccelerationModelType>
             <LaneChangeModelType european_rules="false" crit_speed_eur="20">
-                <ModelParameterMOBIL safe_deceleration="6.0" minimum_gap="2.0" threshold_acceleration="0.1" right_bias_acceleration="0.3" politeness="0.2" />
+                <ModelParameterMOBIL safe_deceleration="6.0" minimum_gap="2.0" threshold_acceleration="0.1" right_bias_acceleration="0.3" politeness="0.1" />
             </LaneChangeModelType>
         </VehiclePrototypeConfiguration>
     </VehiclePrototypes>
@@ -29,40 +29,14 @@
                 <VehicleType label="SLOW_TYPE" fraction="0.00" />
             </TrafficComposition>
             <Road id="1">
-                <InitialConditions>
-                    <MicroIC position="10" speed="0" />
-                    <MicroIC position="20" speed="0" />
-                    <MicroIC position="30" speed="0" />
-                    <MicroIC position="40" speed="0" />
-                    <MicroIC position="50" speed="0" />
-                    <MicroIC position="60" speed="0" />
-                    <MicroIC position="70" speed="0" />
-                    <MicroIC position="80" speed="0" />
-                    <MicroIC position="90" speed="0" />
-                    <MicroIC position="100" speed="0" />
-                    <MicroIC position="110" speed="0" />
-                    <MicroIC position="120" speed="0" />
-                    <MicroIC position="130" speed="0" />
-                    <MicroIC position="140" speed="0" />
-                    <MicroIC position="150" speed="0" />
-                    <MicroIC position="160" speed="0" />
-                    <MicroIC position="170" speed="0" />
-                    <MicroIC position="180" speed="0" />
-                    <MicroIC position="190" speed="0" />
-                    <MicroIC position="200" speed="0" />
-                    <MicroIC position="210" speed="0" />
-                    <MicroIC position="220" speed="0" />
-                    <MicroIC position="230" speed="0" />
-                    <MicroIC position="240" speed="0" />
-                    <MicroIC position="250" speed="0" />
-                    <MicroIC position="260" speed="0" />
-                    <!-- obstacle shifts floating car numbers -->
-                    <MicroIC position="500" speed="0" label="SLOW_TYPE" />
+                 <InitialConditions>
+                    <MacroIC position = "0" density_per_km = "25" />
+                   
                 </InitialConditions>
             </Road>
 			<Road id="2">
                 <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "40" />
+                    <MacroIC position = "0" density_per_km = "30" />
                    
                 </InitialConditions>
             </Road>
@@ -74,7 +48,7 @@
             </Road>
 			<Road id="4">
                 <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "50" />
+                    <MacroIC position = "0" density_per_km = "30" />
                    
                 </InitialConditions>
             </Road>
