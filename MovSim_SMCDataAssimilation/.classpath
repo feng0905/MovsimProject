@@ -9,9 +9,9 @@
 	<classpathentry kind="lib" path="MovsimConsumption-1.6.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="MovsimXsd-1.6.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="MovsimCore-1.6.0-SNAPSHOT-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="D:/study/GSU/project/bitbucket/MovSimSMCWorkspace/MovSim_SMCDataAssimilation/jFreechart/jcommon-1.0.23.jar" sourcepath="D:/study/GSU/project/maven/repository/org/jfree/jcommon/1.0.23/jcommon-1.0.23-sources.jar"/>
-	<classpathentry kind="lib" path="D:/study/GSU/project/bitbucket/MovSimSMCWorkspace/MovSim_SMCDataAssimilation/jFreechart/jfreechart-1.0.19.jar" sourcepath="D:/study/jfreechart-1.0.19/jfreechart-1.0.19/source"/>
-	<classpathentry kind="lib" path="D:/study/GSU/project/bitbucket/MovSimSMCWorkspace/MovSim_SMCDataAssimilation/jFreechart/junit-4.11.jar"/>
 	<classpathentry kind="lib" path="SMCFramework20140820.jar"/>
+	<classpathentry kind="lib" path="jFreechart/jcommon-1.0.23.jar"/>
+	<classpathentry kind="lib" path="jFreechart/jfreechart-1.0.19.jar"/>
+	<classpathentry kind="lib" path="jFreechart/junit-4.11.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
