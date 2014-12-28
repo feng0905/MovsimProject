@@ -11,13 +11,13 @@ public class SenSimExpTest
 	public static void main(String[] args)
 	{
 		int particleN = Integer.parseInt(args[0]);
-		int kernelN = 5;
+		int kernelN = 10;
 		int stepLength = 15;
 		int stepN = 15;
 		
 		KernelFunction kernel =  new KernelEstimationProposalWeight.GaussianKernel();
 		
-		double bandwidth=0.2;
+		double bandwidth=0.15;
 		BigDecimal bandWidth = BigDecimal.valueOf(bandwidth);
 		
 		SenSimMovSimIdenticalTwinExperiment exp = new SenSimMovSimIdenticalTwinExperiment(stepLength, kernelN, kernel, bandWidth);

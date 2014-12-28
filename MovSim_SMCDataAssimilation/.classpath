@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="resourses"/>
 	<classpathentry kind="lib" path="SmcMovsim.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="commons-math3-3.1.1.jar"/>
+	<classpathentry kind="lib" path="commons-math3-3.1.1.jar" sourcepath="D:/study/GSU/project/maven/repository/org/apache/commons/commons-math3/3.1.1/commons-math3-3.1.1-sources.jar"/>
 	<classpathentry kind="lib" path="MovsimCommon-1.6.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="MovsimConsumption-1.6.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="MovsimXsd-1.6.0-SNAPSHOT.jar"/>

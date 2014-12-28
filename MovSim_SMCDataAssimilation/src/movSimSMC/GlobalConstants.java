@@ -11,12 +11,12 @@ public interface GlobalConstants
 	// Transition random
 	boolean TRANSITION_BEHAVIOR_RANDOM = true;
 	boolean TRANSITION_RANDOM_SHIFT = true;
-	boolean TRANSITION_REDISTRIBUTION = false; 
+	// boolean TRANSITION_REDISTRIBUTION = false; 
 	double SHIFT_X_SIGMA = 20;
 	double SHIFT_Y_THRESHOLD = 0.5;
 	
 	
-	double TRANSITION_ACCIDENT_RATE = 0.0;
+	double TRANSITION_ACCIDENT_RATE = 0.1;
 	boolean SHOW_FIG = true;
 	
 }

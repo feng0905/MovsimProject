@@ -63,7 +63,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 			sim.setInititalState(false);
 			// sim.setInititalState(false);
 			//  sim.createObstacle(250, 3, 2);
-		    // sim.createObstacle(15, 2, 2);
+		    sim.createObstacle(15, 2, 2);
 			
 		} catch (JAXBException e) {
 			e.printStackTrace();
@@ -81,8 +81,10 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 	static class MovSimSMCResult{
 		public double currentTime;  // the current time
 		public double simError; // the distance between real system and simulated system
-		public double bestParticleError;
-		public double filteredError; // the distance from real system and the best particle
+		public double bestParticleError; // the distance from real system and the best particle
+		public double filteredError; 	// weighted average error of all particles 
+		public double filteredAccidentError; // the distance of accident position.  
+		
 		
 		List<List<Double>> segmentDensities = new ArrayList<List<Double>>(); // the density on each segment, 0-real, 1-sim, 2-best particle
 		List<List<Double>> segmentAvgSpeeds = new ArrayList<List<Double>>(); // the speed on each segment, 0-real, 1-sim, 2-best particle
@@ -118,6 +120,13 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 			result.particleReportList.add(pSys.getStateReport());
 		}
 		
+		result.filteredAccidentError = 0;
+		for( Particle p : this.particleSystem.getParticleSet()){
+			MovsimWrap pSys = ((MovSimState)p.state).getMovSimWrap();
+			result.filteredAccidentError += realSys.CalAccidentDistance(pSys, 0) * p.weight.doubleValue();
+			// result.particleReportList.add(pSys.getStateReport());
+		}
+		// result.filteredAccidentError /= this.particleSystem.getParticleSet().size();
 		result.segmentAvgSpeeds.add(realSys.getAvgSpeeds());
 		result.segmentAvgSpeeds.add(simSys.getAvgSpeeds());
 		result.segmentAvgSpeeds.add(bestParticleSys.getAvgSpeeds());
@@ -182,6 +191,10 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 					writer.println( "Time\tSimulated Error\tBest Particle Error\tFiltered Error");
 					for( MovSimSMCResult r : this.expResults)
 						writer.println(r.currentTime + "\t" + String.format("%2.4f", r.simError) + "\t" + String.format("%2.4f", r.bestParticleError)+ "\t" + String.format("%2.4f", r.filteredError));
+					
+					writer.println( "Time\tFiltered Accident Error");
+					for( MovSimSMCResult r : this.expResults)
+						writer.println(r.currentTime + "\t" + String.format("%2.4f", r.filteredAccidentError));
 					
 					writer.close();
 					System.out.println("Saved numeric results.");

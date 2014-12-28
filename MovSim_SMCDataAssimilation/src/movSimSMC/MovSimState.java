@@ -22,7 +22,7 @@ public class MovSimState extends AbstractState
 	private MovsimWrap movsimPF; 
 	private double stepLength = 10;			// seconds
 	
-
+	private double max = 0;
 	// clone a state
 	public MovSimState clone(){
 		
@@ -185,7 +185,7 @@ public class MovSimState extends AbstractState
 		List<MovSimSensor> sensorReadings = ((MovSimMeasurement)measurement).sensors;
 		List<MovSimSensor> simulatedSensorReadings = this.movsimPF.getSensorReading();
 		//double sigma = sensorReadings.get(0).getMaxValue() / 4.0; 
-		double sigma = 0.1;
+		double sigma = 0.12;
 		/*
 		 * double variance = sigma*sigma;
 		 * 
@@ -200,15 +200,16 @@ public class MovSimState extends AbstractState
 		for (int i = 0; i < sensorReadings.size(); i++)
 		{
 			double normDis = singleSensorNormlizedDistance(sensorReadings.get(i), simulatedSensorReadings.get(i));
+			max = max > normDis?max:normDis;
 			double normResult = norm.density(normDis);
 			double minNorm = 1E-300; // if not doing so, a small value will become 0, and mess up the weight
 			if (normResult < minNorm) normResult = minNorm;
 			
-			//System.out.println("sensor-" + i + " norm dis=" + normDis + "-> L=" + normResult);
+			// System.out.println("sensor-" + i + " norm dis=" + normDis + "-> L=" + normResult);
 
 			weight = weight.multiply(BigDecimal.valueOf(normResult));
 		}
-
+		// System.out.println("Max Difference:" + max);
 		return weight;
 		//return BigDecimal.ONE;
 	}
@@ -227,8 +228,8 @@ public class MovSimState extends AbstractState
 		//System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
 		
 		// weights on factors
-		double numberWeight = 0.8;
-		double speedWeight = 0.2;
+		double numberWeight = 0.5;
+		double speedWeight = 0.3;
 		double accWeight = 1 - numberWeight-speedWeight;
 		
 		
@@ -243,6 +244,7 @@ public class MovSimState extends AbstractState
 	@Override
 	public AbstractState propose(AbstractMeasurement measurement) throws StateFunctionNotSupportedException, Exception
 	{
+		
 		MovSimState nextMovSimState = (MovSimState) this.transitionModel(drawNextRandomComponentSample());
 		MovSimMeasurement movSimMeasurement =  (MovSimMeasurement) measurement;
 		
@@ -252,7 +254,7 @@ public class MovSimState extends AbstractState
 		boolean removeAcc = true;
 		
 		// about adding accident
-		double proposalLowAccThreshold = 10;
+		double proposalLowAccThreshold = 8;
 		double proposalAccRate = 0.5;
 		
 		// about speed and acceleration
@@ -268,9 +270,11 @@ public class MovSimState extends AbstractState
 				removeAcc,
 				changeSpeed, 
 				changeAcceleration);
+
 		
+		// nextMovSimState = (MovSimState) this.transitionModel(drawNextRandomComponentSample());
+		// return nextMovSimState.transitionModel(drawNextRandomComponentSample());
 		return nextMovSimState;
-		// return this.transitionFunction();
 	}
 
 	@Override
@@ -278,7 +282,7 @@ public class MovSimState extends AbstractState
 	{
 		
 		//MovSimRandomComponent randomComponent = new MovSimRandomComponent(( random.nextDouble()* (0.1-0)));
-		double randomDouble = GlobalConstants.G_RAND.nextDouble()*((0.1-0));
+		double randomDouble = GlobalConstants.G_RAND.nextDouble();
 		//System.out.println("-------------------------------------------------------random: " + randomDouble);
 		MovSimRandomComponent randomComponent = new MovSimRandomComponent(randomDouble);
 		return randomComponent;
