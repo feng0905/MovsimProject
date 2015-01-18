@@ -173,6 +173,7 @@ public class MovSimState extends AbstractState
 		List<MovSimSensor> sensors;
 		public MovSimMeasurement( List<MovSimSensor> sensors ) { this.sensors = sensors; };
 	}
+	
 	@Override
 	public AbstractMeasurement measurementFunction() throws StateFunctionNotSupportedException
 	{
