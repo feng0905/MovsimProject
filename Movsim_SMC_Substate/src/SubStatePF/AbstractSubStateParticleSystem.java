@@ -1,9 +1,8 @@
-package smc;
+package SubStatePF;
 
 import java.math.BigDecimal;
 import java.util.Vector;
-
-import smc.resamplingStrategies.SubStateSystematicResampling;
+import smc.*;
 
 public abstract class AbstractSubStateParticleSystem extends AbstractParticleSystem{
 	private Vector<Vector<Particle>> vecSubParticles;

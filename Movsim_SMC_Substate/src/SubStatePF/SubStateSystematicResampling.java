@@ -1,14 +1,13 @@
-package smc.resamplingStrategies;
+package SubStatePF;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Vector;
 
-import smc.AbstractState;
-import smc.GenerateSubStates;
-import smc.Particle;
-import smc.AbstractFullState;
+import smc.*;
+import smc.resamplingStrategies.SystematicResampling;
+
 
 public class SubStateSystematicResampling extends SystematicResampling{
 	public  Vector<Particle>  ParticleCombination(Vector<Vector<Particle>> vecSubParticleSet, GenerateSubStates subStateGenerator){
