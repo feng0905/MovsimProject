@@ -1,7 +1,9 @@
-package SubStatePF;
-import smc.*;
+package smc;
+
 import java.math.BigDecimal;
 import java.util.Vector;
+
+import smc.resamplingStrategies.SubStateSystematicResampling;
 
 public abstract class AbstractSubStateParticleSystem extends AbstractParticleSystem{
 	private Vector<Vector<Particle>> vecSubParticles;
@@ -9,9 +11,12 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 	private int subStateNumber;
 	private GenerateSubStates subStateGenerateStrategy;
 	private DataAssociation dataAssociationStrategy;
-	public AbstractSubStateParticleSystem( SamplingStrategy sampler, WeightUpdatingStrategy weightUpdater, ResamplingStrategy resampler, GenerateSubStates substateGenerator, DataAssociation dataAssociationStrategy, Vector<Particle> particleSet)
+	
+	private SubStateSystematicResampling substate_resampler;
+	public AbstractSubStateParticleSystem( SamplingStrategy sampler, WeightUpdatingStrategy weightUpdater, SubStateSystematicResampling resampler, GenerateSubStates substateGenerator, DataAssociation dataAssociationStrategy, Vector<Particle> particleSet)
 	{
 		super(sampler,weightUpdater,resampler,particleSet);
+		this.substate_resampler=resampler;
 		this.subStateGenerateStrategy=substateGenerator;
 		this.dataAssociationStrategy=dataAssociationStrategy;
 	}
@@ -73,12 +78,13 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 			weightUpdater.updateWeights(subParticleSet, measurement, sampler);
 					
 			//Re-sampling
-			subParticleSet = resampler.resampling(subParticleSet);
+			subParticleSet = substate_resampler.resampling(subParticleSet);
 			this.vecSubParticles.set(subStateIdx, subParticleSet);
 			
 		}
-			
-
+		
+		this.particleSet=this.substate_resampler.ParticleCombination(this.vecSubParticles, this.subStateGenerateStrategy);
+        
 		//Record the best sample
 		bestParticleBeforeResampling = this.getHighestWeightParticle();
 		
