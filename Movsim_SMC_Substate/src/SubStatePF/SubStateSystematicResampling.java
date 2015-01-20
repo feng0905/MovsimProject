@@ -1,19 +1,21 @@
-package SubStatePF;
+package smc.resamplingStrategies;
 
-import smc.*;
-import smc.resamplingStrategies.*;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Vector;
 
-
+import smc.AbstractState;
+import smc.GenerateSubStates;
+import smc.Particle;
+import smc.AbstractFullState;
 
 public class SubStateSystematicResampling extends SystematicResampling{
-	public  Vector<Particle>  ParticleCombination(Vector<Vector<Particle>> vecSubParticleSet){
+	public  Vector<Particle>  ParticleCombination(Vector<Vector<Particle>> vecSubParticleSet, GenerateSubStates subStateGenerator){
 		Vector<Particle> vecCombinedParticleSet=new Vector<Particle>();
 	 
-		int N=vecSubParticleSet.get(0).size();
+		int N=vecSubParticleSet.get(0).size(); //N is the sample size
+		//initialization of new particle vector
 		for(int j=0;j<N;j++){
 			Particle p=new Particle(null, null);
 			try {
@@ -24,15 +26,24 @@ public class SubStateSystematicResampling extends SystematicResampling{
 			}
 		}
 		
+		
+		//for each substate
+		int randomSelectList[][]=new int[vecSubParticleSet.size()][N];
 		for(int i=0;i<vecSubParticleSet.size();i++){
-			int randomSelectList[]=RandomSelectParticles(N);
-			
-			for(int j=0;j<N;j++){
-				Particle p= vecCombinedParticleSet.get(j);
-				((AbstractFullState)(p.state)).setSubState(i, vecSubParticleSet.get(i).get(randomSelectList[j]).state);
-			}
-			
+			randomSelectList[i]=RandomSelectParticles(N);
 		}
+		
+		
+			
+		for(int j=0;j<N;j++){
+			AbstractState subStates[]=new AbstractState[vecSubParticleSet.size()];
+			for(int i=0;i<vecSubParticleSet.size();i++){
+				subStates[i]=vecSubParticleSet.get(i).get(j).state;
+			}
+			AbstractState fullState=subStateGenerator.formFullState(subStates);
+			vecCombinedParticleSet.get(j).state=fullState;
+		}
+			
 		
 		return vecCombinedParticleSet;
 	}
