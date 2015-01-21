@@ -75,7 +75,7 @@ public class MovSimState extends AbstractState
   		movsimPF = new MovsimWrap(args);
 	}
 	
-	MovSimState(MovsimWrap movsimPF){
+	public MovSimState(MovsimWrap movsimPF){
 		this.movsimPF = movsimPF;
 	}
 	
