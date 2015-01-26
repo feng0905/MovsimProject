@@ -20,6 +20,15 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 		this.dataAssociationStrategy=dataAssociationStrategy;
 	}
 	
+	void setSubStateGenerateStrategy(GenerateSubStates subStateGenerator){
+		this.subStateGenerateStrategy=subStateGenerator;
+	}
+	
+	void setDataAssociationStrategy(DataAssociation dataAssociationStrategy){
+		this.dataAssociationStrategy=dataAssociationStrategy;
+	}
+	
+	
 	public void GenerateSubStateParticle(){
 	
 		vecSubParticles=new Vector<Vector<Particle>>();
