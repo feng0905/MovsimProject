@@ -2,11 +2,12 @@ package Movsim_SubState;
 
 import javax.xml.bind.JAXBException;
 
+import movSimSMC.MovSimState;
 import movsimSMC.MovsimWrap;
 
 import org.xml.sax.SAXException;
 
-public class MovSimSubState extends MovSimFullState{
+public class MovSimSubState extends MovSimState{
 	private final int subIndex;
 	
 	public MovSimSubState(double stepLength, int subindex) throws JAXBException, SAXException {
@@ -15,7 +16,7 @@ public class MovSimSubState extends MovSimFullState{
 		subIndex = subindex;
 	}
 	
-	public MovSimSubState(MovSimFullState fullState, int subindex) {
+	public MovSimSubState(MovSimState fullState, int subindex) {
 		super(fullState.getMovSimWrap());
 		// TODO Auto-generated constructor stub
 		subIndex = subindex;
