@@ -18,7 +18,7 @@ public  class GenerateSubStates {
 		//needs to be overridden
 		final int size = 4;		// currently set the size to be constant
 		for (int i=0;i<4;i++) {
-			MovSimState subState = ((MovSimState) fullState).clone();
+			MovSimSubState subState = ((MovSimSubState) fullState).clone();
 			vecSubStates.add((AbstractState)subState);
 		}	
 		
@@ -31,10 +31,10 @@ public  class GenerateSubStates {
 		final int size = subStates.length;		// currently set the size to be constant
 		MovsimWrap wraps[]  = new MovsimWrap [size]; 
 		for (int i = 0; i < wraps.length; i++) {
-			wraps[i] = ((MovSimState)subStates[i] ).getMovSimWrap();
+			wraps[i] = ((MovSimSubState)subStates[i] ).getMovSimWrap();
 		}
 		try {
-			fullState = (AbstractState)  new MovSimState( MovsimWrap.combineMovsim(wraps));
+			fullState = (AbstractState)  new MovSimSubState( MovsimWrap.combineMovsim(wraps), size);
 		} catch (JAXBException | SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

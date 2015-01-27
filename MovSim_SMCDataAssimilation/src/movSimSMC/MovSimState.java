@@ -19,10 +19,10 @@ import smc.AbstractState;
 
 public class MovSimState extends AbstractState 
 {
-	private MovsimWrap movsimPF; 
+	protected MovsimWrap movsimPF; 
 	private double stepLength = 10;			// seconds
 	
-	private double max = 0;
+	protected double max = 0;
 	// clone a state
 	public MovSimState clone(){
 		
@@ -169,9 +169,12 @@ public class MovSimState extends AbstractState
 		//return this.transitionFunction();
 	}
 
-	static class MovSimMeasurement extends AbstractMeasurement{
-		List<MovSimSensor> sensors;
+	public static class MovSimMeasurement extends AbstractMeasurement{
+		private List<MovSimSensor> sensors;
 		public MovSimMeasurement( List<MovSimSensor> sensors ) { this.sensors = sensors; };
+		public List<MovSimSensor> getSensorReading() {
+			return sensors;
+		}
 	}
 	
 	@Override
@@ -215,7 +218,7 @@ public class MovSimState extends AbstractState
 		//return BigDecimal.ONE;
 	}
 	
-	private double singleSensorNormlizedDistance( MovSimSensor ss1, MovSimSensor ss2 )
+	protected double singleSensorNormlizedDistance( MovSimSensor ss1, MovSimSensor ss2 )
 	{
 		MovSimSensor2 s1 = (MovSimSensor2)ss1;
 		MovSimSensor2 s2 = (MovSimSensor2)ss2;
@@ -238,9 +241,6 @@ public class MovSimState extends AbstractState
 		
 	}
 	
-	static class MovSimSensorReadings extends AbstractMeasurement{
-		
-	}
 	
 	@Override
 	public AbstractState propose(AbstractMeasurement measurement) throws StateFunctionNotSupportedException, Exception
