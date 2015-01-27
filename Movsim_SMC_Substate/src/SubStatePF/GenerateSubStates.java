@@ -18,9 +18,17 @@ public  class GenerateSubStates {
 		//needs to be overridden
 		final int size = 4;		// currently set the size to be constant
 		for (int i=0;i<4;i++) {
-			MovSimSubState subState = ((MovSimSubState) fullState).clone();
-			vecSubStates.add((AbstractState)subState);
-		}	
+			
+			//MovSimSubState subState = ((MovSimSubState) fullState).clone();
+			//vecSubStates.add((AbstractState)subState);
+			
+			try {
+				vecSubStates.add((AbstractState) fullState.clone());
+			} catch (CloneNotSupportedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			}	
 		
 		return vecSubStates;
 	}

@@ -14,7 +14,7 @@ import org.movsim.simulator.roadnetwork.MovSimSensor;
 import org.xml.sax.SAXException;
 
 public class MovSimSubState extends MovSimState{
-	private final int subIndex;
+	private int subIndex;
 	
 	public MovSimSubState(double stepLength, int subindex) throws JAXBException, SAXException {
 		super(stepLength);
@@ -31,8 +31,8 @@ public class MovSimSubState extends MovSimState{
 	@Override
 	public MovSimSubState clone() {
 		// TODO Auto-generated method stub
-		// MovSimSubState sub = (MovSimSubState)super.clone();
-		// subindex = this.subIndx;
+		 MovSimSubState sub = (MovSimSubState)super.clone();
+		 sub.subIndex = this.subIndex;
 		return (MovSimSubState)super.clone();
 	}
 

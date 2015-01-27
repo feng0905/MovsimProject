@@ -53,6 +53,8 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 					vecSubParticles.get(i).set(j, subParticle);
 				}
 			}
+			
+		
 	}
 	public void updateParticle( AbstractState.AbstractMeasurement measurement )
 	{	

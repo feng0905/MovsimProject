@@ -28,7 +28,7 @@ public class SubStateMovSimTwinExperiment extends
 	 */
 	public static void main(String[] args) {
 		
-		int particleN = Integer.parseInt(args[0]);
+		int particleN = 5;
 		int stepLength = 15;
 		int stepN = 15;
 		
