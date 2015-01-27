@@ -14,16 +14,17 @@ public class SubStateSystematicResampling extends SystematicResampling{
 		Vector<Particle> vecCombinedParticleSet=new Vector<Particle>();
 	 
 		int N=vecSubParticleSet.get(0).size(); //N is the sample size
-		//initialization of new particle vector
-		for(int j=0;j<N;j++){
-			Particle p=new Particle(null, null);
-			try {
-				vecCombinedParticleSet.add(new Particle( (AbstractState)p.state.clone(), BigDecimal.valueOf(1.0/N) ));
-			} catch (CloneNotSupportedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+//		//initialization of new particle vector
+//		for(int j=0;j<N;j++){
+//			state
+//			Particle p=new Particle(new AbstractState(), BigDecimal.valueOf(0));
+//			try {
+//				vecCombinedParticleSet.add(new Particle( (AbstractState)p.state.clone(), BigDecimal.valueOf(1.0/N) ));
+//			} catch (CloneNotSupportedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 		
 		
 		//for each substate
@@ -40,7 +41,8 @@ public class SubStateSystematicResampling extends SystematicResampling{
 				subStates[i]=vecSubParticleSet.get(i).get(j).state;
 			}
 			AbstractState fullState=subStateGenerator.formFullState(subStates);
-			vecCombinedParticleSet.get(j).state=fullState;
+			vecCombinedParticleSet.add(new Particle( fullState, BigDecimal.valueOf(1.0/N) ));
+			//vecCombinedParticleSet.get(j).state=fullState;
 		}
 			
 		

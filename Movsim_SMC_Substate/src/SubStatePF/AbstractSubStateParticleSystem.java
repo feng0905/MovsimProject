@@ -17,6 +17,7 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 		super(sampler,weightUpdater,resampler,particleSet);
 		this.substate_resampler=resampler;
 		this.subStateGenerateStrategy=substateGenerator;
+		this.subStateNumber=substateGenerator.getSubStateNumber();
 		this.dataAssociationStrategy=dataAssociationStrategy;
 	}
 	
@@ -49,8 +50,8 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 				Vector<AbstractState> vecSubStates=this.subStateGenerateStrategy.DivideState(p.state); 
 				(this.vecSubStates).add(vecSubStates);
 				for(int j=0;j<subStateNumber;j++){
-					Particle subParticle=new Particle(vecSubStates.get(i), BigDecimal.valueOf(1)) ;
-					vecSubParticles.get(i).set(j, subParticle);
+					Particle subParticle=new Particle(vecSubStates.get(j), BigDecimal.valueOf(1)) ;
+					vecSubParticles.get(j).set(i, subParticle);
 				}
 			}
 			

@@ -12,6 +12,12 @@ import movSimSMC.MovSimState;
 import movsimSMC.*;
 
 public  class GenerateSubStates {
+	
+	private int subStateNumber=4;
+	
+	public int getSubStateNumber(){
+		return this.subStateNumber;
+	}
 
 	public Vector<AbstractState> DivideState(AbstractState fullState){
 		Vector<AbstractState> vecSubStates= new Vector<>();
