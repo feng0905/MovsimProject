@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenDRIVE>
+	<header revMajor="1" revMinor="2" name="" version="1.00" date="Thu Sep  2 20:31:10 2010" north="0.0" south="0.0" east="0.0" west="0.0" />
+	<road id="1" name="R1" length="86.45229898620394" junction="-1">
+		<link>
+			<predecessor elementType="road" elementId="5" contactPoint="start" />
+			<successor elementType="road" elementId="2" contactPoint="end" />
+		</link>
+		<planView>
+			<geometry s="0.0" x="278" y="84" hdg="-1.0502154933032373" length="86.45229898620394">
+				<!--x1,y1,x2,y2 = 278, 84, 321, 159 :  dirBitmask, direction = 1, down-right :   isHoriz, isVert = false, false-->
+				<line />
+			</geometry>
+		</planView>
+		<lanes>
+			<laneSection s="0.0">
+				<right>
+					<lane id="-1" type="driving" level="false">
+						<link>
+							<predecessor id="-1" />
+							<successor id="-1" />
+						</link>
+						<width sOffset="0.0" a="20.0" b="0.0" c="0.0" d="0.0" />
+					</lane>
+					<lane id="-2" type="driving" level="false">
+						<link>
+							<predecessor id="-2" />
+							<successor id="-2" />
+						</link>
+						<width sOffset="0.0" a="10.0" b="0.0" c="0.0" d="0.0" />
+					</lane>
+				</right>
+			</laneSection>
+		</lanes>
+	</road>
+	<road id="2" name="R2" length="68.24954212300622" junction="-1">
+		<link>
+			<predecessor elementType="road" elementId="1" contactPoint="start" />
+			<successor elementType="road" elementId="3" contactPoint="end" />
+		</link>
+		<planView>
+			<geometry s="0.0" x="321" y="159" hdg="4.030783157444285" length="68.24954212300622">
+				<!--x1,y1,x2,y2 = 321, 159, 278, 212 :  dirBitmask, direction = 2, down-left :   isHoriz, isVert = false, false-->
+				<line />
+			</geometry>
+		</planView>
+		<lanes>
+			<laneSection s="0.0">
+				<right>
+					<lane id="-1" type="driving" level="false">
+						<link>
+							<predecessor id="-1" />
+							<successor id="-1" />
+						</link>
+						<width sOffset="0.0" a="20.0" b="0.0" c="0.0" d="0.0" />
+					</lane>
+					<lane id="-2" type="driving" level="false">
+						<link>
+							<predecessor id="-2" />
+							<successor id="-2" />
+						</link>
+						<width sOffset="0.0" a="10.0" b="0.0" c="0.0" d="0.0" />
+					</lane>
+				</right>
+			</laneSection>
+		</lanes>
+	</road>
+	<road id="3" name="R3" length="73.7563556583431" junction="-1">
+		<link>
+			<predecessor elementType="road" elementId="2" contactPoint="start" />
+			<successor elementType="road" elementId="4" contactPoint="end" />
+		</link>
+		<planView>
+			<geometry s="0.0" x="278" y="212" hdg="-0.8621700546672264" length="73.7563556583431">
+				<!--x1,y1,x2,y2 = 278, 212, 326, 268 :  dirBitmask, direction = 1, down-right :   isHoriz, isVert = false, false-->
+				<line />
+			</geometry>
+		</planView>
+		<lanes>
+			<laneSection s="0.0">
+				<right>
+					<lane id="-1" type="driving" level="false">
+						<link>
+							<predecessor id="-1" />
+							<successor id="-1" />
+						</link>
+						<width sOffset="0.0" a="20.0" b="0.0" c="0.0" d="0.0" />
+					</lane>
+					<lane id="-2" type="driving" level="false">
+						<link>
+							<predecessor id="-2" />
+							<successor id="-2" />
+						</link>
+						<width sOffset="0.0" a="10.0" b="0.0" c="0.0" d="0.0" />
+					</lane>
+				</right>
+			</laneSection>
+		</lanes>
+	</road>
+	<road id="4" name="R4" length="144.53373308677806" junction="-1">
+		<link>
+			<predecessor elementType="road" elementId="3" contactPoint="start" />
+			<successor elementType="road" elementId="5" contactPoint="end" />
+		</link>
+		<planView>
+			<geometry s="0.0" x="326" y="268" hdg="-3.2874035825339076" length="144.53373308677806">
+				<!--x1,y1,x2,y2 = 326, 268, 183, 247 :  dirBitmask, direction = 6, up-left :   isHoriz, isVert = false, false-->
+				<line />
+			</geometry>
+		</planView>
+		<lanes>
+			<laneSection s="0.0">
+				<right>
+					<lane id="-1" type="driving" level="false">
+						<link>
+							<predecessor id="-1" />
+							<successor id="-1" />
+						</link>
+						<width sOffset="0.0" a="20.0" b="0.0" c="0.0" d="0.0" />
+					</lane>
+					<lane id="-2" type="driving" level="false">
+						<link>
+							<predecessor id="-2" />
+							<successor id="-2" />
+						</link>
+						<width sOffset="0.0" a="10.0" b="0.0" c="0.0" d="0.0" />
+					</lane>
+				</right>
+			</laneSection>
+		</lanes>
+	</road>
+	<road id="5" name="R5" length="188.66372200293304" junction="-1">
+		<link>
+			<predecessor elementType="road" elementId="4" contactPoint="start" />
+			<successor elementType="road" elementId="1" contactPoint="end" />
+		</link>
+		<planView>
+			<geometry s="0.0" x="183" y="247" hdg="1.0431034121157623" length="188.66372200293304">
+				<!--x1,y1,x2,y2 = 183, 247, 278, 84 :  dirBitmask, direction = 5, up-right :   isHoriz, isVert = false, false-->
+				<line />
+			</geometry>
+		</planView>
+		<lanes>
+			<laneSection s="0.0">
+				<right>
+					<lane id="-1" type="driving" level="false">
+						<link>
+							<predecessor id="-1" />
+							<successor id="-1" />
+						</link>
+						<width sOffset="0.0" a="20.0" b="0.0" c="0.0" d="0.0" />
+					</lane>
+					<lane id="-2" type="driving" level="false">
+						<link>
+							<predecessor id="-2" />
+							<successor id="-2" />
+						</link>
+						<width sOffset="0.0" a="10.0" b="0.0" c="0.0" d="0.0" />
+					</lane>
+				</right>
+			</laneSection>
+		</lanes>
+	</road>
+</OpenDRIVE>

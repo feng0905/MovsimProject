@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE SCENARIO SYSTEM "multiModelTrafficSimulatorInput.dtd">
+
+<!-- (c) Arne Kesting, Ralph Germ, Martin Budden, Martin Treiber (2012) -->
+<!-- FCD Output does not work with macroscopic initial conditions -->
+<SCENARIO network_filename="ringroad_2lanes.xodr">
+    <VEHICLES>
+        <!-- fast vehicle type (car) -->
+        <VEHICLE label="FAST_TYPE" length="6" b_max="9">
+            <LONGITUDINAL_MODEL>
+                <IDM v0="35" T="1" s0="3" s1="0" delta="4" a="0.7" b="3.0" />
+            </LONGITUDINAL_MODEL>
+            <LANE_CHANGE_MODEL eur_rules="false" crit_speed_eur="20">
+                <MOBIL b_safe="6.0" s_min="2.0" threshold="0.15" bias_right="0.3" politeness="0.1" />
+            </LANE_CHANGE_MODEL>
+        </VEHICLE>
+		
+		<VEHICLE label="SLOW_TYPE" length="15" b_max="9">
+            <LONGITUDINAL_MODEL>
+                <IDM v0="10" T="1.2" s0="3" s1="0" delta="4" a="0.4" b="3.0" />
+            </LONGITUDINAL_MODEL>
+            <LANE_CHANGE_MODEL eur_rules="false" crit_speed_eur="20">
+                <MOBIL b_safe="6.0" s_min="1.0" threshold="0.1" bias_right="0.2" politeness="0.2" />
+            </LANE_CHANGE_MODEL>
+        </VEHICLE>
+    </VEHICLES>
+    <SIMULATION dt="0.2" duration="10000000" fixed_seed="true" seed="42" crash_exit="false">
+        <TRAFFIC_COMPOSITION>
+			<!--
+			<VEHICLE_TYPE label="FAST_TYPE" fraction="1" />
+			-->
+            <VEHICLE_TYPE label="FAST_TYPE" fraction="0.975" />
+			<VEHICLE_TYPE label="SLOW_TYPE" fraction="0.025" />
+        </TRAFFIC_COMPOSITION>
+        <ROAD id="43">
+            <INITIAL_CONDITIONS>
+                <IC_MACRO x="1" rho_per_km="23" v="20" />
+            </INITIAL_CONDITIONS>
+        </ROAD>
+        <OUTPUT />
+    </SIMULATION>
+</SCENARIO>
+
