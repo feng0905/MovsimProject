@@ -49,14 +49,14 @@ public class SubStateSystematicResampling extends SystematicResampling{
 		return vecCombinedParticleSet;
 	}
 	
-	public int[] RandomSelectParticles(int n){
-		int[] randomselectedParticles=new int[n];
+	public int[] RandomSelectParticles(int[] selectedParticles){
+		int[] randomselectedParticles=new int[selectedParticles.length];
 		LinkedList<Integer> selectedParticlesList=new LinkedList<Integer>();
 		System.out.println("Standard selected particles:");
 	
 		for (int i = 0; i < randomselectedParticles.length; i++) {
-			selectedParticlesList.add(i);
-			System.out.print(" "+i);
+			selectedParticlesList.add(selectedParticles[i]);
+			System.out.print(" "+selectedParticles[i]);
 			
 		}
 		
@@ -66,11 +66,48 @@ public class SubStateSystematicResampling extends SystematicResampling{
 		Random random=new Random(11111);
 	
 		for (int i = 0; i < randomselectedParticles.length; i++) {
+			int idx=random.nextInt(selectedParticles.length-i);
+			
+			randomselectedParticles[i]=(Integer)selectedParticlesList.get(idx);
+			selectedParticlesList.remove(idx);
+			
+			
+		}
+	
+		
+		return randomselectedParticles;
+	}
+	
+	
+	public int[] RandomSelectParticles(int n){
+		int[] randomselectedParticles=new int[n];
+		LinkedList<Integer> selectedParticlesList=new LinkedList<Integer>();
+		
+//		System.out.println("Standard selected particles:");
+		for (int i = 0; i < randomselectedParticles.length; i++) {
+			selectedParticlesList.add(i);
+//			System.out.print(" "+i);
+		}
+//		System.out.println();
+		
+	
+		Random random=GlobalConstants.RAND;
+	
+		for (int i = 0; i < randomselectedParticles.length; i++) {
 			int idx=random.nextInt(n-i);
 			
 			randomselectedParticles[i]=(Integer)selectedParticlesList.get(idx);
 			selectedParticlesList.remove(idx);
 		}
+		
+		System.out.println("Randomly selected new particles:");
+		for (int i = 0; i < randomselectedParticles.length; i++) {
+			 
+			System.out.print(" "+randomselectedParticles[i]);
+			
+		}
+		System.out.println();
+		
 	
 		
 		return randomselectedParticles;

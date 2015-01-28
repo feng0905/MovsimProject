@@ -57,6 +57,8 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 			
 		
 	}
+	
+	@Override
 	public void updateParticle( AbstractState.AbstractMeasurement measurement )
 	{	
 		//Sampling
@@ -81,11 +83,11 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 		
 		
 		//for each substate
-		for(int subStateIdx=0;i<this.vecSubParticles.size();i++){
+		for(int subStateIdx=0;subStateIdx<this.vecSubParticles.size();subStateIdx++){
 			Vector<Particle> subParticleSet=this.vecSubParticles.get(subStateIdx);
 			//WeightUpdating
 			weightUpdater.updateWeights(subParticleSet, measurement, sampler);
-					
+			
 			//Re-sampling
 			subParticleSet = substate_resampler.resampling(subParticleSet);
 			this.vecSubParticles.set(subStateIdx, subParticleSet);
