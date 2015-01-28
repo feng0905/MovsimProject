@@ -29,7 +29,7 @@ public  class GenerateSubStates {
 			//vecSubStates.add((AbstractState)subState);
 			
 			try {
-				MovSimSubState subState = new MovSimSubState( (MovSimSubState)fullState.clone(),i);
+				MovSimSubState subState = new MovSimSubState( (MovSimState)fullState.clone(),i);
 				
 				vecSubStates.add((AbstractState) subState);
 			} catch (CloneNotSupportedException e) {
