@@ -85,6 +85,7 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 			Vector<Particle> subParticleSet=this.vecSubParticles.get(subStateIdx);
 			//WeightUpdating
 			weightUpdater.updateWeights(subParticleSet, measurement, sampler);
+			
 					
 			//Re-sampling
 			subParticleSet = substate_resampler.resampling(subParticleSet);

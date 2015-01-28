@@ -41,6 +41,12 @@ public class MovSimSubState extends MovSimState{
 		// TODO Auto-generated constructor stub
 		subIndex = subindex;
 	}
+	
+	public MovSimSubState(MovSimSubState movsimSubState, int subindex) {
+		super(movsimSubState.movsimPF);
+		// TODO Auto-generated constructor stub
+		subIndex = subindex;
+	}
 
 	/* (non-Javadoc)
 	 * @see movSimSMC.MovSimState#measurementPdf(smc.AbstractState.AbstractMeasurement)

@@ -29,7 +29,9 @@ public  class GenerateSubStates {
 			//vecSubStates.add((AbstractState)subState);
 			
 			try {
-				vecSubStates.add((AbstractState) fullState.clone());
+				MovSimSubState subState = new MovSimSubState( (MovSimSubState)fullState.clone(),i);
+				
+				vecSubStates.add((AbstractState) subState);
 			} catch (CloneNotSupportedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -48,7 +50,7 @@ public  class GenerateSubStates {
 			wraps[i] = ((MovSimState)subStates[i] ).getMovSimWrap();
 		}
 		try {
-			fullState = (AbstractState)  new MovSimSubState( MovsimWrap.combineMovsim(wraps), size);
+			fullState = (AbstractState)  new MovSimSubState( MovsimWrap.combineMovsim(wraps), -1);
 		} catch (JAXBException | SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
