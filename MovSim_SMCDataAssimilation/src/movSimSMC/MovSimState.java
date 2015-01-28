@@ -34,7 +34,7 @@ public class MovSimState extends AbstractState
 			
 			if (IsInitalState) {
 				c = (MovSimState)super.clone();
-				c.movsimPF = c.movsimPF.redistributeClone(GlobalConstants.G_RAND);
+				// c.movsimPF = c.movsimPF.redistributeClone(GlobalConstants.G_RAND);
 			}
 			else {
 				c = (MovSimState)super.clone();

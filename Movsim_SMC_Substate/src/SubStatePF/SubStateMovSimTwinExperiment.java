@@ -28,9 +28,9 @@ public class SubStateMovSimTwinExperiment extends
 	 */
 	public static void main(String[] args) {
 		
-		int particleN = 5;
+		int particleN = 30;
 		int stepLength = 15;
-		int stepN = 15;
+		int stepN = 20;
 		
 		SubStateMovSimTwinExperiment exp = new SubStateMovSimTwinExperiment(stepLength);
 		try

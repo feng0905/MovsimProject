@@ -45,7 +45,7 @@ public  class GenerateSubStates {
 		final int size = subStates.length;		// currently set the size to be constant
 		MovsimWrap wraps[]  = new MovsimWrap [size]; 
 		for (int i = 0; i < wraps.length; i++) {
-			wraps[i] = ((MovSimSubState)subStates[i] ).getMovSimWrap();
+			wraps[i] = ((MovSimState)subStates[i] ).getMovSimWrap();
 		}
 		try {
 			fullState = (AbstractState)  new MovSimSubState( MovsimWrap.combineMovsim(wraps), size);
