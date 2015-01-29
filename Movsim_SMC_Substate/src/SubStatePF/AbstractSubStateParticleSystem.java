@@ -12,6 +12,9 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 	private DataAssociation dataAssociationStrategy;
 	
 	private SubStateSystematicResampling substate_resampler;
+	
+	Vector<Particle> bestSubStateParticleBeforeResampling;
+	
 	public AbstractSubStateParticleSystem( SamplingStrategy sampler, WeightUpdatingStrategy weightUpdater, SubStateSystematicResampling resampler, GenerateSubStates substateGenerator, DataAssociation dataAssociationStrategy, Vector<Particle> particleSet)
 	{
 		super(sampler,weightUpdater,resampler,particleSet);
@@ -83,21 +86,68 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 		
 		
 		//for each substate
+		bestSubStateParticleBeforeResampling=new Vector<Particle>();
+		
 		for(int subStateIdx=0;subStateIdx<this.vecSubParticles.size();subStateIdx++){
 			Vector<Particle> subParticleSet=this.vecSubParticles.get(subStateIdx);
 			//WeightUpdating
 			weightUpdater.updateWeights(subParticleSet, measurement, sampler);
-
+			bestSubStateParticleBeforeResampling.add(getHighestWeightParticle(subParticleSet));
 			//Re-sampling
 			subParticleSet = substate_resampler.resampling(subParticleSet);
 			this.vecSubParticles.set(subStateIdx, subParticleSet);
 			
 		}
-		
-		this.particleSet=this.substate_resampler.ParticleCombination(this.vecSubParticles, this.subStateGenerateStrategy);
-        
 		//Record the best sample
 		bestParticleBeforeResampling = this.getHighestWeightParticle();
 		
+		this.particleSet=this.substate_resampler.ParticleCombination(this.vecSubParticles, this.subStateGenerateStrategy);
+        
+		
+	}
+	
+	/**
+	 * 
+	 * @return the particle with the highest weight among defined particle set. Note: it is meanlingless after a resampling
+	 */
+	public Particle getHighestWeightParticle(Vector<Particle> ParticelSet)
+	{
+		Particle maxP = null;
+		BigDecimal max = BigDecimal.ZERO;
+		for( Particle p  : ParticelSet)
+		{
+			if( max.compareTo(p.weight)<0)
+			{
+				maxP = p;
+				max = p.weight;
+			}
+		}
+		return maxP;
+	}
+	
+	/**
+	 * 
+	 * @return the combined particle with the highest weight . Note: it is meanlingless after a resampling
+	 */
+	@Override
+	public Particle getHighestWeightParticle()
+	{
+		Particle maxP = null;
+		BigDecimal max = BigDecimal.ZERO;
+		
+		AbstractState[] subStates=new AbstractState[this.subStateNumber];
+		AbstractState fullState=null;
+		 
+		int i=0;
+		for( Particle p  : this.bestSubStateParticleBeforeResampling)
+		{
+			subStates[i++]=p.state;
+			
+		}
+		
+		fullState=this.subStateGenerateStrategy.formFullState(subStates);
+		maxP=new Particle(fullState,max);
+		
+		return maxP;
 	}
 }
