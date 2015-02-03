@@ -1,7 +1,11 @@
 package movSimSMC;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 
 import javax.xml.bind.JAXBException;
@@ -20,8 +24,8 @@ import smc.AbstractState;
 public class MovSimState extends AbstractState 
 {
 	protected MovsimWrap movsimPF; 
-	private double stepLength = 10;			// seconds
-	
+	protected double stepLength = 10;			// seconds
+	protected List<MovsimArea> areaList = new ArrayList<>();
 	protected double max = 0;
 	// clone a state
 	public MovSimState clone(){
@@ -73,7 +77,13 @@ public class MovSimState extends AbstractState
 		String baseDir = System.getProperty("user.dir");
 		String[] args = { "-f", baseDir + "/sim/buildingBlocks/ringroad_2lanes.xprj" };
   		movsimPF = new MovsimWrap(args);
+  		
 	}
+	
+	public void  createArea(int road, double start, double end) {
+		areaList.add(new MovsimArea(road,start,end));
+	}
+	
 	
 	public MovSimState(MovsimWrap movsimPF){
 		this.movsimPF = movsimPF;
@@ -201,21 +211,52 @@ public class MovSimState extends AbstractState
 
 		NormalDistribution norm = new NormalDistribution(0, sigma);
 		BigDecimal weight = BigDecimal.ONE;
-		for (int i = 0; i < sensorReadings.size(); i++)
-		{
-			double normDis = singleSensorNormlizedDistance(sensorReadings.get(i), simulatedSensorReadings.get(i));
-			max = max > normDis?max:normDis;
-			double normResult = norm.density(normDis);
-			double minNorm = 1E-300; // if not doing so, a small value will become 0, and mess up the weight
-			if (normResult < minNorm) normResult = minNorm;
-			
-			// System.out.println("sensor-" + i + " norm dis=" + normDis + "-> L=" + normResult);
 
-			weight = weight.multiply(BigDecimal.valueOf(normResult));
+		// Peisheng 20150202 
+		for (int iArea = 0; iArea < areaList.size(); iArea++) {		
+			for (int i = 0; i < sensorReadings.size(); i++)
+			{
+				MovsimArea area = areaList.get(iArea);
+				if (area.getRoadSeg() == sensorReadings.get(i).getRoadID() 
+						||
+					area.getRoadSeg() == -1	) {
+					
+					double normDis = singleSensorNormlizedDistance(sensorReadings.get(i), simulatedSensorReadings.get(i),area.getStart(),area.getEnd());
+					max = max > normDis?max:normDis;
+					double normResult = norm.density(normDis);
+					double minNorm = 1E-300; // if not doing so, a small value will become 0, and mess up the weight
+					if (normResult < minNorm) normResult = minNorm;
+					
+					// System.out.println("sensor-" + i + " norm dis=" + normDis + "-> L=" + normResult);
+
+					weight = weight.multiply(BigDecimal.valueOf(normResult));	
+				}
+				
+			}
+
 		}
-		// System.out.println("Max Difference:" + max);
 		return weight;
 		//return BigDecimal.ONE;
+	}
+	protected double singleSensorNormlizedDistance( MovSimSensor ss1, MovSimSensor ss2, double start, double end )
+	{
+		MovSimSensor2 s1 = (MovSimSensor2)ss1;
+		MovSimSensor2 s2 = (MovSimSensor2)ss2;
+		// normalize speed
+		double norSpeedDiff = Math.abs(s1.getAvgSpeed(start,end) - s2.getAvgSpeed(start,end)) / (s1.getMaxSpeed() - s1.getMinSpeed()); 
+		// normalize acceleration
+		double norAccDiff = Math.abs(s1.getAvgAcc(start,end) - s2.getAvgAcc(start,end)) / 5; /*(s1.getMaxAcc() - s1.getMinAcc());*/
+		// normalize vehicle number
+		double norCarNumberDiff = Math.abs(s1.getVehNumber(start,end) - s2.getVehNumber(start,end)) / (double)(s1.getMaxVehNumber() - s1.getMinVehNumber());
+		
+		// weights on factors
+		double numberWeight = 0.5;
+		double speedWeight = 0.3;
+		double accWeight = 1.0 - numberWeight-speedWeight;
+		
+		
+		return speedWeight*norSpeedDiff + accWeight*norAccDiff + numberWeight*norCarNumberDiff;
+		
 	}
 	
 	protected double singleSensorNormlizedDistance( MovSimSensor ss1, MovSimSensor ss2 )
@@ -348,6 +389,11 @@ public class MovSimState extends AbstractState
 	public String reportState() {
 	
 		return movsimPF.getStateReport();
+	}
+	
+	public MovsimArea convert2MovsimArea(MovSimSensor ss1) {
+		MovSimSensor2 s2 = (MovSimSensor2) ss1;
+		return new MovsimArea(s2.getRoadID(),s2.getDeployedPosLeft(),s2.getDeployedPosRight());
 	}
 }
 

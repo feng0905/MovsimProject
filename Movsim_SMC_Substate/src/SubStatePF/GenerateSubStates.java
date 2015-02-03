@@ -28,7 +28,8 @@ public  class GenerateSubStates {
 			//MovSimSubState subState = ((MovSimSubState) fullState).clone();
 			//vecSubStates.add((AbstractState)subState);
 			
-			try {
+			
+		try {
 				MovSimSubState subState = new MovSimSubState( (MovSimState)fullState.clone(),i);
 				
 				vecSubStates.add((AbstractState) subState);
@@ -37,7 +38,6 @@ public  class GenerateSubStates {
 				e.printStackTrace();
 			}
 			}	
-		
 		return vecSubStates;
 	}
 

@@ -51,8 +51,8 @@ public class MovSimSubState extends MovSimState{
 	/* (non-Javadoc)
 	 * @see movSimSMC.MovSimState#measurementPdf(smc.AbstractState.AbstractMeasurement)
 	 */
-	@Override
-	public BigDecimal measurementPdf(AbstractMeasurement measurement)
+	//@Override
+	public BigDecimal measurementPdf2(AbstractMeasurement measurement)
 			throws StateFunctionNotSupportedException {
 		// TODO Auto-generated method stub
 		List<MovSimSensor> sensorReadings = ((MovSimMeasurement)measurement).getSensorReading();
