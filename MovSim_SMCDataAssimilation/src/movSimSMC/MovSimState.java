@@ -18,7 +18,7 @@ import org.xml.sax.SAXException;
 import movsimSMC.MovsimWrap;
 import movsimSMC.Paint.SmcSimulationCanvas;
 import smc.AbstractState;
-
+ 
 
 
 public class MovSimState extends AbstractState 
@@ -77,7 +77,7 @@ public class MovSimState extends AbstractState
 		String baseDir = System.getProperty("user.dir");
 		String[] args = { "-f", baseDir + "/sim/buildingBlocks/ringroad_2lanes.xprj" };
   		movsimPF = new MovsimWrap(args);
-  		
+  		createArea(-1,0,0);
 	}
 	
 	public void  createArea(int road, double start, double end) {
@@ -221,7 +221,7 @@ public class MovSimState extends AbstractState
 						||
 					area.getRoadSeg() == -1	) {
 					
-					double normDis = singleSensorNormlizedDistance(sensorReadings.get(i), simulatedSensorReadings.get(i),area.getStart(),area.getEnd());
+					double normDis = singleSensorNormlizedDistance(sensorReadings.get(i), simulatedSensorReadings.get(i));
 					max = max > normDis?max:normDis;
 					double normResult = norm.density(normDis);
 					double minNorm = 1E-300; // if not doing so, a small value will become 0, and mess up the weight
@@ -391,6 +391,11 @@ public class MovSimState extends AbstractState
 		return movsimPF.getStateReport();
 	}
 	
+	/**
+	 * 
+	 * @param ss1 
+	 * @return
+	 */
 	public MovsimArea convert2MovsimArea(MovSimSensor ss1) {
 		MovSimSensor2 s2 = (MovSimSensor2) ss1;
 		return new MovsimArea(s2.getRoadID(),s2.getDeployedPosLeft(),s2.getDeployedPosRight());
