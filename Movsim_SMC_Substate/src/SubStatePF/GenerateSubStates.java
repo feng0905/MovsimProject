@@ -22,8 +22,8 @@ public  class GenerateSubStates {
 	public Vector<AbstractState> DivideState(AbstractState fullState){
 		Vector<AbstractState> vecSubStates= new Vector<>();
 		//needs to be overridden
-		final int size = 4;		// currently set the size to be constant
-		for (int i=0;i<4;i++) {
+		final int size = subStateNumber;		// currently set the size to be constant
+		for (int i=0;i<subStateNumber;i++) {
 			
 			//MovSimSubState subState = ((MovSimSubState) fullState).clone();
 			//vecSubStates.add((AbstractState)subState);
