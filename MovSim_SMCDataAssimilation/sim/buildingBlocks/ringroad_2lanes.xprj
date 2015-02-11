@@ -30,7 +30,7 @@
             </TrafficComposition>
             <Road id="1">
                  <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "25" />
+                    <MacroIC position = "0" density_per_km = "50" />
                    
                 </InitialConditions>
             </Road>
@@ -42,13 +42,13 @@
             </Road>
 			<Road id="3">
                 <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
+                    <MacroIC position = "0" density_per_km = "25" />
                    
                 </InitialConditions>
             </Road>
 			<Road id="4">
                 <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "30" />
+                    <MacroIC position = "0" density_per_km = "25" />
                    
                 </InitialConditions>
             </Road>
