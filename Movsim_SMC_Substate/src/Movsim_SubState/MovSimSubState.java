@@ -26,6 +26,8 @@ public class MovSimSubState extends MovSimState{
 		super(fullState.getMovSimWrap());
 		// TODO Auto-generated constructor stub
 		subIndex = subindex;
+		areaList.clear();
+		createArea(subindex, 0, 250);
 	}
 	
 	@Override

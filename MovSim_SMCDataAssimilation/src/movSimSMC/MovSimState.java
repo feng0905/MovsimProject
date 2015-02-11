@@ -39,10 +39,12 @@ public class MovSimState extends AbstractState
 			if (IsInitalState) {
 				c = (MovSimState)super.clone();
 				c.movsimPF = c.movsimPF.redistributeClone(GlobalConstants.G_RAND);
+				c.areaList = (List<MovsimArea>) ((ArrayList<MovsimArea>) (c.areaList)).clone();
 			}
 			else {
 				c = (MovSimState)super.clone();
 				c.movsimPF = this.movsimPF.duplicate();			
+				c.areaList = (List<MovsimArea>) ((ArrayList<MovsimArea>) (c.areaList)).clone();
 			}
 //			IsInitalState = false;
 			
@@ -82,11 +84,13 @@ public class MovSimState extends AbstractState
 	
 	public void  createArea(int road, double start, double end) {
 		areaList.add(new MovsimArea(road,start,end));
+		// System.out.println("Area created!");
 	}
 	
 	
 	public MovSimState(MovsimWrap movsimPF){
 		this.movsimPF = movsimPF;
+		
 	}
 	
 	public void createObstacle(double startTime, int roadId, int laneId) {

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.movsim.network.autogen.opendrive.OpenDRIVE.Road.Lanes.LaneSection.Left;
 
 // system area Movsim State: try to add the space property to movsim state. 
-public class MovsimArea implements Serializable {
+public class MovsimArea implements Cloneable {
 
 	private int roadSeg; 
 	private double start;
