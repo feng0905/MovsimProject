@@ -27,7 +27,7 @@ public class MovSimSubState extends MovSimState{
 		// TODO Auto-generated constructor stub
 		subIndex = subindex;
 		areaList.clear();
-		createArea(subindex, 0, 250);
+		createArea(subindex+1, 0, 250);
 	}
 	
 	@Override
