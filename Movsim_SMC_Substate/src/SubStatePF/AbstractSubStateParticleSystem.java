@@ -89,6 +89,7 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 		bestSubStateParticleBeforeResampling=new Vector<Particle>();
 		
 		for(int subStateIdx=0;subStateIdx<this.vecSubParticles.size();subStateIdx++){
+			System.out.println("SubState-"+subStateIdx+":");
 			Vector<Particle> subParticleSet=this.vecSubParticles.get(subStateIdx);
 			//WeightUpdating
 			weightUpdater.updateWeights(subParticleSet, measurement, sampler);
