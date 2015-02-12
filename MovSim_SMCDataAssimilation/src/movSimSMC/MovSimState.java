@@ -231,7 +231,7 @@ public class MovSimState extends AbstractState
 					double minNorm = 1E-300; // if not doing so, a small value will become 0, and mess up the weight
 					if (normResult < minNorm) normResult = minNorm;
 					
-					// System.out.println("sensor-" + i + " norm dis=" + normDis + "-> L=" + normResult);
+					 System.out.println("sensor-" + i + " norm dis=" + normDis + "-> L=" + normResult);
 
 					weight = weight.multiply(BigDecimal.valueOf(normResult));	
 				}
@@ -276,11 +276,14 @@ public class MovSimState extends AbstractState
 		// normalize vehicle number
 		double norCarNumberDiff = Math.abs(s1.getVehNumber() - s2.getVehNumber()) / (double)(s1.getMaxVehNumber() - s1.getMinVehNumber());
 		
-		//System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
+		System.out.println();
+		System.out.println( "RealSpeed=" + s1.getAvgSpeed() + ", acc="+s1.getAvgAcc()+", carNumber=" + s1.getVehNumber());
+		System.out.println( "curSpeed=" + s2.getAvgSpeed() + ", acc="+s2.getAvgAcc()+", carNumber=" + s2.getVehNumber());
+		System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
 		
 		// weights on factors
-		double numberWeight = 0.5;
-		double speedWeight = 0.3;
+		double numberWeight = 1;
+		double speedWeight = 0;
 		double accWeight = 1 - numberWeight-speedWeight;
 		
 		
