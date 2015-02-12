@@ -3,13 +3,16 @@ package SubStatePF;
 import java.math.BigDecimal;
 import java.util.Vector;
 import smc.*;
+import smc.AbstractState.StateFunctionNotSupportedException;
 
-public abstract class AbstractSubStateParticleSystem extends AbstractParticleSystem{
+public class AbstractSubStateParticleSystem extends AbstractParticleSystem{
 	private Vector<Vector<Particle>> vecSubParticles;
 	private Vector<Vector<AbstractState>> vecSubStates;
 	private int subStateNumber;
 	private GenerateSubStates subStateGenerateStrategy;
 	private DataAssociation dataAssociationStrategy;
+	
+	public Vector<Particle> vecBeforeUpdateParticlesSet;// Particle set storing the particles before updating. This set is used for debugging.
 	
 	private SubStateSystematicResampling substate_resampler;
 	
@@ -33,7 +36,7 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 	}
 	
 	
-	public void GenerateSubStateParticle(){
+	public void GenerateSubStateParticle(AbstractState.AbstractMeasurement measurement){
 	
 		vecSubParticles=new Vector<Vector<Particle>>();
 		vecSubStates=new  Vector<Vector<AbstractState>>();
@@ -50,13 +53,38 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 			for ( int i=0;i<this.particleSet.size();i++)
 			{
 				Particle p=this.particleSet.get(i);
+				System.out.println("====================================");
+				try {
+					p.state.measurementPdf(measurement);
+				} catch (StateFunctionNotSupportedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("Before Generating the substates.....");
+//				
+				
 				Vector<AbstractState> vecSubStates=this.subStateGenerateStrategy.DivideState(p.state); 
+				if(i==this.particleSet.size()-1 ){
+					System.out.println();
+					try {
+						vecSubStates.get(3).measurementPdf(measurement);
+					} catch (StateFunctionNotSupportedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					System.out.println("Before updating the weight.....");
+					
+				}
+				
 				(this.vecSubStates).add(vecSubStates);
 				for(int j=0;j<subStateNumber;j++){
 					Particle subParticle=new Particle(vecSubStates.get(j), BigDecimal.valueOf(1)) ;
 					vecSubParticles.get(j).set(i, subParticle);
 				}
+			
 			}
+			
+			
 			
 		
 	}
@@ -64,6 +92,8 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 	@Override
 	public void updateParticle( AbstractState.AbstractMeasurement measurement )
 	{	
+		
+		
 		//Sampling
 		int i=0;
 		System.out.print("Sampling: ");
@@ -75,9 +105,13 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 			p.state.previousState = temp;
 			p.state.previousState.previousState = null;  // very important, or it forms a linked list, and consume memory fast
 		}
-		System.out.println();
+		//Storing the orginal particle for debugging
+		vecBeforeUpdateParticlesSet=this.particleSet;
 		
-		GenerateSubStateParticle();
+		GenerateSubStateParticle(measurement);
+		
+		
+		
 		for(i=0;i<this.particleSet.size();i++){
 			this.dataAssociationStrategy.AssignMeasurment(this.vecSubStates.get(i), measurement);
 		}
@@ -104,6 +138,15 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 		
 		this.particleSet=this.substate_resampler.ParticleCombination(this.vecSubParticles, this.subStateGenerateStrategy);
         
+		 
+		System.out.println();
+		try {
+			vecBeforeUpdateParticlesSet.get(this.particleSet.size()-1).state.measurementPdf(measurement);
+		} catch (StateFunctionNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("At the end of  updating the weight.......................");
 		
 	}
 	
@@ -150,5 +193,10 @@ public abstract class AbstractSubStateParticleSystem extends AbstractParticleSys
 		maxP=new Particle(fullState,max);
 		
 		return maxP;
+	}
+	
+	public Particle getParticle(int idx){
+		
+		return this.particleSet.get(idx);
 	}
 }

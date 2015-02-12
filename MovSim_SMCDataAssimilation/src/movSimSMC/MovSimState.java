@@ -276,9 +276,11 @@ public class MovSimState extends AbstractState
 		// normalize vehicle number
 		double norCarNumberDiff = Math.abs(s1.getVehNumber() - s2.getVehNumber()) / (double)(s1.getMaxVehNumber() - s1.getMinVehNumber());
 		
+		System.out.println( "speed1=" + s1.getAvgSpeed() + ", acc1="+s1.getAvgAcc()+", carNumber1=" + s1.getVehNumber());
 		System.out.println( "speed2=" + s2.getAvgSpeed() + ", acc2="+s2.getAvgAcc()+", carNumber2=" + s2.getVehNumber());
 		//System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
 		
+		System.out.println("++++++++++++");
 		// weights on factors
 		double numberWeight = 0.5;
 		double speedWeight = 0.3;

@@ -27,10 +27,11 @@ import smc.AbstractState;
 import smc.Particle;
 import identicalTwinExperiments.AbstractIdenticalTwinExperiment;
 
+
 public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIdenticalTwinExperiment
 {
 	
-	int stepLength = 15; // unit: seconds
+	protected int stepLength = 15; // unit: seconds
 	
 	public AbstractMovSimIdenticalTwinExperiment(int stepLength) { this.stepLength = stepLength; }
 	
@@ -74,11 +75,11 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 	}
 
 	// record/display results
-	int reportTime = 0; // the time, after it results will be recorded
-	boolean reportFigure = GlobalConstants.SHOW_FIG; // the flag indicating if display a figure
-	boolean reportError = true; // the flag indicating if record errors
+	protected int reportTime = 0; // the time, after it results will be recorded
+	protected boolean reportFigure = GlobalConstants.SHOW_FIG; // the flag indicating if display a figure
+	protected boolean reportError = true; // the flag indicating if record errors
 	
-	static class MovSimSMCResult{
+	public static class MovSimSMCResult{
 		public double currentTime;  // the current time
 		public double simError; // the distance between real system and simulated system
 		public double bestParticleError; // the distance from real system and the best particle
@@ -86,11 +87,11 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		public double filteredAccidentError; // the distance of accident position.  
 		
 		
-		List<List<Double>> segmentDensities = new ArrayList<List<Double>>(); // the density on each segment, 0-real, 1-sim, 2-best particle
-		List<List<Double>> segmentAvgSpeeds = new ArrayList<List<Double>>(); // the speed on each segment, 0-real, 1-sim, 2-best particle
-		List<String> particleReportList = new ArrayList<String>();
+		public List<List<Double>> segmentDensities = new ArrayList<List<Double>>(); // the density on each segment, 0-real, 1-sim, 2-best particle
+		public List<List<Double>> segmentAvgSpeeds = new ArrayList<List<Double>>(); // the speed on each segment, 0-real, 1-sim, 2-best particle
+		public List<String> particleReportList = new ArrayList<String>();
 	}
-	List<MovSimSMCResult> expResults = new ArrayList<MovSimSMCResult>(); // the container containing results
+	protected List<MovSimSMCResult> expResults = new ArrayList<MovSimSMCResult>(); // the container containing results
 	
 	@Override
 	protected void reportOnStep(int step) throws Exception
@@ -101,10 +102,15 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		MovsimWrap simSys = ((MovSimState)this.simulatedSystem).getMovSimWrap(); // the simulated MovsimWrap object
 		MovsimWrap bestParticleSys = ((MovSimState) particleSystem.getBestParticleBeforeResampling().state).getMovSimWrap();
 		
+		//added by yuan 2/12/2015
+		MovsimWrap ParticleSys = ((MovSimState) particleSystem.getBestParticleBeforeResampling().state).getMovSimWrap();
+		//finish adding
+		
 		Vector<Particle> particleSet = this.particleSystem.getParticleSet(); // the particles 
 		MovsimWrap[] movSimParticleSystems = new MovsimWrap[particleSet.size()]; // the systems on particles
-		for (int i = 0; i < movSimParticleSystems.length; i++)
+		for (int i = 0; i < movSimParticleSystems.length; i++){
 			movSimParticleSystems[i] = ((MovSimState) particleSet.elementAt(i).state).getMovSimWrap();
+		}
 
 		
 		// record results
@@ -154,6 +160,8 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				new SmcSimulationCanvas(realSys,"Real System, step "+step+ " time " + step*stepLength + " simulatd time" + realSys.getSimulationTime());
 				new SmcSimulationCanvas(simSys,"Simulated System, step " +step+ " time " + step*stepLength + " simulatd time" + simSys.getSimulationTime());
 				new SmcSimulationCanvas(bestParticleSys, "Filtered System, step "+step+ " time " + step*stepLength + " simulatd time" + bestParticleSys.getSimulationTime());
+				
+			
 			}
 			
 			if(reportError)
