@@ -36,12 +36,15 @@ public class MovSimSubState extends MovSimState{
 		 MovSimSubState sub = (MovSimSubState)super.clone();
 		 sub.subIndex = this.subIndex;
 		return (MovSimSubState)super.clone();
+		
 	}
 
-	public MovSimSubState(MovsimWrap movsimPF, int subindex) {
+	public MovSimSubState(MovsimWrap movsimPF) {
 		super(movsimPF);
 		// TODO Auto-generated constructor stub
-		subIndex = subindex;
+		subIndex = -1;
+		areaList.clear();
+		createArea(-1, 0, 250);
 	}
 	
 	public MovSimSubState(MovSimSubState movsimSubState, int subindex) {

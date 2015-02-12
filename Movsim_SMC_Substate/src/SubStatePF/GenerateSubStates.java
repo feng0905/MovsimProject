@@ -50,7 +50,7 @@ public  class GenerateSubStates {
 			wraps[i] = ((MovSimState)subStates[i] ).getMovSimWrap();
 		}
 		try {
-			fullState = (AbstractState)  new MovSimSubState( MovsimWrap.combineMovsim(wraps), -1);
+			fullState = (AbstractState)  new MovSimSubState( MovsimWrap.combineMovsim(wraps));
 		} catch (JAXBException | SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
