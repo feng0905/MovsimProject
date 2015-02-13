@@ -35,7 +35,7 @@ public class MovSimSubState extends MovSimState{
 		// TODO Auto-generated method stub
 		 MovSimSubState sub = (MovSimSubState)super.clone();
 		 sub.subIndex = this.subIndex;
-		return (MovSimSubState)super.clone();
+		return sub;
 		
 	}
 

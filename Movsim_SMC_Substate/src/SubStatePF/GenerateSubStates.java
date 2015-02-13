@@ -30,6 +30,7 @@ public  class GenerateSubStates {
 			
 			
 		try {
+				fullState.setInititalState(false);
 				MovSimSubState subState = new MovSimSubState( (MovSimState)fullState.clone(),i);
 				
 				vecSubStates.add((AbstractState) subState);

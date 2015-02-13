@@ -33,20 +33,21 @@ public class MovSimState extends AbstractState
 		MovSimState c = null;
 		try
 		{
-			c = (MovSimState)super.clone();
-			c.movsimPF = this.movsimPF.duplicate();
+			// c = (MovSimState)super.clone();
+			// c.movsimPF = this.movsimPF.duplicate();
 			
 			if (IsInitalState) {
 				c = (MovSimState)super.clone();
 				c.movsimPF = c.movsimPF.redistributeClone(GlobalConstants.G_RAND);
 				c.areaList = (List<MovsimArea>) ((ArrayList<MovsimArea>) (c.areaList)).clone();
+				System.out.println("redistribute clone");
 			}
 			else {
 				c = (MovSimState)super.clone();
 				c.movsimPF = this.movsimPF.duplicate();			
-				c.areaList = (List<MovsimArea>) ((ArrayList<MovsimArea>) (c.areaList)).clone();
+				c.areaList = (List<MovsimArea>) ((ArrayList<MovsimArea>) (c.areaList)).clone();			
 			}
-//			IsInitalState = false;
+			IsInitalState = false;
 			
 		}
 		catch (CloneNotSupportedException e)
@@ -90,6 +91,7 @@ public class MovSimState extends AbstractState
 	
 	public MovSimState(MovsimWrap movsimPF){
 		this.movsimPF = movsimPF;
+		
 		
 	}
 	
