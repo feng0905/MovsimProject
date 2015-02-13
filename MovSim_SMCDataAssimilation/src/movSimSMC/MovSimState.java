@@ -96,6 +96,12 @@ public class MovSimState extends AbstractState
 	public void createObstacle(double startTime, int roadId, int laneId) {
 		movsimPF.createObstacle(startTime, roadId, laneId);
 	}
+	
+	public void createSelfRecoverObstacle(double startTime, int roadId, int laneId,double endTime) {
+		movsimPF.createSelfRecoveryObstacle(startTime, roadId, laneId, endTime);
+	}
+	
+	
 	@Override
 	public void setDescription(String des)
 	{
