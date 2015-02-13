@@ -33,9 +33,9 @@ public class MovSimState extends AbstractState
 		MovSimState c = null;
 		try
 		{
-			c = (MovSimState)super.clone();
-			c.movsimPF = this.movsimPF.duplicate();
-			
+			//c = (MovSimState)super.clone();
+			//c.movsimPF = this.movsimPF.duplicate();
+			//c.areaList = (List<MovsimArea>) ((ArrayList<MovsimArea>) (c.areaList)).clone();
 			if (IsInitalState) {
 				c = (MovSimState)super.clone();
 				c.movsimPF = c.movsimPF.redistributeClone(GlobalConstants.G_RAND);
@@ -46,7 +46,7 @@ public class MovSimState extends AbstractState
 				c.movsimPF = this.movsimPF.duplicate();			
 				c.areaList = (List<MovsimArea>) ((ArrayList<MovsimArea>) (c.areaList)).clone();
 			}
-//			IsInitalState = false;
+			IsInitalState = false;
 			
 		}
 		catch (CloneNotSupportedException e)
@@ -263,7 +263,7 @@ public class MovSimState extends AbstractState
 		
 		// weights on factors
 		double numberWeight = 0.5;
-		double speedWeight = 0.3;
+		double speedWeight = 0.5;
 		double accWeight = 1.0 - numberWeight-speedWeight;
 		
 		
@@ -286,7 +286,7 @@ public class MovSimState extends AbstractState
 		
 		// weights on factors
 		double numberWeight = 0.5;
-		double speedWeight = 0.3;
+		double speedWeight = 0.5;
 		double accWeight = 1 - numberWeight-speedWeight;
 		
 		
