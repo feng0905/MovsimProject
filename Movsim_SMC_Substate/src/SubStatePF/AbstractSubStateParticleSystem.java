@@ -3,6 +3,7 @@ package SubStatePF;
 import java.math.BigDecimal;
 import java.util.Vector;
 import smc.*;
+import smc.AbstractState.AbstractMeasurement;
 import smc.AbstractState.StateFunctionNotSupportedException;
 
 public class AbstractSubStateParticleSystem extends AbstractParticleSystem{
@@ -17,6 +18,7 @@ public class AbstractSubStateParticleSystem extends AbstractParticleSystem{
 	private SubStateSystematicResampling substate_resampler;
 	
 	Vector<Particle> bestSubStateParticleBeforeResampling;
+	private AbstractMeasurement measurement;
 	
 	public AbstractSubStateParticleSystem( SamplingStrategy sampler, WeightUpdatingStrategy weightUpdater, SubStateSystematicResampling resampler, GenerateSubStates substateGenerator, DataAssociation dataAssociationStrategy, Vector<Particle> particleSet)
 	{
@@ -74,6 +76,22 @@ public class AbstractSubStateParticleSystem extends AbstractParticleSystem{
 					}
 					System.out.println("Before updating the weight.....");
 					
+					AbstractState[] arraySubstates=new AbstractState[vecSubStates.size()];
+					for(int j=0;j<arraySubstates.length;j++){
+						arraySubstates[j]=vecSubStates.get(j);
+					}
+					
+					AbstractState testState = this.subStateGenerateStrategy.formFullState(arraySubstates);
+					
+					System.out.println();
+					try {
+						testState.measurementPdf(measurement);
+					} catch (StateFunctionNotSupportedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					System.out.println("Before form full state.....");
+					
 				}
 				
 				(this.vecSubStates).add(vecSubStates);
@@ -92,7 +110,7 @@ public class AbstractSubStateParticleSystem extends AbstractParticleSystem{
 	@Override
 	public void updateParticle( AbstractState.AbstractMeasurement measurement )
 	{	
-		
+		this.measurement=measurement;
 		
 		//Sampling
 		int i=0;
@@ -136,17 +154,18 @@ public class AbstractSubStateParticleSystem extends AbstractParticleSystem{
 		//Record the best sample
 		bestParticleBeforeResampling = this.getHighestWeightParticle();
 		
+		
 		this.particleSet=this.substate_resampler.ParticleCombination(this.vecSubParticles, this.subStateGenerateStrategy);
         
 		 
-		System.out.println();
-		try {
-			vecBeforeUpdateParticlesSet.get(this.particleSet.size()-1).state.measurementPdf(measurement);
-		} catch (StateFunctionNotSupportedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("At the end of  updating the weight.......................");
+//		System.out.println();
+//		try {
+//			vecBeforeUpdateParticlesSet.get(this.particleSet.size()-1).state.measurementPdf(measurement);
+//		} catch (StateFunctionNotSupportedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		System.out.println("At the end of  updating the weight.......................");
 		
 	}
 	
@@ -156,16 +175,24 @@ public class AbstractSubStateParticleSystem extends AbstractParticleSystem{
 	 */
 	public Particle getHighestWeightParticle(Vector<Particle> ParticelSet)
 	{
-		Particle maxP = null;
+		Particle maxP = new Particle(null,null);
 		BigDecimal max = BigDecimal.ZERO;
+		int maxP_idx=-1,i=0;
 		for( Particle p  : ParticelSet)
 		{
+			
 			if( max.compareTo(p.weight)<0)
 			{
-				maxP = p;
+				maxP.state = p.state;
 				max = p.weight;
+				maxP_idx=i;
+				
 			}
+			i++;
+			
 		}
+		 
+		System.out.println("Best particle---"+maxP_idx+ "     ID="+  System.identityHashCode(maxP.state));
 		return maxP;
 	}
 	
@@ -186,10 +213,34 @@ public class AbstractSubStateParticleSystem extends AbstractParticleSystem{
 		for( Particle p  : this.bestSubStateParticleBeforeResampling)
 		{
 			subStates[i++]=p.state;
+			System.out.println("State ID ="+System.identityHashCode(p.state));
+			
+			System.out.println();
+			try {
+				p.state.measurementPdf(this.measurement);
+			} catch (StateFunctionNotSupportedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("In getHighestWeightParticle.......................");
+			
+			
 			
 		}
 		
 		fullState=this.subStateGenerateStrategy.formFullState(subStates);
+		
+		System.out.println();
+		System.out.println("Debugging best particle");
+		try {
+			fullState.measurementPdf(measurement);
+		} catch (StateFunctionNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("End debugging .......................");
+		
+		
 		maxP=new Particle(fullState,max);
 		
 		return maxP;

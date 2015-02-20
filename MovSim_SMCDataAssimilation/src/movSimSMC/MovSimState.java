@@ -205,7 +205,7 @@ public class MovSimState extends AbstractState
 		List<MovSimSensor> sensorReadings = ((MovSimMeasurement)measurement).sensors;
 		List<MovSimSensor> simulatedSensorReadings = this.movsimPF.getSensorReading();
 		//double sigma = sensorReadings.get(0).getMaxValue() / 4.0; 
-		double sigma = 0.12;
+		double sigma = 0.5; //original - 0.12;
 		/*
 		 * double variance = sigma*sigma;
 		 * 
@@ -219,7 +219,8 @@ public class MovSimState extends AbstractState
 		BigDecimal weight = BigDecimal.ONE;
 
 		// Peisheng 20150202 
-		for (int iArea = 0; iArea < areaList.size(); iArea++) {		
+		for (int iArea = 0; iArea < areaList.size(); iArea++) {	
+			
 			for (int i = 0; i < sensorReadings.size(); i++)
 			{
 				MovsimArea area = areaList.get(iArea);
@@ -228,12 +229,14 @@ public class MovSimState extends AbstractState
 					area.getRoadSeg() == -1	) {
 					
 					double normDis = singleSensorNormlizedDistance(sensorReadings.get(i), simulatedSensorReadings.get(i));
+					normDis=normDis*20; //modified by yuan 2/13/15
 					max = max > normDis?max:normDis;
 					double normResult = norm.density(normDis);
 					double minNorm = 1E-300; // if not doing so, a small value will become 0, and mess up the weight
 					if (normResult < minNorm) normResult = minNorm;
 					
-					// System.out.println("sensor-" + i + " norm dis=" + normDis + "-> L=" + normResult);
+					System.out.println("sensor-" + i + " norm dis=" + normDis + "-> L=" + normResult);
+					System.out.println();
 
 					weight = weight.multiply(BigDecimal.valueOf(normResult));	
 				}
@@ -241,6 +244,7 @@ public class MovSimState extends AbstractState
 			}
 
 		}
+		
 		return weight;
 		//return BigDecimal.ONE;
 	}
@@ -258,8 +262,8 @@ public class MovSimState extends AbstractState
 		System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
 		
 		// weights on factors
-		double numberWeight = 0.5;
-		double speedWeight = 0.3;
+		double numberWeight = 1;
+		double speedWeight = 0;
 		double accWeight = 1.0 - numberWeight-speedWeight;
 		
 		
@@ -280,12 +284,12 @@ public class MovSimState extends AbstractState
 		
 		System.out.println( "speed1=" + s1.getAvgSpeed() + ", acc1="+s1.getAvgAcc()+", carNumber1=" + s1.getVehNumber());
 		System.out.println( "speed2=" + s2.getAvgSpeed() + ", acc2="+s2.getAvgAcc()+", carNumber2=" + s2.getVehNumber());
-		//System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
+		System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
 		
-		System.out.println("++++++++++++");
+		//System.out.println("++++++++++++");
 		// weights on factors
-		double numberWeight = 0.5;
-		double speedWeight = 0.3;
+		double numberWeight = 1;
+		double speedWeight = 0;
 		double accWeight = 1 - numberWeight-speedWeight;
 		
 		

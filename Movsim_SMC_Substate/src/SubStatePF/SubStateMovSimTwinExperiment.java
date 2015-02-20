@@ -26,6 +26,9 @@ import movsimSMC.Paint.SmcSimulationCanvas;
 public class SubStateMovSimTwinExperiment extends
 		AbstractMovSimIdenticalTwinExperiment {
 
+	public int showParticleFigureStep=-1;
+
+
 	public SubStateMovSimTwinExperiment(int stepLength) {
 		super(stepLength);
 		 
@@ -107,7 +110,7 @@ public class SubStateMovSimTwinExperiment extends
 				new SmcSimulationCanvas(bestParticleSys, "Filtered System, step "+step+ " time " + step*stepLength + " simulatd time" + bestParticleSys.getSimulationTime());
 				
 			
-				if(step==3){
+				if(step==showParticleFigureStep){
 					//Yuan 2/12/2015 for debugging
 					Vector<Particle> curParticleSet = ((SubStatePF.AbstractSubStateParticleSystem)this.particleSystem).vecBeforeUpdateParticlesSet; // the particles 
 					MovsimWrap[] curMovSimParticleSystems = new MovsimWrap[curParticleSet.size()]; // the systems on particles
@@ -242,11 +245,12 @@ public class SubStateMovSimTwinExperiment extends
 	 */
 	public static void main(String[] args) {
 		
-		int particleN = 1;
+		int particleN = 5;
 		int stepLength = 15;
-		int stepN = 3;
+		int stepN = 5;
 		
 		SubStateMovSimTwinExperiment exp = new SubStateMovSimTwinExperiment(stepLength);
+		exp.showParticleFigureStep = 5;
 		try
 		{
 			exp.runDataAssimilationExperiement(stepN, particleN);
