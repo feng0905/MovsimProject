@@ -47,7 +47,7 @@ public class MovSimState extends AbstractState
 				c.movsimPF = this.movsimPF.duplicate();			
 				c.areaList = (List<MovsimArea>) ((ArrayList<MovsimArea>) (c.areaList)).clone();			
 			}
-			IsInitalState = false;
+ 			// IsInitalState = false;
 			
 		}
 		catch (CloneNotSupportedException e)
@@ -111,7 +111,7 @@ public class MovSimState extends AbstractState
 		//System.out.println("============================= Calling transition FUNCTION!");
 		MovSimState nextState = this.clone();
 	    nextState.movsimPF.runFor(stepLength);
-	    
+	    nextState.setInititalState(false);
     	return nextState;
 		
 		//return this.transitionModel(this.drawNextRandomComponentSample());
@@ -153,9 +153,9 @@ public class MovSimState extends AbstractState
 	    	
 	    	// move on y direction
 	    	double yRoll = GlobalConstants.G_RAND.nextDouble();
-	    	if(yRoll>GlobalConstants.SHIFT_Y_THRESHOLD)
+	    	if(yRoll > GlobalConstants.SHIFT_Y_THRESHOLD)
 	    		clonedState.movsimPF.rollupLane();
-	    	else if(yRoll<-GlobalConstants.SHIFT_Y_THRESHOLD)
+	    	else if(yRoll< GlobalConstants.SHIFT_Y_THRESHOLD)
 	    		clonedState.movsimPF.rolldownLane();
 	    }
 	    
@@ -179,7 +179,7 @@ public class MovSimState extends AbstractState
 	    clonedState3.movsimPF.runFor(stepLength);
 	    new SmcSimulationCanvas(clonedState3.movsimPF, "!!!!!!!!!!!!3");*/
 	    
-	    
+	    clonedState.setInititalState(false);
 		return clonedState;
 		
 		//return this.transitionFunction();
@@ -259,7 +259,7 @@ public class MovSimState extends AbstractState
 		// normalize vehicle number
 		double norCarNumberDiff = Math.abs(s1.getVehNumber(start,end) - s2.getVehNumber(start,end)) / (double)(s1.getMaxVehNumber() - s1.getMinVehNumber());
 		
-		System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
+		//System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
 		
 		// weights on factors
 		double numberWeight = 1;
@@ -286,7 +286,7 @@ public class MovSimState extends AbstractState
 		System.out.println( "speed2=" + s2.getAvgSpeed() + ", acc2="+s2.getAvgAcc()+", carNumber2=" + s2.getVehNumber());
 		System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
 		
-		//System.out.println("++++++++++++");
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++");
 		// weights on factors
 		double numberWeight = 1;
 		double speedWeight = 0;

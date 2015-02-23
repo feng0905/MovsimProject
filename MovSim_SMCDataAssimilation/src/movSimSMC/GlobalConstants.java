@@ -16,7 +16,7 @@ public interface GlobalConstants
 	double SHIFT_Y_THRESHOLD = 0.5;
 	
 	
-	double TRANSITION_ACCIDENT_RATE = 0;//0.2;
+	double TRANSITION_ACCIDENT_RATE = 0.1;//0.2;
 	boolean SHOW_FIG = true;
 	
 }
