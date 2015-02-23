@@ -46,7 +46,7 @@ public class MovSimState extends AbstractState
 				c.movsimPF = this.movsimPF.duplicate();			
 				c.areaList = (List<MovsimArea>) ((ArrayList<MovsimArea>) (c.areaList)).clone();
 			}
-			IsInitalState = false;
+			// IsInitalState = false;
 			
 		}
 		catch (CloneNotSupportedException e)
@@ -115,7 +115,7 @@ public class MovSimState extends AbstractState
 		//System.out.println("============================= Calling transition FUNCTION!");
 		MovSimState nextState = this.clone();
 	    nextState.movsimPF.runFor(stepLength);
-	    
+	    nextState.setInititalState(false);
     	return nextState;
 		
 		//return this.transitionModel(this.drawNextRandomComponentSample());
@@ -170,20 +170,8 @@ public class MovSimState extends AbstractState
 		
 	    clonedState.movsimPF.runFor(stepLength);
 	    
-	    
-	    /*new SmcSimulationCanvas(clonedState.movsimPF, "!!!!!!!!!!!!1");
-	    
-	    MovSimState clonedState2 = this.clone();
-	    clonedState2.movsimPF.addRandomComponent(0.05);
-	    clonedState2.movsimPF.runFor(stepLength);
-	    new SmcSimulationCanvas(clonedState2.movsimPF, "!!!!!!!!!!!!2");
-	    
-	    MovSimState clonedState3 = this.clone();
-	    clonedState3.movsimPF.addRandomComponent(0.07);
-	    clonedState3.movsimPF.runFor(stepLength);
-	    new SmcSimulationCanvas(clonedState3.movsimPF, "!!!!!!!!!!!!3");*/
-	    
-	    
+	    	    
+	    clonedState.setInititalState(false);
 		return clonedState;
 		
 		//return this.transitionFunction();
