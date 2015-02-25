@@ -90,9 +90,12 @@ public class MovSimState extends AbstractState
 	
 	
 	public MovSimState(MovsimWrap movsimPF){
-		this.movsimPF = movsimPF;
-		
-		
+		try {
+			this.movsimPF = movsimPF.duplicate();
+		} catch (JAXBException | SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void createObstacle(double startTime, int roadId, int laneId) {
@@ -123,7 +126,7 @@ public class MovSimState extends AbstractState
 		//System.out.println("============================= Calling transition MODEL!");
 		
 		// the random
-		MovSimRandomComponent randomMovSim = (MovSimRandomComponent) random;
+		// MovSimRandomComponent randomMovSim = (MovSimRandomComponent) random;
 		// clone the current state
 		MovSimState clonedState = this.clone();
 		

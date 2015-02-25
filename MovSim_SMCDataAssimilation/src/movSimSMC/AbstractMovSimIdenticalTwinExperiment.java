@@ -155,7 +155,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				
 				
 				
-				// Peisheng edited, add initial state seperation
+				// Peisheng edited, add initial state separation¡£
 				simulatedSystem.setInititalState(false);
 				for (Particle particle: initialParticleSet) {
 					particle.state.setInititalState(false);

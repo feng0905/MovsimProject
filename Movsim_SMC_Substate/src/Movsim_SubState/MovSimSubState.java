@@ -13,6 +13,8 @@ import org.apache.commons.math3.distribution.NormalDistribution;
 import org.movsim.simulator.roadnetwork.MovSimSensor;
 import org.xml.sax.SAXException;
 
+import smc.AbstractState;
+
 public class MovSimSubState extends MovSimState{
 	private int subIndex;
 	
@@ -25,7 +27,7 @@ public class MovSimSubState extends MovSimState{
 	public MovSimSubState(MovSimState fullState, int subindex) {
 		super(fullState.getMovSimWrap());
 		// TODO Auto-generated constructor stub
-		subIndex = subindex;
+		this.subIndex = subindex;
 		areaList.clear();
 		createArea(subindex+1, 0, 250);
 	}
@@ -33,8 +35,8 @@ public class MovSimSubState extends MovSimState{
 	@Override
 	public MovSimSubState clone() {
 		// TODO Auto-generated method stub
-		 MovSimSubState sub = (MovSimSubState)super.clone();
-		 sub.subIndex = this.subIndex;
+		MovSimSubState sub = (MovSimSubState)super.clone();
+		sub.subIndex = this.subIndex;
 		return sub;
 		
 	}
@@ -91,6 +93,17 @@ public class MovSimSubState extends MovSimState{
 		
 		
 		// return super.measurementPdf(measurement);
+	}
+
+	/* (non-Javadoc)
+	 * @see movSimSMC.MovSimState#transitionModel(smc.AbstractState.AbstractTransitionRandomComponent)
+	 */
+	@Override
+	public AbstractState transitionModel(
+			AbstractTransitionRandomComponent random)
+			throws StateFunctionNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.transitionModel(random);
 	}
 	
 	

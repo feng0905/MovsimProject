@@ -2,6 +2,8 @@ package SubStatePF;
 
 import java.math.BigDecimal;
 import java.util.Vector;
+
+import movSimSMC.MovSimState;
 import smc.*;
 import smc.AbstractState.AbstractMeasurement;
 import smc.AbstractState.StateFunctionNotSupportedException;
