@@ -78,7 +78,7 @@ public class MovSimState extends AbstractState
 		
 		this.stepLength = stepLength;
 		String baseDir = System.getProperty("user.dir");
-		String[] args = { "-f", baseDir + "/sim/buildingBlocks/ringroad_2lanes.xprj" };
+		String[] args = { "-f", "../sim/buildingBlocks/ringroad_2lanes.xprj" };
   		movsimPF = new MovsimWrap(args);
   		createArea(-1,0,0);
 	}
