@@ -24,7 +24,7 @@ import smc.AbstractState;
 public class MovSimState extends AbstractState 
 {
 	protected MovsimWrap movsimPF; 
-	protected double stepLength = 10;			// seconds
+	protected double stepLength = 15;			// seconds
 	protected List<MovsimArea> areaList = new ArrayList<>();
 	protected double max = 0;
 	// clone a state
@@ -32,10 +32,7 @@ public class MovSimState extends AbstractState
 		
 		MovSimState c = null;
 		try
-		{
-			//c = (MovSimState)super.clone();
-			//c.movsimPF = this.movsimPF.duplicate();
-			//c.areaList = (List<MovsimArea>) ((ArrayList<MovsimArea>) (c.areaList)).clone();
+		{			
 			if (IsInitalState) {
 				c = (MovSimState)super.clone();
 				c.movsimPF = c.movsimPF.redistributeClone(GlobalConstants.G_RAND);
@@ -45,9 +42,7 @@ public class MovSimState extends AbstractState
 				c = (MovSimState)super.clone();
 				c.movsimPF = this.movsimPF.duplicate();			
 				c.areaList = (List<MovsimArea>) ((ArrayList<MovsimArea>) (c.areaList)).clone();
-			}
-			// IsInitalState = false;
-			
+			}			
 		}
 		catch (CloneNotSupportedException e)
 		{
@@ -159,7 +154,7 @@ public class MovSimState extends AbstractState
 	    	double yRoll = GlobalConstants.G_RAND.nextDouble();
 	    	if(yRoll>GlobalConstants.SHIFT_Y_THRESHOLD)
 	    		clonedState.movsimPF.rollupLane();
-	    	else if(yRoll<-GlobalConstants.SHIFT_Y_THRESHOLD)
+	    	else if(yRoll< GlobalConstants.SHIFT_Y_THRESHOLD)
 	    		clonedState.movsimPF.rolldownLane();
 	    }
 	    
@@ -250,8 +245,8 @@ public class MovSimState extends AbstractState
 		// System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
 		
 		// weights on factors
-		double numberWeight = 0.5;
-		double speedWeight = 0.5;
+		double numberWeight = 0.6;
+		double speedWeight = 0.4;
 		double accWeight = 1.0 - numberWeight-speedWeight;
 		
 		
@@ -292,12 +287,12 @@ public class MovSimState extends AbstractState
 		
 		
 		// about removing accident
-		double proposalHighThreshold = 15;
+		double proposalHighThreshold = 18;
 		boolean removeAcc = true;
 		
 		// about adding accident
 		double proposalLowAccThreshold = 8;
-		double proposalAccRate = 0.5;
+		double proposalAccRate = 0.4;
 		
 		// about speed and acceleration
 		boolean changeSpeed = false;
