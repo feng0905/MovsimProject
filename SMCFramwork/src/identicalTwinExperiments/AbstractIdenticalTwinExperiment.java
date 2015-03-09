@@ -58,14 +58,6 @@ public abstract class AbstractIdenticalTwinExperiment
 		}
 		
 		
-		
-		
-		// Peisheng edited, add initial state seperation
-		simulatedSystem.setInititalState(false);
-		for (Particle particle: initialParticleSet) {
-			particle.state.setInititalState(false);
-		}
-		
 		// Create the particle system from its factory method
 		this.particleSystem = this.createParticleSystem(initialParticleSet);
 		

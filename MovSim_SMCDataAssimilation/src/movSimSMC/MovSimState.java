@@ -47,7 +47,7 @@ public class MovSimState extends AbstractState
 				c.movsimPF = this.movsimPF.duplicate();			
 				c.areaList = (List<MovsimArea>) ((ArrayList<MovsimArea>) (c.areaList)).clone();			
 			}
-			IsInitalState = false;
+ 			// IsInitalState = false;
 			
 		}
 		catch (CloneNotSupportedException e)
@@ -78,7 +78,7 @@ public class MovSimState extends AbstractState
 		
 		this.stepLength = stepLength;
 		String baseDir = System.getProperty("user.dir");
-		String[] args = { "-f", baseDir + "/sim/buildingBlocks/ringroad_2lanes.xprj" };
+		String[] args = { "-f", "../sim/buildingBlocks/ringroad_2lanes.xprj" };
   		movsimPF = new MovsimWrap(args);
   		createArea(-1,0,0);
 	}
@@ -90,9 +90,12 @@ public class MovSimState extends AbstractState
 	
 	
 	public MovSimState(MovsimWrap movsimPF){
-		this.movsimPF = movsimPF;
-		
-		
+		try {
+			this.movsimPF = movsimPF.duplicate();
+		} catch (JAXBException | SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void createObstacle(double startTime, int roadId, int laneId) {
@@ -111,7 +114,7 @@ public class MovSimState extends AbstractState
 		//System.out.println("============================= Calling transition FUNCTION!");
 		MovSimState nextState = this.clone();
 	    nextState.movsimPF.runFor(stepLength);
-	    
+	    nextState.setInititalState(false);
     	return nextState;
 		
 		//return this.transitionModel(this.drawNextRandomComponentSample());
@@ -123,7 +126,7 @@ public class MovSimState extends AbstractState
 		//System.out.println("============================= Calling transition MODEL!");
 		
 		// the random
-		MovSimRandomComponent randomMovSim = (MovSimRandomComponent) random;
+		// MovSimRandomComponent randomMovSim = (MovSimRandomComponent) random;
 		// clone the current state
 		MovSimState clonedState = this.clone();
 		
@@ -153,9 +156,9 @@ public class MovSimState extends AbstractState
 	    	
 	    	// move on y direction
 	    	double yRoll = GlobalConstants.G_RAND.nextDouble();
-	    	if(yRoll>GlobalConstants.SHIFT_Y_THRESHOLD)
+	    	if(yRoll > GlobalConstants.SHIFT_Y_THRESHOLD)
 	    		clonedState.movsimPF.rollupLane();
-	    	else if(yRoll<-GlobalConstants.SHIFT_Y_THRESHOLD)
+	    	else if(yRoll< GlobalConstants.SHIFT_Y_THRESHOLD)
 	    		clonedState.movsimPF.rolldownLane();
 	    }
 	    
@@ -179,7 +182,7 @@ public class MovSimState extends AbstractState
 	    clonedState3.movsimPF.runFor(stepLength);
 	    new SmcSimulationCanvas(clonedState3.movsimPF, "!!!!!!!!!!!!3");*/
 	    
-	    
+	    clonedState.setInititalState(false);
 		return clonedState;
 		
 		//return this.transitionFunction();
@@ -205,7 +208,7 @@ public class MovSimState extends AbstractState
 		List<MovSimSensor> sensorReadings = ((MovSimMeasurement)measurement).sensors;
 		List<MovSimSensor> simulatedSensorReadings = this.movsimPF.getSensorReading();
 		//double sigma = sensorReadings.get(0).getMaxValue() / 4.0; 
-		double sigma = 0.12;
+		double sigma = 0.5; //original - 0.12;
 		/*
 		 * double variance = sigma*sigma;
 		 * 
@@ -219,7 +222,8 @@ public class MovSimState extends AbstractState
 		BigDecimal weight = BigDecimal.ONE;
 
 		// Peisheng 20150202 
-		for (int iArea = 0; iArea < areaList.size(); iArea++) {		
+		for (int iArea = 0; iArea < areaList.size(); iArea++) {	
+			
 			for (int i = 0; i < sensorReadings.size(); i++)
 			{
 				MovsimArea area = areaList.get(iArea);
@@ -228,12 +232,14 @@ public class MovSimState extends AbstractState
 					area.getRoadSeg() == -1	) {
 					
 					double normDis = singleSensorNormlizedDistance(sensorReadings.get(i), simulatedSensorReadings.get(i));
+					normDis=normDis*20; //modified by yuan 2/13/15
 					max = max > normDis?max:normDis;
 					double normResult = norm.density(normDis);
 					double minNorm = 1E-300; // if not doing so, a small value will become 0, and mess up the weight
 					if (normResult < minNorm) normResult = minNorm;
 					
-					// System.out.println("sensor-" + i + " norm dis=" + normDis + "-> L=" + normResult);
+					System.out.println("sensor-" + i + " norm dis=" + normDis + "-> L=" + normResult);
+					System.out.println();
 
 					weight = weight.multiply(BigDecimal.valueOf(normResult));	
 				}
@@ -241,6 +247,7 @@ public class MovSimState extends AbstractState
 			}
 
 		}
+		
 		return weight;
 		//return BigDecimal.ONE;
 	}
@@ -255,11 +262,11 @@ public class MovSimState extends AbstractState
 		// normalize vehicle number
 		double norCarNumberDiff = Math.abs(s1.getVehNumber(start,end) - s2.getVehNumber(start,end)) / (double)(s1.getMaxVehNumber() - s1.getMinVehNumber());
 		
-		System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
+		//System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
 		
 		// weights on factors
-		double numberWeight = 0.5;
-		double speedWeight = 0.3;
+		double numberWeight = 1;
+		double speedWeight = 0;
 		double accWeight = 1.0 - numberWeight-speedWeight;
 		
 		
@@ -280,12 +287,12 @@ public class MovSimState extends AbstractState
 		
 		System.out.println( "speed1=" + s1.getAvgSpeed() + ", acc1="+s1.getAvgAcc()+", carNumber1=" + s1.getVehNumber());
 		System.out.println( "speed2=" + s2.getAvgSpeed() + ", acc2="+s2.getAvgAcc()+", carNumber2=" + s2.getVehNumber());
-		//System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
+		System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
 		
-		System.out.println("++++++++++++");
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++");
 		// weights on factors
-		double numberWeight = 0.5;
-		double speedWeight = 0.3;
+		double numberWeight = 1;
+		double speedWeight = 0;
 		double accWeight = 1 - numberWeight-speedWeight;
 		
 		
