@@ -24,7 +24,7 @@ import smc.AbstractState;
 public class MovSimState extends AbstractState 
 {
 	protected MovsimWrap movsimPF; 
-	protected double stepLength = 10;			// seconds
+	protected double stepLength = 15;			// seconds
 	protected List<MovsimArea> areaList = new ArrayList<>();
 	protected double max = 0;
 	// clone a state
@@ -32,10 +32,9 @@ public class MovSimState extends AbstractState
 		
 		MovSimState c = null;
 		try
-		{
+		{			
 			// c = (MovSimState)super.clone();
 			// c.movsimPF = this.movsimPF.duplicate();
-			
 			if (IsInitalState) {
 				c = (MovSimState)super.clone();
 				c.movsimPF = c.movsimPF.redistributeClone(GlobalConstants.G_RAND);
@@ -46,9 +45,8 @@ public class MovSimState extends AbstractState
 				c = (MovSimState)super.clone();
 				c.movsimPF = this.movsimPF.duplicate();			
 				c.areaList = (List<MovsimArea>) ((ArrayList<MovsimArea>) (c.areaList)).clone();			
-			}
+			}			
  			// IsInitalState = false;
-			
 		}
 		catch (CloneNotSupportedException e)
 		{
@@ -101,6 +99,12 @@ public class MovSimState extends AbstractState
 	public void createObstacle(double startTime, int roadId, int laneId) {
 		movsimPF.createObstacle(startTime, roadId, laneId);
 	}
+	
+	public void createSelfRecoverObstacle(double startTime, int roadId, int laneId,double endTime) {
+		movsimPF.createSelfRecoveryObstacle(startTime, roadId, laneId, endTime);
+	}
+	
+	
 	@Override
 	public void setDescription(String des)
 	{
@@ -130,13 +134,13 @@ public class MovSimState extends AbstractState
 		// clone the current state
 		MovSimState clonedState = this.clone();
 		
-//		// set random
-//	    if(GlobalConstants.TRANSITION_BEHAVIOR_RANDOM)
-//	    {
-//	    	//System.out.println("Behavior model randomness added");
-//	    	clonedState.movsimPF = clonedState.movsimPF.redistributeClone(GlobalConstants.G_RAND);
-//	    	//System.out.println("---------------the random: " + randomMovSim.getRandom());
-//	    }
+		// set TRANSITION_OBSERVATION_REAL
+	    if(GlobalConstants.TRANSITION_BEHAVIOR_RANDOM)
+	    {
+	    	//System.out.println("Behavior model randomness added");
+	    	// clonedState.movsimPF.Observation2Real(((MovSimMeasurement)measurement).sensors, GlobalConstants.G_RAND);
+	    	//System.out.println("---------------the random: " + randomMovSim.getRandom());
+	    }
 		
 		
 		// set random
@@ -169,19 +173,7 @@ public class MovSimState extends AbstractState
 		
 	    clonedState.movsimPF.runFor(stepLength);
 	    
-	    
-	    /*new SmcSimulationCanvas(clonedState.movsimPF, "!!!!!!!!!!!!1");
-	    
-	    MovSimState clonedState2 = this.clone();
-	    clonedState2.movsimPF.addRandomComponent(0.05);
-	    clonedState2.movsimPF.runFor(stepLength);
-	    new SmcSimulationCanvas(clonedState2.movsimPF, "!!!!!!!!!!!!2");
-	    
-	    MovSimState clonedState3 = this.clone();
-	    clonedState3.movsimPF.addRandomComponent(0.07);
-	    clonedState3.movsimPF.runFor(stepLength);
-	    new SmcSimulationCanvas(clonedState3.movsimPF, "!!!!!!!!!!!!3");*/
-	    
+	    	    
 	    clonedState.setInititalState(false);
 		return clonedState;
 		
@@ -265,8 +257,8 @@ public class MovSimState extends AbstractState
 		//System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
 		
 		// weights on factors
-		double numberWeight = 1;
-		double speedWeight = 0;
+		double numberWeight = 0.6;
+		double speedWeight = 0.4;
 		double accWeight = 1.0 - numberWeight-speedWeight;
 		
 		
@@ -286,13 +278,12 @@ public class MovSimState extends AbstractState
 		double norCarNumberDiff = Math.abs(s1.getVehNumber() - s2.getVehNumber()) / (double)(s1.getMaxVehNumber() - s1.getMinVehNumber());
 		
 		System.out.println( "speed1=" + s1.getAvgSpeed() + ", acc1="+s1.getAvgAcc()+", carNumber1=" + s1.getVehNumber());
-		System.out.println( "speed2=" + s2.getAvgSpeed() + ", acc2="+s2.getAvgAcc()+", carNumber2=" + s2.getVehNumber());
 		System.out.println( "speedD=" + norSpeedDiff + ", accD="+norAccDiff+", carNumberD=" + norCarNumberDiff);
 		
 		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++");
 		// weights on factors
 		double numberWeight = 1;
-		double speedWeight = 0;
+		double speedWeight = 0.5;
 		double accWeight = 1 - numberWeight-speedWeight;
 		
 		
@@ -310,18 +301,18 @@ public class MovSimState extends AbstractState
 		
 		
 		// about removing accident
-		double proposalHighThreshold = 15;
+		double proposalHighThreshold = 18;
 		boolean removeAcc = true;
 		
 		// about adding accident
 		double proposalLowAccThreshold = 8;
-		double proposalAccRate = 0.5;
+		double proposalAccRate = 0.4;
 		
 		// about speed and acceleration
 		boolean changeSpeed = false;
 		boolean changeAcceleration = false;
 		
-		nextMovSimState.movsimPF.setStates(
+		nextMovSimState.movsimPF.setStates2(
 				movSimMeasurement.sensors,
 				proposalLowAccThreshold, 
 				proposalHighThreshold,
@@ -329,7 +320,7 @@ public class MovSimState extends AbstractState
 				proposalAccRate, 
 				removeAcc,
 				changeSpeed, 
-				changeAcceleration);
+				changeAcceleration,0.6);
 
 		
 		// nextMovSimState = (MovSimState) this.transitionModel(drawNextRandomComponentSample());

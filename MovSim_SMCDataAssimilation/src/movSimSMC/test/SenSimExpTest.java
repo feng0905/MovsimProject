@@ -12,8 +12,8 @@ public class SenSimExpTest
 	{
 		int particleN = Integer.parseInt(args[0]);
 		int kernelN = 10;
-		int stepLength = 15;
-		int stepN = 15;
+		int stepLength = 25;
+		int stepN = 20;
 		
 		KernelFunction kernel =  new KernelEstimationProposalWeight.GaussianKernel();
 		
