@@ -126,13 +126,13 @@ public class MovSimState extends AbstractState
 		// clone the current state
 		MovSimState clonedState = this.clone();
 		
-//		// set random
-//	    if(GlobalConstants.TRANSITION_BEHAVIOR_RANDOM)
-//	    {
-//	    	//System.out.println("Behavior model randomness added");
-//	    	clonedState.movsimPF = clonedState.movsimPF.redistributeClone(GlobalConstants.G_RAND);
-//	    	//System.out.println("---------------the random: " + randomMovSim.getRandom());
-//	    }
+		// set TRANSITION_OBSERVATION_REAL
+	    if(GlobalConstants.TRANSITION_BEHAVIOR_RANDOM)
+	    {
+	    	//System.out.println("Behavior model randomness added");
+	    	// clonedState.movsimPF.Observation2Real(((MovSimMeasurement)measurement).sensors, GlobalConstants.G_RAND);
+	    	//System.out.println("---------------the random: " + randomMovSim.getRandom());
+	    }
 		
 		
 		// set random
@@ -298,7 +298,7 @@ public class MovSimState extends AbstractState
 		boolean changeSpeed = false;
 		boolean changeAcceleration = false;
 		
-		nextMovSimState.movsimPF.setStates(
+		nextMovSimState.movsimPF.setStates2(
 				movSimMeasurement.sensors,
 				proposalLowAccThreshold, 
 				proposalHighThreshold,
@@ -306,7 +306,7 @@ public class MovSimState extends AbstractState
 				proposalAccRate, 
 				removeAcc,
 				changeSpeed, 
-				changeAcceleration);
+				changeAcceleration,0.6);
 
 		
 		// nextMovSimState = (MovSimState) this.transitionModel(drawNextRandomComponentSample());
