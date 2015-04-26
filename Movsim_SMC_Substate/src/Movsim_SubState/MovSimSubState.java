@@ -7,16 +7,17 @@ import javax.xml.bind.JAXBException;
 
 import movSimSMC.MovSimState;
 import movSimSMC.MovSimState.MovSimMeasurement;
+import movsimSMC.MovSimSensor;
+import movsimSMC.MovsimArea;
 import movsimSMC.MovsimWrap;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
-import org.movsim.simulator.roadnetwork.MovSimSensor;
 import org.xml.sax.SAXException;
 
 import smc.AbstractState;
 
 public class MovSimSubState extends MovSimState{
-	private int subIndex;
+	private int subIndex = -1;		// start from 0 
 	
 	public MovSimSubState(double stepLength, int subindex) throws JAXBException, SAXException {
 		super(stepLength);
@@ -28,8 +29,7 @@ public class MovSimSubState extends MovSimState{
 		super(fullState.getMovSimWrap());
 		// TODO Auto-generated constructor stub
 		this.subIndex = subindex;
-		areaList.clear();
-		createArea(subindex+1, 0, 250);
+		stateArea = new MovsimArea(subindex+1, 0, 250);
 	}
 	
 	@Override
@@ -45,8 +45,6 @@ public class MovSimSubState extends MovSimState{
 		super(movsimPF);
 		// TODO Auto-generated constructor stub
 		subIndex = -1;
-		areaList.clear();
-		createArea(-1, 0, 250);
 	}
 	
 	public MovSimSubState(MovSimSubState movsimSubState, int subindex) {
@@ -59,7 +57,7 @@ public class MovSimSubState extends MovSimState{
 	 * @see movSimSMC.MovSimState#measurementPdf(smc.AbstractState.AbstractMeasurement)
 	 */
 	//@Override
-	public BigDecimal measurementPdf2(AbstractMeasurement measurement)
+	public BigDecimal measurementPdf(AbstractMeasurement measurement)
 			throws StateFunctionNotSupportedException {
 		// TODO Auto-generated method stub
 		List<MovSimSensor> sensorReadings = ((MovSimMeasurement)measurement).getSensorReading();
@@ -106,5 +104,33 @@ public class MovSimSubState extends MovSimState{
 		return super.transitionModel(random);
 	}
 	
+	
+	/**
+	 * The default createMovsimArea method will create an complete area when subIndex is -1;
+	 * And when the subIndex is no less than 0, it will create an area of the entire road segment whose id is subIndex+1 
+	 */
+	protected void createMovsimArea() {
+		if (subIndex == -1) {
+			super.createMovsimArea();
+		}
+		else {
+			int startid, endid;		
+			startid = subIndex+1;
+			endid = subIndex+1;
+			
+			stateArea = new MovsimArea(startid,endid,0,movsimPF.getRoadNetwork().getRoadLength(startid));			
+		}
+	}
+	
+	/**
+	 * using the area parameters to create the state area. 
+	 * @param startId
+	 * @param endId
+	 * @param startpos
+	 * @param endpos
+	 */
+	public void createMovsimArea(int startId,int endId, double startpos, double endpos) {
+		stateArea = new MovsimArea(startId,endId,startpos,endpos);
+	}
 	
 }

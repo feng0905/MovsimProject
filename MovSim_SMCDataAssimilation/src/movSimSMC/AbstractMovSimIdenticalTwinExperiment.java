@@ -66,8 +66,8 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 			sim = new MovSimState(stepLength);
 			sim.setInititalState(false);
 			// sim.setInititalState(false);
-			sim.createSelfRecoverObstacle(30, 1, 2, 80);
-			sim.createObstacle(140, 3, 2);
+			// sim.createSelfRecoverObstacle(30, 1, 2, 80);
+			//sim.createObstacle(140, 3, 2);
 		    // sim.createObstacle(25, 2, 1);
 			
 		} catch (JAXBException e) {
@@ -78,107 +78,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 		return sim;
 	}
 
-	/* (non-Javadoc)
-	 * @see identicalTwinExperiments.AbstractIdenticalTwinExperiment#runDataAssimilationExperiement(int, int)
-	 */
-	@Override
-	public void runDataAssimilationExperiement(int stepNumber,
-			int particleNumber) throws Exception {
-		// TODO Auto-generated method stub
-		// Create the real system from its factory method
-				this.realSystem = this.createRealSystem();
-				realSystem.setDescription("t0_Real");
-				
-				System.out.println("SMC --------------  Real system created!!! ");
-				//System.out.println("Memory usage: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000.0 + "MB");
-				
-				// Create the simulated system from its factory method
-				this.simulatedSystem = this.createSimulatedSystem();
-				simulatedSystem.setDescription("t0_Sim");
-				
-				System.out.println("Simulated --------------  Real system created!!! ");
-				//System.out.println("Memory usage: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000.0 + "MB");
-				
-				// Create the initial particle set from the simulated system factory method
-				Vector<Particle> initialParticleSet = new Vector<Particle>();
-				for(int i=0; i<particleNumber; i++)
-				{
-					AbstractState s=null;
-					try
-					{
-						// simulatedSystem.setAsInititalState();
-						s = (AbstractState) simulatedSystem.clone();
-					}
-					catch (CloneNotSupportedException e)
-					{
-						e.printStackTrace();
-						System.exit(1);
-					}
-					s.setDescription("t0_"+"Particle" + i);
-					initialParticleSet.add(new Particle(s, BigDecimal.valueOf(1.0/particleNumber)));
-					
-					System.out.println("SMC -------------- Particle" + i + " created!!! ");
-					System.out.println("Memory usage: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000.0 + "MB");
-				}
-				
-				
-				
-				
-				// Peisheng edited, add initial state seperation
-				simulatedSystem.setInititalState(false);
-				for (Particle particle: initialParticleSet) {
-					particle.state.setInititalState(false);
-				}
-				
-				// Create the particle system from its factory method
-				this.particleSystem = this.createParticleSystem(initialParticleSet);
-				
-				for( int t=1; t<=stepNumber; t++ )
-				{
-					System.out.println("SMC -------------- Step" + t + " started !!!!!!!!!!!! ");
-					//System.out.println("Memory usage: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000.0 + "MB");
-					try
-					{
-						// The real system at time t
-						realSystem = realSystem.transitionFunction();
-						realSystem.setDescription("t"+t+"_"+"Real");
-						
-						System.out.println("SMC -------------- real sys finished");
-						//System.gc();
-						//System.out.println("Memory usage: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000.0 + "MB");
-						
-						//The simulated system at time t
-						simulatedSystem = simulatedSystem.transitionFunction();
-						simulatedSystem.setDescription("t"+t+"_"+"Sim");
-				
-						System.out.println("SMC -------------- sim sys finished");
-						//System.gc();
-						//System.out.println("Memory usage: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000.0 + "MB");
-						
-						// Measurement from the real system
-						AbstractState.AbstractMeasurement measurement = realSystem.measurementFunction();
-						System.out.println("SMC -------------- measurement finished");
-						//System.out.println("Memory usage: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000.0 + "MB");
-						
-						// Assimilate data to the particle system
-						particleSystem.updateParticle(measurement); 
-						particleSystem.setDescription("t"+t); // add a description for the state for each particle
-						System.out.println("SMC -------------- particles finished");
-						System.out.println("Memory usage: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000.0 + "MB");
-						
-						
-						// Report experiment results
-						reportOnStep( t );
-					}
-					catch (StateFunctionNotSupportedException e)
-					{
-						e.printStackTrace();
-					}
-					
-					
-				}
 
-	}
 
 	// record/display results
 	protected int reportTime = 0; // the time, after it results will be recorded
@@ -230,7 +130,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				this.simulatedSystem = this.createSimulatedSystem();
 				simulatedSystem.setDescription("t0_Sim");
 				
-				System.out.println("Simulated --------------  Real system created!!! ");
+				System.out.println("Simulated --------------  Sim system created!!! ");
 				//System.out.println("Memory usage: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000.0 + "MB");
 				
 				// Create the initial particle set from the simulated system factory method
@@ -255,9 +155,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 					System.out.println("Memory usage: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000.0 + "MB");
 				}
 				
-				
-				
-				
+							
 				// Peisheng edited, add initial state separation¡£
 				simulatedSystem.setInititalState(false);
 				for (Particle particle: initialParticleSet) {
@@ -389,7 +287,9 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				String resultFolder = "results";
 				File folder = new File(resultFolder);
 				if (!folder.exists()) folder.mkdir();
-				String filePath = resultFolder+ "/NumbericResults.txt";
+				String testName = this.getClass().getSimpleName();
+				String filePath = resultFolder+"/"+ testName.substring(0, testName.indexOf("MovSim"))+"_NumbericResults.txt";
+				
 				
 				// Create file, if not existing
 				File resultFile = new File(filePath);

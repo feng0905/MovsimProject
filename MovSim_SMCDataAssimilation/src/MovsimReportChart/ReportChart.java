@@ -205,10 +205,9 @@ public class ReportChart extends JFrame implements ChangeListener, ItemListener{
 				            String type = String.format("%02d", ++j);
 				            // System.out.print(value+"\t");
 				            reportData.particleSets.addValue(value, series, type);
-				        }
-				        
-				        
-					}
+				        }        
+				        dataScan.close();
+				     }
 				}
 				else if (str.compareTo("Real System:") == 0) {
 					Scanner dataScan = new Scanner(scanFile.nextLine());

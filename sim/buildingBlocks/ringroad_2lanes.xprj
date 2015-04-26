@@ -4,7 +4,7 @@
 <Movsim>
     <VehiclePrototypes>
         <!-- fast vehicle type (car) -->
-        <VehiclePrototypeConfiguration label="FAST_TYPE" length="6" maximum_deceleration="9">
+        <VehiclePrototypeConfiguration label="FAST_TYPE" length="3" maximum_deceleration="9">
             <AccelerationModelType>
                 <ModelParameterIDM v0="35" T="1" s0="3" s1="0" delta="4" a="0.7" b="3.0" />
             </AccelerationModelType>
@@ -13,7 +13,7 @@
             </LaneChangeModelType>
         </VehiclePrototypeConfiguration>
         <!-- slow vehicle type (truck) -->
-        <VehiclePrototypeConfiguration label="SLOW_TYPE" length="15" maximum_deceleration="9">
+        <VehiclePrototypeConfiguration label="SLOW_TYPE" length="7" maximum_deceleration="9">
             <AccelerationModelType>
                 <ModelParameterIDM v0="5" T="1.2" s0="3" s1="0" delta="4" a="0.5" b="3.0" />
             </AccelerationModelType>
@@ -23,7 +23,7 @@
         </VehiclePrototypeConfiguration>
     </VehiclePrototypes>
     <Scenario network_filename="ringroad_2lanes.xodr">
-        <Simulation timestep="0.2" seed="42" crash_exit="false">
+        <Simulation timestep="1" seed="42" crash_exit="false">
             <TrafficComposition>
                 <VehicleType label="FAST_TYPE" fraction="1" />
                 <VehicleType label="SLOW_TYPE" fraction="0.00" />
