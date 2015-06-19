@@ -35,7 +35,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 {
 	
 	protected int stepLength = 15; // unit: seconds
-	
+	protected int ParticleNumber = 30;	// add this variable to save multiple results.
 	public AbstractMovSimIdenticalTwinExperiment(int stepLength) { this.stepLength = stepLength; }
 	
 	@Override
@@ -119,6 +119,10 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 	public void runDataAssimilationExperiement(int stepNumber,
 			int particleNumber) throws Exception {
 		// TODO Auto-generated method stub
+		
+		//add assignment
+		ParticleNumber = particleNumber;
+		
 		// Create the real system from its factory method
 				this.realSystem = this.createRealSystem();
 				realSystem.setDescription("t0_Real");
@@ -288,7 +292,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 				File folder = new File(resultFolder);
 				if (!folder.exists()) folder.mkdir();
 				String testName = this.getClass().getSimpleName();
-				String filePath = resultFolder+"/"+ testName.substring(0, testName.indexOf("MovSim"))+"_NumbericResults.txt";
+				String filePath = resultFolder+"/"+ testName.substring(0, testName.indexOf("MovSim"))+"PN"+ParticleNumber+"_Numberic.txt";
 				
 				
 				// Create file, if not existing

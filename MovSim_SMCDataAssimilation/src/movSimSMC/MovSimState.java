@@ -19,6 +19,10 @@ public class MovSimState extends AbstractState
 	protected double stepLength = 15;			// seconds
 	protected MovsimArea stateArea;
 	protected double max = 0;
+	
+	static double proposalHighThreshold = 15;
+	static double proposalLowAccThreshold = 5;
+	
 	// clone a state
 	public MovSimState clone(){
 		
@@ -301,11 +305,11 @@ public class MovSimState extends AbstractState
 		
 		
 		// about removing accident
-		double proposalHighThreshold = 15;
+		// double proposalHighThreshold = 15;
 		boolean removeAcc = true;
 		
 		// about adding accident
-		double proposalLowAccThreshold = 5;
+		// double proposalLowAccThreshold = 5;
 		double proposalAccRate = 0.1;
 		
 		// about speed and acceleration
