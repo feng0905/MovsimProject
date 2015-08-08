@@ -72,7 +72,7 @@ public class MovSimState extends AbstractState
 		
 		this.stepLength = stepLength;
 		String baseDir = System.getProperty("user.dir");
-		String[] args = { "-f", "../sim/buildingBlocks/ringroad_2lanes.xprj" };
+		String[] args = { "-f", "../sim/buildingBlocks/startStop.xprj" };
   		movsimPF = new MovsimWrap(args);
   		createMovsimArea();
 	}
@@ -286,8 +286,8 @@ public class MovSimState extends AbstractState
 		
 		//System.out.println("++++++++++++++++++++++++++++++++++++++++++++++");
 		// weights on factors
-		double numberWeight = 0.8;
-		double speedWeight = 0.2;
+		double numberWeight = 0.5;
+		double speedWeight = 0.3;
 		double accWeight = 1 - numberWeight-speedWeight;
 		
 		
@@ -310,7 +310,7 @@ public class MovSimState extends AbstractState
 		
 		// about adding accident
 		// double proposalLowAccThreshold = 5;
-		double proposalAccRate = 0.1;
+		double proposalAccRate = 0.4;
 		
 		// about speed and acceleration
 		boolean changeSpeed = false;

@@ -8,7 +8,7 @@ public class BootstrapExpTest
 
 	public static void main(String[] args)
 	{
-		int stepLength = 60;
+		int stepLength = 180;
 		int stepN = 15;
 		
 		if (args.length == 1) {
