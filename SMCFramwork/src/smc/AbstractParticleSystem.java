@@ -22,25 +22,37 @@ public abstract class AbstractParticleSystem
 	}
 	
 	public void updateParticle( AbstractState.AbstractMeasurement measurement )
-	{	
+	{
+		//Edited by Peisheng to test the speed of each step
+		Long start,end;
+		
+		
 		//Sampling
 		int i=0;
-		System.out.print("Sampling: ");
+		//System.out.print("Sampling: ");
+		//start = System.currentTimeMillis();
 		for ( Particle p:particleSet)
 		{
-			System.out.print(i++ + " ");
+			//System.out.print(i++ + " ");
 			AbstractState temp = p.state;
 			p.state = sampler.sampling(p.state, measurement);
 			p.state.previousState = temp;
 			p.state.previousState.previousState = null;  // very important, or it forms a linked list, and consume memory fast
 		}
-		System.out.println();
+		//System.out.println();
+		end = System.currentTimeMillis();
+		//System.out.println("Sampling step takes "+(end-start)+" miliseconds.");
 		
+		start = System.currentTimeMillis();
 		//WeightUpdating
 		weightUpdater.updateWeights(particleSet, measurement, sampler);
 		
+		end = System.currentTimeMillis();
+		//System.out.println("weight-update step takes "+(end-start)+" miliseconds.");
+		
 		//Record the best sample
 		bestParticleBeforeResampling = this.getHighestWeightParticle();
+		
 		
 		//Re-sampling
 		particleSet = resampler.resampling(particleSet);

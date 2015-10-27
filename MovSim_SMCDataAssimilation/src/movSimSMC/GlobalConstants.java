@@ -5,7 +5,7 @@ import java.util.Random;
 public interface GlobalConstants
 {
 	// random generator
-	int RANDOM_SEED = 1000;
+	int RANDOM_SEED = 2000;
 	Random G_RAND = new Random(RANDOM_SEED);
 	
 	// Transition random

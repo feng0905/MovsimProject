@@ -20,8 +20,8 @@ public class MovSimState extends AbstractState
 	protected MovsimArea stateArea;
 	protected double max = 0;
 	
-	static double proposalHighThreshold = 15;
-	static double proposalLowAccThreshold = 5;
+	static double proposalHighThreshold = 18;
+	static double proposalLowAccThreshold = 8;
 	
 	// clone a state
 	public MovSimState clone(){
@@ -72,7 +72,7 @@ public class MovSimState extends AbstractState
 		
 		this.stepLength = stepLength;
 		String baseDir = System.getProperty("user.dir");
-		String[] args = { "-f", "../sim/buildingBlocks/startStop.xprj" };
+		String[] args = { "-f", "../sim/buildingBlocks/ringroad_2lanes.xprj" };
   		movsimPF = new MovsimWrap(args);
   		createMovsimArea();
 	}
@@ -116,10 +116,14 @@ public class MovSimState extends AbstractState
 	@Override
 	public AbstractState transitionFunction() throws StateFunctionNotSupportedException
 	{
-		//System.out.println("============================= Calling transition FUNCTION!");
+		//System.out.println("\n============================= Calling transition FUNCTION!");
+		//Long startTime, endTime;
+		//startTime= System.currentTimeMillis();
 		MovSimState nextState = this.clone();
 	    nextState.movsimPF.runFor(stepLength);
 	    nextState.setInititalState(false);
+	    //endTime = System.currentTimeMillis();
+	    //System.out.println(endTime-startTime+" miliseconds have been used in transition FUNCTION");
     	return nextState;
 		
 		//return this.transitionModel(this.drawNextRandomComponentSample());
@@ -128,8 +132,9 @@ public class MovSimState extends AbstractState
 	@Override
 	public AbstractState transitionModel(AbstractTransitionRandomComponent random) throws StateFunctionNotSupportedException
 	{
-		//System.out.println("============================= Calling transition MODEL!");
-		
+		//System.out.println("\n============================= Calling transition MODEL!");
+		//Long startTime, endTime;
+		//startTime= System.currentTimeMillis();
 		// the random
 		// MovSimRandomComponent randomMovSim = (MovSimRandomComponent) random;
 		// clone the current state
@@ -139,7 +144,7 @@ public class MovSimState extends AbstractState
 	    if(GlobalConstants.TRANSITION_BEHAVIOR_RANDOM)
 	    {
 	    	//System.out.println("Behavior model randomness added");
-	    	// clonedState.movsimPF.Observation2Real(((MovSimMeasurement)measurement).sensors, GlobalConstants.G_RAND);
+	    	clonedState.movsimPF.addRoadSegmentNoise(GlobalConstants.G_RAND);
 	    	//System.out.println("---------------the random: " + randomMovSim.getRandom());
 	    }
 		
@@ -176,6 +181,8 @@ public class MovSimState extends AbstractState
 	    
 	    	    
 	    clonedState.setInititalState(false);
+	    //endTime = System.currentTimeMillis();
+	    //System.out.println(endTime-startTime+" miliseconds have been used in transition MODEL");
 		return clonedState;
 		
 		//return this.transitionFunction();
@@ -201,6 +208,9 @@ public class MovSimState extends AbstractState
 	@Override
 	public BigDecimal measurementPdf(AbstractMeasurement measurement) throws StateFunctionNotSupportedException
 	{
+		//System.out.println("\n============================= Calling measurement FUNCTION!");
+		//Long startTime, endTime;
+		//startTime= System.currentTimeMillis();
 		List<MovSimSensor> sensorReadings = ((MovSimMeasurement)measurement).sensors;
 		List<MovSimSensor> simulatedSensorReadings = this.movsimPF.getSensorReading();
 		//double sigma = sensorReadings.get(0).getMaxValue() / 4.0; 
@@ -243,7 +253,8 @@ public class MovSimState extends AbstractState
 			}
 
 		//}
-		
+		//endTime = System.currentTimeMillis();
+		//System.out.println(endTime-startTime+" miliseconds have been used in measurement FUNCTION");
 		return weight;
 		//return BigDecimal.ONE;
 	}
@@ -299,7 +310,9 @@ public class MovSimState extends AbstractState
 	@Override
 	public AbstractState propose(AbstractMeasurement measurement) throws StateFunctionNotSupportedException, Exception
 	{
-		
+		long start, end;
+		//System.out.println("-----------Propose Function Started");
+		start = System.currentTimeMillis();
 		MovSimState nextMovSimState = (MovSimState) this.transitionModel(drawNextRandomComponentSample());
 		MovSimMeasurement movSimMeasurement =  (MovSimMeasurement) measurement;
 		
@@ -324,11 +337,16 @@ public class MovSimState extends AbstractState
 				proposalAccRate, 
 				removeAcc,
 				changeSpeed, 
-				changeAcceleration,0.5);
+				changeAcceleration
+				,0.0
+				);
 
 		
 		// nextMovSimState = (MovSimState) this.transitionModel(drawNextRandomComponentSample());
 		// return nextMovSimState.transitionModel(drawNextRandomComponentSample());
+		//System.out.println("-----------Propose Function ended");
+		end = System.currentTimeMillis();
+		//System.out.println("Propose function runs "+ (end-start) + " miliseconds");
 		return nextMovSimState;
 	}
 

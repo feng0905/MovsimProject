@@ -67,7 +67,7 @@ public abstract class AbstractMovSimIdenticalTwinExperiment extends AbstractIden
 			sim.setInititalState(false);
 			// sim.setInititalState(false);
 			// sim.createSelfRecoverObstacle(30, 1, 2, 80);
-			sim.createObstacle(250, 2, 2);
+			sim.createObstacle(350, 2, 3);
 		    // sim.createObstacle(25, 2, 1);
 			
 		} catch (JAXBException e) {
