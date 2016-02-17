@@ -47,7 +47,7 @@ public class KernelEstimationProposalWeight extends WeightUpdatingStrategy
 					AbstractState auxPriorSample = priorSampler.sampling(p.state.previousState, measurement);
 					//System.out.println("\ndis: " + p.state.distantce(auxPriorSample));
 					//System.out.println("kernel value: " + kernelFunction.kernel(p.state, auxPriorSample, this.bandWidth));
-					priorDensity = priorDensity.add(this.kernelFunction.kernel(p.state, auxPriorSample, this.bandWidth));
+					priorDensity = priorDensity.add(this.kernelFunction.kernel(p.state, auxPriorSample, this.bandWidth)); 
 				}
 				if(sampleNumberForEstimation>0) priorDensity = priorDensity.divide(bandWidth.multiply(BigDecimal.valueOf(sampleNumberForEstimation)), GlobalConstants.BIG_DECIMAL_MATHCONTEXT);
 				//System.out.printf("priorDensity: %5e  ", priorDensity);

@@ -44,7 +44,7 @@
                 </TrafficComposition>
                 <InitialConditions />
                 <TrafficSource>
-                    <Inflow t="0" q_per_hour="500" />
+                    <Inflow t="0" q_per_hour="1500" />
                 </TrafficSource>
             </Road>
         </Simulation>

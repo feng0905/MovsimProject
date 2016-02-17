@@ -15,6 +15,10 @@ import smc.AbstractState;
 
 public class MovSimState extends AbstractState 
 {
+	private final String straightScene = "startStop.xprj";
+	private final String circleScene = "ringroad_2lanes.xprj";
+	private final String filePath = "../sim/buildingBlocks/" + straightScene; 
+	
 	protected MovsimWrap movsimPF; 
 	protected double stepLength = 15;			// seconds
 	protected MovsimArea stateArea;
@@ -71,8 +75,8 @@ public class MovSimState extends AbstractState
 	public MovSimState( double stepLength ) throws JAXBException, SAXException {
 		
 		this.stepLength = stepLength;
-		String baseDir = System.getProperty("user.dir");
-		String[] args = { "-f", "../sim/buildingBlocks/ringroad_2lanes.xprj" };
+		//String baseDir = System.getProperty("user.dir");
+		String[] args = { "-f", filePath };
   		movsimPF = new MovsimWrap(args);
   		createMovsimArea();
 	}
@@ -140,15 +144,6 @@ public class MovSimState extends AbstractState
 		// clone the current state
 		MovSimState clonedState = this.clone();
 		
-		// set TRANSITION_OBSERVATION_REAL
-	    if(GlobalConstants.TRANSITION_BEHAVIOR_RANDOM)
-	    {
-	    	//System.out.println("Behavior model randomness added");
-	    	clonedState.movsimPF.addRoadSegmentNoise(GlobalConstants.G_RAND);
-	    	//System.out.println("---------------the random: " + randomMovSim.getRandom());
-	    }
-		
-		
 		// set random
 	    if(GlobalConstants.TRANSITION_BEHAVIOR_RANDOM)
 	    {
@@ -177,12 +172,19 @@ public class MovSimState extends AbstractState
 	    	clonedState.movsimPF.placeRandomObstacle(GlobalConstants.G_RAND);
 		}
 		
+	    // set TRANSITION_OBSERVATION_REAL
+	    if(GlobalConstants.TRANSITION_BEHAVIOR_RANDOM)
+	    {
+	    	//System.out.println("Behavior model randomness added");
+	    	clonedState.movsimPF.addRoadSegmentNoise(GlobalConstants.G_RAND);
+	    	//System.out.println("---------------the random: " + randomMovSim.getRandom());
+	    }
+	   	    
 	    clonedState.movsimPF.runFor(stepLength);
 	    
 	    	    
 	    clonedState.setInititalState(false);
-	    //endTime = System.currentTimeMillis();
-	    //System.out.println(endTime-startTime+" miliseconds have been used in transition MODEL");
+	    
 		return clonedState;
 		
 		//return this.transitionFunction();

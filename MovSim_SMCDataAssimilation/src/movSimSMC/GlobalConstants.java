@@ -5,7 +5,7 @@ import java.util.Random;
 public interface GlobalConstants
 {
 	// random generator
-	int RANDOM_SEED = 2000;
+	int RANDOM_SEED = 1;
 	Random G_RAND = new Random(RANDOM_SEED);
 	
 	// Transition random
@@ -18,6 +18,6 @@ public interface GlobalConstants
 	
 	
 	double TRANSITION_ACCIDENT_RATE = 0.1;//0.2;
-	boolean SHOW_FIG = false;
+	boolean SHOW_FIG = true;
 	
 }

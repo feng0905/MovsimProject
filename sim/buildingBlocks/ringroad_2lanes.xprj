@@ -12,6 +12,14 @@
                 <ModelParameterMOBIL safe_deceleration="6.0" minimum_gap="2.0" threshold_acceleration="0.15" right_bias_acceleration="0.3" politeness="0.1" />
             </LaneChangeModelType>
         </VehiclePrototypeConfiguration>
+		<VehiclePrototypeConfiguration label="FAST_TYPE_ROUTE" length="6" width="4.5" maximum_deceleration="9">
+            <AccelerationModelType>
+                <ModelParameterIDM v0="35" T="1" s0="3" s1="0" delta="4" a="0.7" b="3.0" />
+            </AccelerationModelType>
+            <LaneChangeModelType european_rules="false" crit_speed_eur="20">
+                <ModelParameterMOBIL safe_deceleration="6.0" minimum_gap="2.0" threshold_acceleration="0.15" right_bias_acceleration="0.3" politeness="0.1" />
+            </LaneChangeModelType>
+        </VehiclePrototypeConfiguration>
         <!-- slow vehicle type (truck) -->
         <VehiclePrototypeConfiguration label="SLOW_TYPE" length="15" width="4.5" maximum_deceleration="9">
             <AccelerationModelType>
@@ -23,130 +31,28 @@
         </VehiclePrototypeConfiguration>
     </VehiclePrototypes>
     <Scenario network_filename="ringroad_2lanes.xodr">
-        <Simulation timestep="1" seed="42" crash_exit="false">
+        <Simulation timestep="0.2" seed="42" crash_exit="false">
             <TrafficComposition>
                 <VehicleType label="FAST_TYPE" fraction="1" />
                 <VehicleType label="SLOW_TYPE" fraction="0.00" />
             </TrafficComposition>
             <Road id="1">
                  <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />                 
+                    <MacroIC position = "0" density_per_km = "10" />                 
                 </InitialConditions>
             </Road>
 			<Road id="2">
                 <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
+                    <MacroIC position = "0" density_per_km = "15" />          
                 </InitialConditions>
             </Road>
-			<Road id="3">
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
-            </Road>
-			<Road id="4">
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
-            </Road>
-			<Road id="5">
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
-            </Road>
-			<Road id="6">
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
-            </Road>
-			<Road id="7">
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
-            </Road>
-			<Road id="8">
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
-            </Road>
-			<Road id="9">
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
-            </Road>
-			<Road id="10">
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
-            </Road>
-			<Road id="11">
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
-            </Road>
-			<Road id="12">
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
-            </Road>
-			 <Road id="13">			
+			 <Road id="13">
                 <TrafficComposition>
-                    <VehicleType label="FAST_TYPE" fraction="0.98" relative_v0_randomization="0.1" />
+                    <VehicleType label="FAST_TYPE_ROUTE" fraction="0.49" relative_v0_randomization="0.1" route_label="1to3" />
+					<VehicleType label="FAST_TYPE" fraction="0.49" relative_v0_randomization="0.1" />
                     <VehicleType label="SLOW_TYPE" fraction="0.02" relative_v0_randomization="0.1" />
                 </TrafficComposition>
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
-                <TrafficSource>
-                    <Inflow t="0" q_per_hour="1500" />
-                </TrafficSource>
-            </Road>
-			<Road id="14">
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
-            </Road>
-			<Road id="15">
-                <TrafficComposition>
-                    <VehicleType label="FAST_TYPE" fraction="0.98" relative_v0_randomization="0.1" />
-                    <VehicleType label="SLOW_TYPE" fraction="0.02" relative_v0_randomization="0.1" />
-                </TrafficComposition>
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
-                <TrafficSource>
-                    <Inflow t="0" q_per_hour="1500" />
-                </TrafficSource>
-            </Road>
-			<Road id="16">
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
-            </Road>
-			<Road id="17">
-                <TrafficComposition>
-                    <VehicleType label="FAST_TYPE" fraction="0.98" relative_v0_randomization="0.1" />
-                    <VehicleType label="SLOW_TYPE" fraction="0.02" relative_v0_randomization="0.1" />
-                </TrafficComposition>
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
-                <TrafficSource>
-                    <Inflow t="0" q_per_hour="1500" />
-                </TrafficSource>
-            </Road>
-			<Road id="18">
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
-            </Road>
-			<Road id="19">
-                <TrafficComposition>
-                    <VehicleType label="FAST_TYPE" fraction="0.98" relative_v0_randomization="0.1" />
-                    <VehicleType label="SLOW_TYPE" fraction="0.02" relative_v0_randomization="0.1" />
-                </TrafficComposition>
-                <InitialConditions>
-                    <MacroIC position = "0" density_per_km = "35" />
-                </InitialConditions>
+                <InitialConditions />
                 <TrafficSource>
                     <Inflow t="0" q_per_hour="1500" />
                 </TrafficSource>
@@ -154,7 +60,7 @@
         </Simulation>
 		<Routes>
 			<Route label="1to3">
-                <Road id="1" />
+                <Road id="13" />
                 <Road id="2" />
                 <Road id="3" />
                 <Road id="4" />
@@ -163,60 +69,6 @@
                 <Road id="7" />
 				<Road id="8" />
                 <Road id="18"/>
-            </Route>
-			<Route label="2to4">
-                <Road id="4" />
-                <Road id="5" />
-                <Road id="6" />
-                <Road id="7" />
-				<Road id="8" />
-				<Road id="9" />
-                <Road id="10" />
-				<Road id="11" />
-                <Road id="20"/>
-            </Route>
-			<Route label="3to1">
-                <Road id="7"  />
-				<Road id="8"  />
-				<Road id="9"  />
-                <Road id="10" />
-                <Road id="11" />
-                <Road id="12" />
-                <Road id="1"  />
-                <Road id="2"  />
-                <Road id="14" />
-            </Route>
-			<Route label="13to16">
-                <Road id="13"  />
-				<Road id="2"  />
-				<Road id="3"  />
-                <Road id="4" />
-                <Road id="5" />
-                <Road id="16" />
-            </Route>
-			<Route label="15to18">
-                <Road id="15"  />
-				<Road id="5"  />
-				<Road id="6"  />
-                <Road id="7" />
-                <Road id="8" />
-                <Road id="18" />
-            </Route>
-			<Route label="17to20">
-                <Road id="17"  />
-				<Road id="8"  />
-				<Road id="9"  />
-                <Road id="10" />
-                <Road id="11" />
-                <Road id="20" />
-            </Route>
-			<Route label="19to14">
-                <Road id="19"  />
-				<Road id="11"  />
-				<Road id="12"  />
-                <Road id="1" />
-                <Road id="2" />
-                <Road id="14" />
             </Route>
         </Routes>
     </Scenario>

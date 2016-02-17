@@ -29,11 +29,11 @@ public abstract class AbstractParticleSystem
 		
 		//Sampling
 		int i=0;
-		//System.out.print("Sampling: ");
+		//System.out.print("Sampling: Particle ");
 		//start = System.currentTimeMillis();
 		for ( Particle p:particleSet)
 		{
-			//System.out.print(i++ + " ");
+			//System.out.println(i++);
 			AbstractState temp = p.state;
 			p.state = sampler.sampling(p.state, measurement);
 			p.state.previousState = temp;
