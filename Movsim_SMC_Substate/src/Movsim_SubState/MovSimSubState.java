@@ -60,9 +60,12 @@ public class MovSimSubState extends MovSimState{
 	public BigDecimal measurementPdf(AbstractMeasurement measurement)
 			throws StateFunctionNotSupportedException {
 		// TODO Auto-generated method stub
-		List<MovSimSensor> sensorReadings = ((MovSimMeasurement)measurement).getSensorReading();
-		List<MovSimSensor> simulatedSensorReadings = this.movsimPF.getSensorReading();
+		if(subIndex == -1) 
+			return super.measurementPdf(measurement);
 		
+		List<MovSimSensor> sensorReadings = ((MovSimMeasurement)measurement).getSensorReading();
+		
+		List<MovSimSensor> simulatedSensorReadings = this.movsimPF.getSensorReading();
 		double sigma = 0.12;
 		/*
 		 * double variance = sigma*sigma;
