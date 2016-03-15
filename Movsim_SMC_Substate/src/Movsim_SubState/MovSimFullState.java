@@ -14,7 +14,7 @@ public class MovSimFullState extends MovSimState {
 		// TODO Auto-generated method stub
 		// MovSimFullState fullState = (MovSimFullState)super.clone();
 		return (MovSimFullState)super.clone();
-	}
+	} 
 
 	public MovSimFullState(double stepLength ) throws JAXBException, SAXException {
 		super(stepLength);

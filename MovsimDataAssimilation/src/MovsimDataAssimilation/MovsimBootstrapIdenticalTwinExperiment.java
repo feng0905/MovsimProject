@@ -12,19 +12,22 @@ import java.util.List;
 import java.util.Vector;
 
 
+
+
 import movsimSMC.MovsimWrap;
 import movsimSMC.Paint.ObstacleCanvas;
 import movsimSMC.Paint.SmcSimulationCanvas;
 import smc.Particle;
+import smc.specialParticleSystems.BootstrapFilter;
 import dataAssimilationFramework.SystemState;
 import dataAssimilationFramework.SystemFactoryInterface;
-import identicalTwinExperiments.AbstractBootstrapIdenticalTwinExperiment;
+import identicalTwinExperiments.AbstractIdenticalTwinExperiment;
 
-public class MovsimBootstrapIdenticalTwinExperiment extends AbstractBootstrapIdenticalTwinExperiment<MovsimSystem>  {
+public class MovsimBootstrapIdenticalTwinExperiment extends AbstractIdenticalTwinExperiment<MovsimSystem, BootstrapFilter> {
 	protected double stepLength = GlobalConstants.STEP_LENTH;
 	public MovsimBootstrapIdenticalTwinExperiment(SystemFactoryInterface<MovsimSystem> factory)
 	{
-		super(factory);
+		super(factory,new BootstrapFilter());
 	}
 	
 
@@ -215,9 +218,10 @@ public class MovsimBootstrapIdenticalTwinExperiment extends AbstractBootstrapIde
 		
 		if (args.length == 1) {
 			int particleN = Integer.parseInt(args[0]);			
-			MovsimBootstrapIdenticalTwinExperiment exp = new MovsimBootstrapIdenticalTwinExperiment(new MovsimSystemFactory());
+			
 			try
 			{
+				MovsimBootstrapIdenticalTwinExperiment exp = new MovsimBootstrapIdenticalTwinExperiment(new MovsimSystem());
 				exp.runDataAssimilationExperiement(stepN, particleN);
 			} 
  			catch (Exception e)
@@ -227,10 +231,10 @@ public class MovsimBootstrapIdenticalTwinExperiment extends AbstractBootstrapIde
 		}
 		else if (args.length == 3) {
 			for (int i = Integer.parseInt(args[0]); i <= Integer.parseInt(args[2]); i+=Integer.parseInt(args[1])) {
-				int particleN = i;
-				MovsimBootstrapIdenticalTwinExperiment exp = new MovsimBootstrapIdenticalTwinExperiment(new MovsimSystemFactory());
+				int particleN = i;			
 				try
 				{
+					MovsimBootstrapIdenticalTwinExperiment exp = new MovsimBootstrapIdenticalTwinExperiment(new MovsimSystem());
 					exp.runDataAssimilationExperiement(stepN, particleN);
 				} 
 				catch (Exception e)

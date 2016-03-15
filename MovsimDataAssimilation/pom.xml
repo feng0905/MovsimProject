@@ -1,6 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>gsu.edu.simslab</groupId>
   <artifactId>MovsimDataAssimilation</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <description>Movsim implementation with new Data Assimilation Framework</description>
@@ -20,13 +19,13 @@
   <name>MovsimDataAssimilation</name>
   <dependencies>
   	<dependency>
-  		<groupId>edu.gsu.simslab</groupId>
+  		<groupId>gsu.edu.simslab</groupId>
   		<artifactId>MovsimSMC</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   		<dependency>
-  		<groupId>edu.gsu.simslab</groupId>
-  		<artifactId>dsf</artifactId>
+  		<groupId>gsu.edu.simslab</groupId>
+  		<artifactId>DataAssimilationFramework</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   	<dependency>
@@ -66,4 +65,5 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
+  <groupId>gsu.edu.simslab</groupId>
 </project>
