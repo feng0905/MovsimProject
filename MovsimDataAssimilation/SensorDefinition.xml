@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<SENSORDEFINITION>
+    <SENSOR ID="1" Type="2">
+        <AREA road="1" />
+    </SENSOR>
+    <SENSOR ID="2" Type="2">
+        <AREA road="2" />
+    </SENSOR>
+    <SENSOR ID="3" Type="2">
+        <AREA road="3" />
+    </SENSOR>
+    <SENSOR ID="4" Type="2">
+        <AREA road="4"/>
+    </SENSOR>
+</SENSORDEFINITION>

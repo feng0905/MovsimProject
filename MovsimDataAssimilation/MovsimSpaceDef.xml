@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<MovsimRoadSpaceDefinition>
+	<XmlMovsimRoad EndPosition="0.0" Id="1" StartPosition="1200.0"/>
+	<XmlMovsimRoad EndPosition="0.0" Id="2" StartPosition="1200.0"/>
+	<XmlMovsimRoad EndPosition="0.0" Id="3" StartPosition="1200.0"/>
+	<XmlMovsimRoad EndPosition="0.0" Id="4" StartPosition="1200.0"/>
+</MovsimRoadSpaceDefinition>
