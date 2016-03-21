@@ -36,12 +36,9 @@ public class MovsimSystem extends AbstractSpaceTemporalSystem implements Cloneab
 	public MovsimSystem(MovsimWrap movsimPF){
 		try {
 			this.movsimPF = movsimPF.duplicate();
-			space = (MovsimSpace) space.clone();
+			space = createSystemSpace();
 			
 		} catch (JAXBException | SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (CloneNotSupportedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -159,6 +156,9 @@ public class MovsimSystem extends AbstractSpaceTemporalSystem implements Cloneab
 	
 	public static MovsimSystem MovsimSystem( MovsimSystem [] systems) {
 		MovsimWrap wraps[] = new MovsimWrap [systems.length];
+		for (int i = 0; i < wraps.length; i++) {
+			wraps[i] = systems[i].getMovSimWrap();
+		}
 		MovsimSystem fullSystem = null;
 		try {
 			fullSystem = new MovsimSystem(MovsimWrap.combineMovsim(wraps));

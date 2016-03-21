@@ -44,7 +44,7 @@ public class SubStateFilter extends AbstractParticleSystem {
 		this.subStateGenerateStrategy=substateGenerator;
 		this.subStateNumber=substateGenerator.getSubStateNumber();
 		this.dataAssociationStrategy=dataAssociationStrategy;
-		// TODO Auto-generated constructor stub
+		substate_resampler = resampler;
 	}
 
 	public SubStateFilter()
@@ -284,5 +284,6 @@ public class SubStateFilter extends AbstractParticleSystem {
 		
 		return this.particleSet.get(idx);
 	}
+	
 	
 }
