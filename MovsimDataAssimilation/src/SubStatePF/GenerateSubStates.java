@@ -12,7 +12,7 @@ import org.xml.sax.SAXException;
 import MovsimDataAssimilation.MovsimRoadSpace;
 import MovsimDataAssimilation.MovsimSpace;
 import MovsimDataAssimilation.MovsimSystem;
-import dataAssimilationFramework.SystemState;
+import dataAssimilationFramework.SpatialTemporalSystem.SystemState;
 import movsimSMC.*;
 
 public  class GenerateSubStates {

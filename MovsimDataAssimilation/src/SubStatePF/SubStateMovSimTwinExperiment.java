@@ -1,6 +1,6 @@
 package SubStatePF;
 
-import identicalTwinExperiments.AbstractIdenticalTwinExperiment;
+import dataAssimilationFramework.identicalTwinExperiments.AbstractIdenticalTwinExperiment;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Vector;
 
 import dataAssimilationFramework.SystemFactoryInterface;
-import dataAssimilationFramework.SystemState;
+import dataAssimilationFramework.SpatialTemporalSystem.SystemState;
 import MovsimDataAssimilation.GlobalConstants;
 import MovsimDataAssimilation.MovsimSystem;
 import smc.AbstractParticleSystem;

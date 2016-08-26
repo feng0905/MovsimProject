@@ -6,10 +6,11 @@ import java.util.Random;
 import javax.xml.bind.JAXBException;
 
 import org.xml.sax.SAXException;
+
 import movsimSMC.MovsimWrap;
 import smc.AbstractMeasurement;
-import dataAssimilationFramework.AbstractSpace;
-import dataAssimilationFramework.AbstractSpaceTemporalSystem;
+import dataAssimilationFramework.SpatialTemporalSystem.AbstractSpace;
+import dataAssimilationFramework.SpatialTemporalSystem.AbstractSpaceTemporalSystem;
 
 
 public class MovsimSystem extends AbstractSpaceTemporalSystem implements Cloneable{

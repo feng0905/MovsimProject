@@ -9,6 +9,7 @@ import javax.xml.bind.JAXBException;
 
 import org.xml.sax.SAXException;
 
+import dataAssimilationFramework.GlobalConstants;
 import smc.*;
 import smc.resamplingStrategies.SystematicResampling;
 

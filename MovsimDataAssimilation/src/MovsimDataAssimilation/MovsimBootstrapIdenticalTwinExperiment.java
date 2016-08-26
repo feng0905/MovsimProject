@@ -14,14 +14,15 @@ import java.util.Vector;
 
 
 
+
 import movsimSMC.MovsimWrap;
 import movsimSMC.Paint.ObstacleCanvas;
 import movsimSMC.Paint.SmcSimulationCanvas;
 import smc.Particle;
 import smc.specialParticleSystems.BootstrapFilter;
-import dataAssimilationFramework.SystemState;
 import dataAssimilationFramework.SystemFactoryInterface;
-import identicalTwinExperiments.AbstractIdenticalTwinExperiment;
+import dataAssimilationFramework.SpatialTemporalSystem.SystemState;
+import dataAssimilationFramework.identicalTwinExperiments.AbstractIdenticalTwinExperiment;
 
 public class MovsimBootstrapIdenticalTwinExperiment extends AbstractIdenticalTwinExperiment<MovsimSystem, BootstrapFilter> {
 	protected double stepLength = GlobalConstants.STEP_LENTH;

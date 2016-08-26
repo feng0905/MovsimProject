@@ -13,7 +13,7 @@ import org.movsim.simulator.roadnetwork.RoadSegment;
 
 import MovsimDataAssimilation.XML.XmlMovsimRoadSpace;
 import smc.AbstractMeasurement;
-import dataAssimilationFramework.AbstractSpace;
+import dataAssimilationFramework.SpatialTemporalSystem.AbstractSpace;
 
 public class MovsimSpace extends AbstractSpace {
 	
